@@ -35,7 +35,7 @@
     "loopback-boot": "^2.6.5",
     "loopback-component-explorer": "^2.1.0",
     "loopback-component-passport": "^2.1.0",
-    "loopback-connector-cloudant": "^1.2.5",
+    "loopback-connector-cloudant": "^2.0.5",
     "loopback-context": "^3.1.0",
     "loopback-datasource-juggler": "^2.39.0",
     "node-cache": "latest",
@@ -55,13 +55,6 @@
     "watson-developer-cloud": "^2.38.0"
   },
   "devDependencies": {
-    "grunt": "^1.0.1",
-    "grunt-bower-installer": "latest",
-    "grunt-contrib-copy": "latest",
-    "grunt-contrib-requirejs": "latest",
-    "grunt-nodemon": "latest",
-    "grunt-npm-install": "latest",
-    "grunt-contrib-cssmin": "^2.0.0",
     "jshint": "^2.5.6"
   },
   "repository": {

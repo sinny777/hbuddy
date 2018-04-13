@@ -1,4 +1,4 @@
 cd client
-ng build --env=prod
+ng build --env=dev
 cd ..
 node server/server.js

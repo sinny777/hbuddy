@@ -48,4 +48,5 @@ Thumbs.db
 .apiconnect
 .settings
 .env
+.datastore
 package-lock.json

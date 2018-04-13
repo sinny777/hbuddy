@@ -14,9 +14,9 @@
     "deploy": "gcloud app deploy app.yaml"
   },
   "dependencies": {
+    "@cloudant/cloudant": "^2.1.0",
     "body-parser": "^1.9.0",
     "chrono-node": "^1.2.4",
-    "cloudant": "^1.4.3",
     "compression": "^1.0.3",
     "connect-ensure-login": "^0.1.1",
     "connect-redis": "^3.0.2",
@@ -24,13 +24,13 @@
     "cors": "^2.5.2",
     "crypto": "latest",
     "debug": "^2.2.0",
+    "dotenv": "^5.0.0",
     "express-flash": "0.0.2",
     "express-session": "^1.13.0",
     "fcm-push": "^1.1.2",
     "feedparser": "latest",
     "google": "^2.1.0",
     "ibmiotf": "latest",
-    "nodemailer": "^4.4.2",
     "loopback": "^2.22.0",
     "loopback-boot": "^2.6.5",
     "loopback-component-explorer": "^2.1.0",
@@ -40,6 +40,7 @@
     "loopback-datasource-juggler": "^2.39.0",
     "node-cache": "latest",
     "node-gcm": "^0.14.4",
+    "nodemailer": "^4.4.2",
     "passport": "^0.2.0",
     "passport-facebook": "^1.0.3",
     "passport-google-oauth": "^0.1.5",
@@ -51,8 +52,7 @@
     "serve-static": "^1.10.2",
     "socket.io": "latest",
     "strong-error-handler": "^2.2.0",
-    "watson-developer-cloud": "^2.38.0",
-    "dotenv": "^5.0.0"
+    "watson-developer-cloud": "^2.38.0"
   },
   "devDependencies": {
     "grunt": "^1.0.1",

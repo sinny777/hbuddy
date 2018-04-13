@@ -26,6 +26,10 @@ export class AppComponent {
       });
    }
 
+   gotoRegister(){
+     console.log("IN gotoRegister: >>> ");
+   }
+
   signIn(provider){
     console.log("Sign In to: >>> ", provider);
     this.sub = this._auth.login(provider).subscribe(

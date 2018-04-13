@@ -51,7 +51,8 @@
     "serve-static": "^1.10.2",
     "socket.io": "latest",
     "strong-error-handler": "^2.2.0",
-    "watson-developer-cloud": "^2.38.0"
+    "watson-developer-cloud": "^2.38.0",
+    "dotenv": "^5.0.0"
   },
   "devDependencies": {
     "grunt": "^1.0.1",

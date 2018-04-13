@@ -9,9 +9,10 @@ module.exports = function(app) {
 	var Board;
 	var PlaceArea;
 
-	var bluemix = require('../../common/config/bluemix');
-	var dbCredentials = bluemix.getServiceCreds('cloudantNoSQLDB');
-	var cloudant = require('cloudant')(dbCredentials.url);
+	// var bluemix = require('../../common/config/bluemix');
+	// var dbCredentials = bluemix.getServiceCreds('cloudantNoSQLDB');
+	var CONFIG = require('../../common/config/config').get();
+	var cloudant = require('cloudant')(CONFIG.SERVICES_CONFIG.CLOUDANT.credentials.url);
 
 var methods = {};
 

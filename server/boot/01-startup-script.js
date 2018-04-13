@@ -19,16 +19,16 @@ module.exports = function(app) {
 	var commonHandler = require('../../server/handlers/commonHandler')();
 
 //	initStartupLogic();
-	
+
 //	saveAndExecuteScenes();
-	
-//	testPushNotification();
-	
+
+	// testPushNotification();
+
 //	testNLCDateParser();
-	
+
 //	testConversation();
 //	testDeviceUpdate();
-	
+
 	function testConversation(){
 		var Conversation = app.models.Conversation;
 		var conversationReq = {"body":{
@@ -36,24 +36,24 @@ module.exports = function(app) {
 										"context": {}
 									}
 							  };
-	  
+
 	  console.log("IN doConversation: >> ", JSON.stringify(conversationReq));
 	  Conversation.doconversation(conversationReq,
 					  function(err, resp) {
 		  				if(err){
 		  					console.log("ERROR IN doconversation: ", JSON.stringify(err));
-		  				}		  					
+		  				}
 						console.log("CONVERSATION RESP: >> ", JSON.stringify(resp));
 						if(resp && resp.conversationResp && resp.conversationResp.output){
-							
+
 						}
 					  });
 	};
-	
+
 	function testNLCDateParser(){
 		printResults(chrono.parse('Please do the installation next Friday at 3pm'));
 	};
-	
+
 	function printResults(results){
 		console.log("\n\nRESULT: >>> ", results, "\n\n");
 		if(results && results.length > 0){
@@ -69,11 +69,11 @@ module.exports = function(app) {
 		}
 		console.log("\n\n------------------\n\n");
 	}
-	
+
 	function saveAndExecuteScenes(){
 		console.log("IN saveAndExecuteScenes: >>> ");
 		var Scene = app.models.Scene;
-		
+
 		var waterTankScene = {
 				title: "WaterTank",
 				description: "Switch on motor for filling Water tank",
@@ -95,9 +95,9 @@ module.exports = function(app) {
 				          {boardId: "SB-B1379", deviceIndex: 4, deviceValue: 1}
 				          ]
 		};
-		
+
 		Scene.findOrCreate(
-	              {where: {title: waterTankScene.title}}, 
+	              {where: {title: waterTankScene.title}},
 	              waterTankScene, // create
 	              function(err, createdScene, created) {
 	                if (err) {
@@ -108,7 +108,7 @@ module.exports = function(app) {
 	                scheduleScene(createdScene);
 	              });
 	};
-	
+
 	function scheduleScene(scene){
 		if(!scene.id){
 			return false;
@@ -123,12 +123,12 @@ module.exports = function(app) {
 				}, (secDiff * 1000));
 			}else{
 				console.log("Dont Schedule >>>>> ", secDiff/60, " minutes already passed");
-			}			
+			}
 		}
 	};
 
 	function initStartupLogic() {
-		
+
 		var iotConfig = appConfig.CLOUD_CONFIG;
 		var clientId = parseInt(Math.random() * 100, 10);
 		iotConfig.id = iotConfig.id + clientId;
@@ -141,9 +141,9 @@ module.exports = function(app) {
 							console
 									.log('<<<<<<< IBM IoT Cloud Connected Successfully >>>>>> \n\n');
 							subscribeToGateway();
-							
+
 							publishWaterTankData();
-							
+
 						});
 
 		appClient.on("deviceEvent", function(deviceType, deviceId, eventType,
@@ -159,7 +159,7 @@ module.exports = function(app) {
 	function subscribeToGateway() {
 		appClient.subscribeToDeviceEvents("HukamGateway", "+", "+", "json");
 	};
-	
+
 	function publishWaterTankData(){
 		setInterval(function(){
 			var timeNow = new Date();
@@ -175,10 +175,10 @@ module.exports = function(app) {
 		deviceHandler.handleDeviceEvent(deviceType, deviceId, eventType,
 				format, payload);
 	};
-	
+
 	function testPushNotification(){
 		var FCM = require('fcm-push');
-		var pushMsg = "Just for tesing Push Notification at " +new Date();
+		var pushMsg = "Just for tesing Push Notification on " +new Date();
 		var pushData = {
 				boardId : "ABCXYZ",
 				deviceIndex : 5,
@@ -187,9 +187,9 @@ module.exports = function(app) {
 				picture : "http://wallpapercave.com/wp/3Ma6LaY.jpg"
 			};
 		var registrationIds = [];
-		var deviceToken = "eqt7fel6Ga4:APA91bGGUO4Acaag6wA_UtsDbal8rKhJzzNrV5NmW0Fr7MZHuGUeYgbIzYCFMKJaP2JXzODxW8Fii8tu06JAGYb6FAkBpcdVti3VZWvS01F0nqpefDguCUb5Bd42JnLnRnZbTMP3z2kL";
+		var deviceToken = "ebzeLu9zkfA:APA91bHX2bKk_9Fp6ghttuGSfCjuC8ra5KxJuRlPF8BPNlLWJdYHAwkwF-xubUWflK_eFwc1y_8WhK_ZFAhHKeeULK8Esu070RkLgdV6Waxjdf2yDTowvixgjLXe1tE40MSlNugRWJ1L";
 		registrationIds.push(deviceToken);
-		
+
 		console.log('IN notificationHandler.sendPushNotification: >> ', pushMsg);
 		var serverKey = "AAAAy66YFns:APA91bHa_RXSrxCHUYlrVW5fl89dxfLx02sjsby6OEhPPqgKi0fF66BFNNxHSUhyOmK8PQ_Oj2bfADAsMu_MPUyDpL08qmIPddsMMcRNmGVB-SdMPHZ_cothPtNyGNMY09pWVW32Zi77";
 		var fcm = new FCM(serverKey);
@@ -197,29 +197,29 @@ module.exports = function(app) {
 			    to: deviceToken, // required fill with device token or topics
 			    "content_available":true,
 			    "priority": "high",
-			    collapse_key: '', 
+			    collapse_key: '',
 			    data: pushData,
 			    notification: {
 			        title: 'hBuddy Notification',
 			        body: pushMsg
 			    }
 			};
-		
+
 		fcm.send(message, function(err, response){
 		    if (err) {
 		        console.log("Error in sending PushNotification: >> ", err);
-		    } 
-		    
+		    }
+
 		    console.log("PushNotification sent and got response: ", response);
-		    
+
 		});
-		
+
 	};
-	
+
 	function testDeviceUpdate(){
 		console.log("IN testDeviceUpdate: >>> ");
 		var Device = app.models.Device;
-		
+
 		var device = {
 			    "audit": {
 			        "created": "2017-08-04T11:23:17.215Z",
@@ -238,7 +238,7 @@ module.exports = function(app) {
 			    "type": "device",
 			    "id": "1cee9f1f2fbc332c7199d1e0bb91651d"
 			};
-		
+
 		Device.upsert(device, function(err, updatedDevice){
     		if(err){
     			console.log("ERROR IN UPDATING DEVICE: >> ", err);

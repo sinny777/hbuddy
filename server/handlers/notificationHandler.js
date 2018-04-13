@@ -1,4 +1,7 @@
 
+
+	var CONFIG = require('../../common/config/config').get();
+
 /**
  * Make sure app is provided while instantiating this class and calling any method
  */
@@ -23,7 +26,7 @@ module.exports = function(app) {
     			  		                {"and":[{"type": "PLACEAREA"}, {"typeValue": placeArea.id}]}]
     			  		 }
 						};
-		Notification.find(findReq, function(err, notifications) { 
+		Notification.find(findReq, function(err, notifications) {
 			if(err){
 				console.log("ERROR IN FINDING NOTIFICATIONS: >>> ", err);
 				return;
@@ -51,9 +54,9 @@ module.exports = function(app) {
 				}
 			}
 		});
-		
+
 	};
-	
+
 	methods.handlePushNotification = function(payload, board, placeArea, device, registrationIds){
 		var pushMsg = placeArea.title +"'s " + device.title + " status is changed to " + device.status +" at " +new Date();
 		var pushData = {
@@ -63,33 +66,35 @@ module.exports = function(app) {
 				style : "picture",
 				picture : "http://wallpapercave.com/wp/3Ma6LaY.jpg"
 			};
-		
-		methods.sendPushNotification(pushData, pushMsg, registrationIds);
+
+		methods.sendPushNotification({"title":"hBuddy Notification","pushData": pushData, "pushMsg": pushMsg, "registrationIds": registrationIds}, function(err, response){
+			if (err) {
+					console.log("Error in sending PushNotification: >> ", err);
+			} else {
+					console.log("PushNotification Successfully sent with response: ", response);
+			}
+		});
 	};
 
-	methods.sendPushNotification = function(pushData, pushMsg, registrationIds) {
-		console.log('IN notificationHandler.sendPushNotification: >> ', pushMsg);
-		console.log('IN notificationHandler.registrationIds: >> ', registrationIds);
-		var serverKey = "AAAAy66YFns:APA91bHa_RXSrxCHUYlrVW5fl89dxfLx02sjsby6OEhPPqgKi0fF66BFNNxHSUhyOmK8PQ_Oj2bfADAsMu_MPUyDpL08qmIPddsMMcRNmGVB-SdMPHZ_cothPtNyGNMY09pWVW32Zi77";
+	methods.sendPushNotification = function(payload, cb) {
+		console.log('IN notificationHandler.sendPushNotification: >> ', payload.pushMsg);
+		console.log('IN notificationHandler.registrationIds: >> ', payload.registrationIds);
+		var serverKey = CONFIG.NOTIFICATION.PUSH_NOTIFICATION_SERVER_KEY;
 		var fcm = new FCM(serverKey);
 		var message = {
-			    to: registrationIds.join(), // required fill with device token or topics
-			    collapse_key: 'hbuddy_collapse_key', 
-			    data: pushData,
+			    to: payload.registrationIds.join(), // required fill with device token or topics
+			    collapse_key: 'hbuddy_collapse_key',
+			    data: payload.pushData,
 			    notification: {
-			        title: 'hBuddy Notification',
-			        body: pushMsg
+			        title: payload.title,
+			        body: payload.pushMsg
 			    }
 			};
-		
+
 		fcm.send(message, function(err, response){
-		    if (err) {
-		        console.log("Error in sending PushNotification: >> ", err);
-		    } else {
-		        console.log("PushNotification Successfully sent with response: ", response);
-		    }
+		    cb(err, response);
 		});
-		
+
 	};
 
 	return methods;

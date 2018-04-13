@@ -1,4 +1,48 @@
 
-.page-header{
-  background-image: url('/assets/images/iot5.jpg');
+#home_header{
+  background-image: url("/assets/images/iot.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #000000;
+  min-height: 430px;
+  /* height: 400px; */
+}
+
+#home_header .container{
+  padding-top: 140px
+}
+
+.profile-page .brand {
+    color: #FFF;
+    text-align: center;
+}
+
+#home_header .brand h1 {
+    color: #FFF;
+    text-align: center;
+    font-size: 4.8em;
+    font-weight: 600;
+    display: inline-block;
+    position: relative;
+    /* padding-left: 55px */
+}
+
+#home_header .brand h2 {
+    color: #FFF;
+    text-align: center;
+    font-size: 1.4em;
+    font-weight: 200;
+    display: inline-block;
+    position: relative;
+    /* padding-left: 65px; */
+    margin-top: 1px;
+}
+
+#home_header .profile-tabs {
+    margin-top: 30px !important;
+}
+
+.profile .title{
+  margin-bottom: 1px;
 }

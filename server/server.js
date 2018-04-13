@@ -6,6 +6,8 @@ var cookieParser = require('cookie-parser');
 var expressSession = require('express-session');
 var path = require('path');
 
+require('dotenv').config({path: process.env.PWD+"/.env"});
+
 var app = module.exports = loopback();
 
 //Passport configurators..
@@ -13,28 +15,28 @@ var loopbackPassport = require('loopback-component-passport');
 var PassportConfigurator = loopbackPassport.PassportConfigurator;
 var passportConfigurator = new PassportConfigurator(app);
 
- app.use(serveStatic(__dirname + '/client/dist'));
- app.use('/api', loopback.rest());
+app.use(serveStatic(__dirname + '/client/dist'));
+app.use('/api', loopback.rest());
 
 var ignoredPaths = ['/api/', '/explorer', '/status'];
 app.all('/*', function(req, res, next) {
-  if(!includes(req.originalUrl, ignoredPaths)){
-    if(req.url == '/' || includes(req.originalUrl, ['/public', '/iot', '/account'])){
-        res.sendFile('index.html', { root: path.resolve(__dirname, '..', 'client/dist') });
-    }else{
-        res.sendFile(path.resolve(req.url), { root: path.resolve(__dirname, '..', 'client/dist') });
-    }
-  } else {
-      next();
-  }
+ if(!includes(req.originalUrl, ignoredPaths)){
+   if(req.url == '/' || includes(req.originalUrl, ['/public', '/iot', '/account'])){
+       res.sendFile('index.html', { root: path.resolve(__dirname, '..', 'client/dist') });
+   }else{
+       res.sendFile(path.resolve(req.url), { root: path.resolve(__dirname, '..', 'client/dist') });
+   }
+ } else {
+     next();
+ }
 });
 
 function includes(string, array) {
-  for(i = 0; i < array.length; i++)
-    if(string.includes(array[i])){
-      return true;
-    }
-  return false;
+ for(i = 0; i < array.length; i++)
+   if(string.includes(array[i])){
+     return true;
+   }
+ return false;
 }
 
 var bodyParser = require('body-parser');

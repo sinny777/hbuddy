@@ -47,4 +47,5 @@ Thumbs.db
 
 .apiconnect
 .settings
+.env
 package-lock.json

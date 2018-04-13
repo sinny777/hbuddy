@@ -30,31 +30,9 @@ module.exports.getServiceCreds = function(name) {
         for (var service_name in services) {
             if (service_name.indexOf(name) === 0) {
                 var service = services[service_name][0];
-                return {
-                    url: service.credentials.url,
-                    username: service.credentials.username,
-                    password: service.credentials.password
-                };
+                return service.credentials;
             }
         }
-    }else{
-    	// THIS ELSE BLOCK IS TO RUN THE APPLICATION LOCALLY
-    	if(name == 'cloudantNoSQLDB'){
-    		return {
-    			"username": "acb0bba8-0370-47c4-8e49-5ad1b1050873-bluemix",
-    	        "password": "5bfe2ecae5c815202c4d78db2600812ef5099f337a6deb6dba96ce0b7a5b0e13",
-    	        "host": "acb0bba8-0370-47c4-8e49-5ad1b1050873-bluemix.cloudant.com",
-    	        "port": 443,
-    	        "url": "https://acb0bba8-0370-47c4-8e49-5ad1b1050873-bluemix:5bfe2ecae5c815202c4d78db2600812ef5099f337a6deb6dba96ce0b7a5b0e13@acb0bba8-0370-47c4-8e49-5ad1b1050873-bluemix.cloudant.com"
-    		}
-    	}
-    	if(name == 'speech_to_text'){
-    		return {
-    			"url": "https://stream.watsonplatform.net/speech-to-text/api",
-                "password": "eoOB2PFBEAWT",
-                "username": "d5214313-4222-43f8-8c97-ea73eb5954d0"
-    		}
-    	}
     }
     return {};
 };

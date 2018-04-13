@@ -7438,6 +7438,20 @@ definitions:
         type: string
     additionalProperties: false
   Notification:
+    post:
+      tags:
+        - Notification
+      operationId: Notification.notify
+      parameters: []
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+      deprecated: false
     properties:
       email:
         description: 'To, CC, BCC etc'

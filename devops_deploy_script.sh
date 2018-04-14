@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cf set-env ${CF_APP} SERVICES_CONFIG_DISCOVERY_COLLECTION_ID ${SERVICES_CONFIG_DISCOVERY_COLLECTION_ID}
+
 cf set-env ${CF_APP} SERVICES_CONFIG_IOT_CONFIG_credentials_org ${SERVICES_CONFIG_IOT_CONFIG_credentials_org}
 cf set-env ${CF_APP} SERVICES_CONFIG_IOT_CONFIG_credentials_id ${SERVICES_CONFIG_IOT_CONFIG_credentials_id}
 cf set-env ${CF_APP} SERVICES_CONFIG_IOT_CONFIG_credentials_authkey ${SERVICES_CONFIG_IOT_CONFIG_credentials_authkey}

@@ -1,24 +1,24 @@
 'use strict';
 
 module.exports = function(MyUser) {
-	
+
 	var loopback = require('loopback');
-	
+
 	MyUser.remoteMethod(
 		    'authenticate',
 		    {
 		    	accepts: [
 		            { arg: 'req', type: 'object', http: function(ctx) {
 		              return ctx;
-		            } 
-		          }],	
+		            }
+		          }],
 		         http: {path: '/authenticate', verb: 'get'},
 		         returns: {arg: 'user', type: MyUser}
 		    }
-		    
+
 	);
-	
-	MyUser.authenticate = function(ctx, cb) {
+
+	MyUser.authenticate = function(ctx, next) {
 		console.log('IN MyUser.authenticate, req.accessToken: >>> ', ctx.req.accessToken);
 		MyUser.findById(ctx.req.accessToken.userId, function(err, userObj){
 			if (err) {
@@ -27,10 +27,11 @@ module.exports = function(MyUser) {
 		      }
 			MyUser.app.currentUser = userObj;
 			ctx.res.locals.currentUser = userObj;
-			var loopbackContext = MyUser.app.loopback.getCurrentContext();
-		    if (loopbackContext) loopbackContext.set('currentUser', userObj);
+			// var loopbackContext = MyUser.app.loopback.getCurrentContext();
+		  // if (loopbackContext) loopbackContext.set('currentUser', userObj);
 		    console.log('USER OBJ set in LB context: >>>>>> ', userObj);
-		    ctx.res.redirect('/#!/home');
+		   	ctx.res.redirect('/');
+		    // return next();
 		});
 	};
 
@@ -49,11 +50,11 @@ module.exports = function(MyUser) {
 				  ctx.data.audit = {};
 			  }
 			  ctx.data.audit.modified = new Date();
-			  
+
 		  }
 		 return next();
 		});
-	
+
 	MyUser.afterRemote('login', function(context, accessToken, next) {
 	    console.log('\n\nIN MyUser.js, afterRemote login method, accessToken >>>>>>>', accessToken);
 	    var res = context.res;
@@ -71,19 +72,19 @@ module.exports = function(MyUser) {
 		          });
 		        }
 		      }
-		    
+
 	    }catch(err){
 	    	console.log("ERROR IN afterRemote.login: >>> ", err);
 	    }
-	    
+
 	   return next();
 	  });
-	
+
 	MyUser.afterRemote('logout', function(context, result, next) {
 	    var res = context.res;
 	    res.clearCookie('access_token');
 	    res.clearCookie('userId');
 	    return next();
 	  });
-	
+
 };

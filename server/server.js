@@ -18,10 +18,14 @@ var passportConfigurator = new PassportConfigurator(app);
 app.use(serveStatic(__dirname + '/client/dist'));
 app.use('/api', loopback.rest());
 
-var ignoredPaths = ['/api/', '/explorer', '/status'];
+var ignoredPaths = ['/api/', '/explorer', '/status', '/auth'];
 app.all('/*', function(req, res, next) {
+  console.log(req.originalUrl);
+  if(req.originalUrl == "#"){
+    req.originalUrl = "/";
+  }
  if(!includes(req.originalUrl, ignoredPaths)){
-   if(req.url == '/' || includes(req.originalUrl, ['/public', '/iot', '/account'])){
+   if(req.url == '/' || req.url == '/#' || includes(req.originalUrl, ['/public', '/iot', '/account'])){
        res.sendFile('index.html', { root: path.resolve(__dirname, '..', 'client/dist') });
    }else{
        res.sendFile(path.resolve(req.url), { root: path.resolve(__dirname, '..', 'client/dist') });
@@ -72,7 +76,16 @@ app.use(loopback.token({
 */
 
 app.use(LoopBackContext.perRequest());
-app.use(loopback.token());
+app.use(loopback.token({
+  model: app.models.accessToken,
+  currentUserLiteral: 'me',
+  searchDefaultTokenKeys: false,
+  cookies: ['access_token'],
+  headers: ['access_token', 'X-Access-Token'],
+  params: ['access_token']
+}));
+
+/*
 app.use(function setCurrentUser(req, res, next) {
   if (!req.accessToken) {
     return next();
@@ -94,6 +107,7 @@ app.use(function setCurrentUser(req, res, next) {
     next();
   });
 });
+*/
 
 passportConfigurator.init();
 

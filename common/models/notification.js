@@ -14,11 +14,11 @@ module.exports = function(Notification) {
 		console.log("\n\nIn Notification.notify : >>>> ", req.body);
 		var notificationHandler = require('../../server/handlers/notificationHandler')(Notification.app);
 		var reqPayload = req.body;
-		notificationHandler.sendPushNotification(reqPayload, function(err, resp){
+		notificationHandler.sendNotification(reqPayload, function(err, resp){
 			if (err) {
-          console.log("Error in sending PushNotification: >> ", err);
+          console.log("Error in sending Notification: >> ", err);
       } else {
-          console.log("PushNotification Successfully sent with response: ", resp);
+          console.log("Notification Successfully sent with response: ", resp);
       }
 			cb(err, resp);
 		});

@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from "angular2-social-login";
 import { SharedService } from './services/shared.service';
+import { HbuddyService } from './services/hbuddy.service';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,7 @@ export class AppComponent {
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
 
-  constructor(public _auth: AuthService, public sharedService: SharedService, private fb: FormBuilder){
+  constructor(public _auth: AuthService, public sharedService: SharedService, private hBuddyService: HbuddyService, private fb: FormBuilder){
       this.currentUser = this.sharedService.getCurrentUser();
       this.loginForm = fb.group({
         'username' : [null, Validators.required],
@@ -44,6 +45,21 @@ export class AppComponent {
 
   handleLogin(post){
     console.log("IN handleLogin: >>> ", JSON.stringify(post));
+    let loginReq = {
+      "params": {
+        "email": post.username,
+        "password": post.password
+      }
+    }
+    this.hBuddyService.login(loginReq).then( result => {
+        console.log("Response of LOGIN: >>> ", result);
+        this.currentUser = result;
+        this.sharedService.setCurrentUser(this.currentUser);
+        this.closeBtn.nativeElement.click();
+   },
+   error => {
+      console.log("ERROR: >>> ", error);
+   });
   }
 
   logout(){

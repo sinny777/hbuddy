@@ -19,18 +19,21 @@
 
 	    <div class="collapse navbar-collapse" id="navigation-index">
 	    	<ul class="nav navbar-nav navbar-right">
-						<li *ngIf="!currentUser || !currentUser.name">
+						<li *ngIf="!currentUser || (!currentUser.name && !currentUser.user)">
 								<a href="#" data-toggle="modal" data-target="#loginModal">
 									<i class="material-icons">login</i> Login
 								</a>
 						</li>
-						<li *ngIf="currentUser && currentUser.name" class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<li *ngIf="currentUser && (currentUser.name || currentUser.user)" class="dropdown">
+								<a *ngIf="currentUser.name" href="#" class="dropdown-toggle" data-toggle="dropdown">
 									 {{currentUser.name}}
+								</a>
+								<a *ngIf="currentUser.user" href="#" class="dropdown-toggle" data-toggle="dropdown">
+									 {{currentUser.user.firstName}}
 								</a>
 								<ul class="dropdown-menu dropdown-menu-right">
 										<li><a routerLink="/account" >Account Settings</a></li>
-										<li><a href="/account/places">My Places</a></li>
+										<li><a routerLink="/account/places">My Places</a></li>
 										<li class="divider"></li>
 										<li><a href="javascript:void(0);" (click)="logout();">Logout</a></li>
 								</ul>
@@ -80,7 +83,7 @@
 					<div class="header header-primary text-center">
 						<h4 class="card-title">Log in</h4>
 						<div class="social-line">
-							<a href="javascript:void(0);" (click)="signIn('google');" class="btn btn-just-icon btn-simple">
+							<a href="/auth/google" class="btn btn-just-icon btn-simple">
 								<i class="fa fa-google-plus"></i>
 							</a>
 							<a href="javascript:void(0);" (click)="signIn('facebook');" class="btn btn-just-icon btn-simple">

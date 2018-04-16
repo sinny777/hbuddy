@@ -3,6 +3,7 @@ import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { Angular2SocialLoginModule } from "angular2-social-login";
+import { BrowserXhr, HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -12,7 +13,9 @@ import { GoogleMapsAPIWrapper } from '@agm/core/services/google-maps-api-wrapper
 import { MarkerManager } from '@agm/core/services/managers/marker-manager';
 import { MqttService } from './services/mqtt.service';
 import { SharedService } from './services/shared.service';
+import { HbuddyService } from './services/hbuddy.service';
 import { HBuddyComponent } from './pages/h-buddy/h-buddy.component';
+import { PlacesComponent } from './pages/places/places.component';
 
 let providers = {
     "google": {
@@ -28,9 +31,10 @@ let providers = {
   };
 
 const appRoutes: Routes = [
-  { path: 'public/dashboard', component: DashboardComponent },
   { path: '',      component: HomeComponent },
-  { path: 'iot/hbuddy', component: HBuddyComponent }
+  { path: 'public/dashboard', component: DashboardComponent },
+  { path: 'iot/hbuddy', component: HBuddyComponent },
+  { path: 'account/places', component: PlacesComponent }
 ];
 
 @NgModule({
@@ -38,11 +42,13 @@ const appRoutes: Routes = [
     AppComponent,
     HomeComponent,
     DashboardComponent,
-    HBuddyComponent
+    HBuddyComponent,
+    PlacesComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
     BrowserModule,
+    HttpModule,
     FormsModule,
     ReactiveFormsModule,
     Angular2SocialLoginModule,
@@ -50,7 +56,7 @@ const appRoutes: Routes = [
       apiKey: 'AIzaSyD3oMSe59cIpUnouvFcWT3oP3iPwsRp5zk'
     })
   ],
-  providers: [GoogleMapsAPIWrapper, MarkerManager, MqttService, SharedService],
+  providers: [GoogleMapsAPIWrapper, MarkerManager, MqttService, SharedService, HbuddyService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

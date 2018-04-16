@@ -27,7 +27,7 @@
     "type": {
       "type": "string",
       "required": false,
-      "description": "DEVICE, BOARD, PLACE"
+      "description": "DEVICE, BOARD, PLACE, CAMERA"
     },
     "typeId": {
       "type": "string",

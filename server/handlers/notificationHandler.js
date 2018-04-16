@@ -15,7 +15,71 @@ module.exports = function(app) {
 
 	var methods = {};
 
-	methods.sendNotification = function(payload, board, placeArea, device) {
+	methods.sendNotification = function(reqPayload, cb) {
+		console.log('IN notificationHandler.sendNotification: >> ', reqPayload);
+		if(reqPayload.groups && reqPayload.groups.length > 0){
+			methods.notifyGroups(reqPayload, cb);
+		}
+		if(reqPayload.users && reqPayload.users.length > 0){
+			methods.notifyUsers(reqPayload, cb);
+		}
+
+	};
+
+	/**
+	 * Send Notifications (Email, Push, SMS etc.) to Groups
+	 */
+	methods.notifyGroups = function(reqPayload, cb){
+		console.log("IN notifyGroups: >> ", reqPayload.groups);
+		//TODO: Implementation Pending
+		return cb(null, "Notify Groups is currently not implemented !! ");
+	}
+
+	/**
+	 * Send Notifications (Email, Push, SMS etc.) to Users
+	 * as per their settings
+	 */
+	methods.notifyUsers = function(reqPayload, cb){
+		console.log("IN notifyUsers: >> ", reqPayload.users);
+		var registrationIds = [];
+		var count = 0;
+		for(let user of reqPayload.users){
+			count++;
+			if(user.userId && user.email){
+					//TODO: Send Notification via Email
+					console.log("Send Notification via Email to User: >> ", user);
+				return 	cb(null, "Send Notification via Email is currently not implemented !! ");
+			}
+			if(user.userId && user.sms){
+					//TODO: Send Notification via SMS
+					return 	cb(null, "Send Notification via SMS is currently not implemented !! ");
+			}
+			if(user.userId && user.push && user.push.notify){
+				if(!UserSetting){
+					UserSetting = app.models.UserSetting;
+				}
+				UserSetting.find({where:{"userId": user.userId}}, function(err, userSettings) {
+					if(err){
+						console.log("ERROR WHILE FETCHING USER SETTINGS: ", err);
+					}else{
+						registrationIds.push(userSettings[0].registrationId);
+						if(count == reqPayload.users.length){
+							methods.sendPushNotification({"title": user.push.title,"pushData": user.push.pushData, "pushMsg": user.push.pushMsg, "registrationIds": registrationIds}, function(err, response){
+								if (err) {
+										console.log("Error in sending PushNotification: >> ", err);
+								} else {
+										console.log("PushNotification Successfully Sent with Response: ", response);
+								}
+								return cb(err, response);
+							});
+						}
+					}
+				});
+			}
+		}
+	}
+
+	methods.sendNotificationOld = function(payload, board, placeArea, device) {
 		console.log('IN notificationHandler.sendNotification: >> ', device);
 		var registrationIds = [];
 		if(!Notification){
@@ -57,7 +121,7 @@ module.exports = function(app) {
 
 	};
 
-	methods.handlePushNotification = function(payload, board, placeArea, device, registrationIds){
+	methods.handlePushNotificationOld = function(payload, board, placeArea, device, registrationIds){
 		var pushMsg = placeArea.title +"'s " + device.title + " status is changed to " + device.status +" at " +new Date();
 		var pushData = {
 				boardId : payload.d.boardId,
@@ -77,8 +141,7 @@ module.exports = function(app) {
 	};
 
 	methods.sendPushNotification = function(payload, cb) {
-		console.log('IN notificationHandler.sendPushNotification: >> ', payload.pushMsg);
-		console.log('IN notificationHandler.registrationIds: >> ', payload.registrationIds);
+		console.log('IN notificationHandler.sendPushNotification: >> ', payload);
 		var serverKey = CONFIG.NOTIFICATION.PUSH_NOTIFICATION_SERVER_KEY;
 		var fcm = new FCM(serverKey);
 		var message = {

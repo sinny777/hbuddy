@@ -1,10 +1,3 @@
-/**
- * Based on @ericprieto code https://github.com/strongloop/loopback/issues/651#issuecomment-140879983
- * place this file into common/mixins/disableAllMethods.js
- * 
- **/
-
-
 module.exports = function(Model, options) {
     if(Model && Model.sharedClass) {
       var methodsToExpose = options.expose || [];
@@ -32,7 +25,7 @@ module.exports = function(Model, options) {
           var methodName = method.name;
           if(methodsToExpose.indexOf(methodName) < 0) {
               hiddenMethods.push(methodName);
-              Model.disableRemoteMethod(methodName, method.isStatic);
+              Model.disableRemoteMethodByName(methodName, method.isStatic);
           }
       });
       // if(hiddenMethods.length > 0) {

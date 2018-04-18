@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SharedService } from '../../services/shared.service';
+import { MyAuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -10,12 +10,13 @@ export class HomeComponent implements OnInit {
 
   currentUser: any;
 
-  constructor(public sharedService: SharedService) {
+  constructor(private authService: MyAuthService) {
 
   }
 
   ngOnInit() {
-    this.currentUser = this.sharedService.getCurrentUser();
+    console.log("In Init of Home Page: >>>", this.authService.authenticated);
+    console.log("In Init of Home Page: >>>", this.authService.userProfile);
   }
 
 }

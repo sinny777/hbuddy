@@ -5,8 +5,12 @@
     }
   },
   "initial": {
+    "loopback-context#per-request": {
+      "params": {
+        "enableHttpContext": true
+      }
+    },
     "compression": {},
-    "loopback-context#per-request": {},
     "cors": {
       "params": {
         "origin": true,
@@ -15,8 +19,6 @@
       }
     }
   },
-  "session": {},
-  "auth": {},
   "parse": {},
   "routes": {
     "loopback#rest": {
@@ -26,10 +28,12 @@
     }
   },
   "files": {
-    "loopback#static": {
-      "paths": "/",
-      "params": "$!../client/dist"
-    }
+    "loopback#static": [
+      {
+        "paths": "/",
+        "params": "$!../client/dist"
+      }
+    ]
   },
   "final": {
     "loopback#urlNotFound": {}
@@ -37,9 +41,9 @@
   "final:after": {
     "strong-error-handler": {
       "params": {
-         "debug": false,
-         "log": true
-       }
+        "debug": true,
+        "log": true
+      }
     }
   }
 }

@@ -10,9 +10,9 @@
       "type": "object"
     },
     "config": {
-	  "type": "object",
-	  "required": false
-	},
+      "type": "object",
+      "required": false
+    },
     "connectedToId": {
       "type": "string",
       "required": false

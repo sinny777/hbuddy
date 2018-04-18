@@ -3,10 +3,10 @@
   "plural": "MyUsers",
   "base": "User",
   "idInjection": true,
+  "ownerRelations": true,
   "options": {
     "validateUpsert": true
   },
-  "injectOptionsFromRemoteContext": true,
   "properties": {
     "provider": {
       "type": "string"
@@ -22,8 +22,14 @@
   "relations": {
     "accessTokens": {
       "type": "hasMany",
-      "model": "AccessToken",
-      "foreignKey": "userId"
+      "model": "CustomAccessToken",
+      "polymorphic": {
+        "foreignKey": "userId",
+        "discriminator": "principalType"
+      },
+      "options": {
+        "disableInclude": true
+      }
     },
     "identities": {
       "type": "hasOne",
@@ -34,12 +40,6 @@
       "type": "hasMany",
       "model": "userCredential",
       "foreignKey": "userId"
-    },
-    "roles": {
-      "type": "hasMany",
-      "model": "Role",
-      "foreignKey": "principalId",
-      "through": "RoleMapping"
     }
   },
   "acls": [
@@ -53,6 +53,18 @@
       "principalId": "$everyone",
       "permission": "ALLOW",
       "property": "authenticate"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "authenticated"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "failedAuthentication"
     },
     {
       "principalType": "ROLE",
@@ -89,6 +101,12 @@
       "principalId": "$owner",
       "permission": "ALLOW",
       "property": "findById"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "find"
     },
     {
       "principalType": "ROLE",

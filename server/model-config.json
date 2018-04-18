@@ -13,29 +13,35 @@
       "./mixins"
     ]
   },
-  "User": {
-    "dataSource": "db",
-    "public": false
-  },
-  "userCredential": {
-    "dataSource": "db",
+  "MyUser": {
+    "dataSource": "accounts",
     "public": true
   },
-  "userIdentity": {
+  "CustomAccessToken": {
     "dataSource": "db",
-    "public": true
+    "public": false,
+    "relations": {
+      "user": {
+        "type": "belongsTo",
+        "foreignKey": "userId"
+      }
+    }
   },
   "ApplicationCredential": {
     "dataSource": "db",
+    "public": true
+  },
+  "UserCredential": {
+    "dataSource": "db",
     "public": false
   },
-  "AccessToken": {
+  "UserIdentity": {
     "dataSource": "db",
-    "public": true
+    "public": false
   },
   "ACL": {
-    "dataSource": "access",
-    "public": true
+    "dataSource": "db",
+    "public": false
   },
   "RoleMapping": {
     "dataSource": "roles",
@@ -43,10 +49,6 @@
   },
   "Role": {
     "dataSource": "roles",
-    "public": true
-  },
-  "MyUser": {
-    "dataSource": "accounts",
     "public": true
   },
   "Place": {

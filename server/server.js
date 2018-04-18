@@ -1,7 +1,7 @@
+require('cls-hooked');
 var loopback = require('loopback');
 var LoopBackContext = require('loopback-context');
 var boot = require('loopback-boot');
-var serveStatic = require('serve-static');
 var cookieParser = require('cookie-parser');
 var expressSession = require('express-session');
 var path = require('path');
@@ -15,33 +15,8 @@ var loopbackPassport = require('loopback-component-passport');
 var PassportConfigurator = loopbackPassport.PassportConfigurator;
 var passportConfigurator = new PassportConfigurator(app);
 
-app.use(serveStatic(__dirname + '/client/dist'));
-app.use('/api', loopback.rest());
-
-var ignoredPaths = ['/api/', '/explorer', '/status', '/auth'];
-app.all('/*', function(req, res, next) {
-  console.log(req.originalUrl);
-  if(req.originalUrl == "#"){
-    req.originalUrl = "/";
-  }
- if(!includes(req.originalUrl, ignoredPaths)){
-   if(req.url == '/' || req.url == '/#' || includes(req.originalUrl, ['/public', '/iot', '/account'])){
-       res.sendFile('index.html', { root: path.resolve(__dirname, '..', 'client/dist') });
-   }else{
-       res.sendFile(path.resolve(req.url), { root: path.resolve(__dirname, '..', 'client/dist') });
-   }
- } else {
-     next();
- }
-});
-
-function includes(string, array) {
- for(i = 0; i < array.length; i++)
-   if(string.includes(array[i])){
-     return true;
-   }
- return false;
-}
+// app.use(loopback.static(path.resolve(__dirname, '../client/dist')));
+// app.use('/api', loopback.rest());
 
 var bodyParser = require('body-parser');
 app.middleware('parse', bodyParser.json({limit: 1024*1024*50, type:'application/json'}));
@@ -52,7 +27,7 @@ app.middleware('parse', bodyParser.urlencoded({
 	type:'application/x-www-form-urlencoding'
 }));
 
-var flash      = require('express-flash');
+var flash = require('express-flash');
 
 //attempt to build the providers/passport config
 var config = {};
@@ -63,85 +38,6 @@ try {
   process.exit(1); // fatal
 }
 
-//The access token is only available after boot
-app.middleware('auth', loopback.token({
-  model: app.models.AccessToken
-}));
-
-/*
-app.use(loopback.context());
-app.use(loopback.token({
-	model: app.models.AccessToken
-}));
-*/
-
-app.use(LoopBackContext.perRequest());
-app.use(loopback.token({
-  model: app.models.accessToken,
-  currentUserLiteral: 'me',
-  searchDefaultTokenKeys: false,
-  cookies: ['access_token'],
-  headers: ['access_token', 'X-Access-Token'],
-  params: ['access_token']
-}));
-
-/*
-app.use(function setCurrentUser(req, res, next) {
-  if (!req.accessToken) {
-    return next();
-  }
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  app.models.MyUser.findById(req.accessToken.userId, function(err, user) {
-    if (err) {
-      return next(err);
-    }
-    if (!user) {
-      return next(new Error('No user with this access token was found.'));
-    }
-    var loopbackContext = LoopBackContext.getCurrentContext();
-    if (loopbackContext) {
-      loopbackContext.set('currentUser', user);
-    }
-    next();
-  });
-});
-*/
-
-passportConfigurator.init();
-
-//Requests that get this far won't be handled
-//by any middleware. Convert them into a 404 error
-//that will be handled later down the chain.
-//app.use(loopback.urlNotFound());
-
-app.start = function() {
-	  // start the web server
-	  return app.listen(function() {
-	    app.emit('started');
-	    var baseUrl = app.get('url').replace(/\/$/, '');
-	    console.log('Web server listening at: %s', baseUrl);
-	    if (app.get('loopback-component-explorer')) {
-	      var explorerPath = app.get('loopback-component-explorer').mountPath;
-	      console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
-	    }
-	  });
-	};
-
-	app.on('uncaughtException', function(err) {
-	    if(err.errno === 'EADDRINUSE')
-	         console.log('err: >>>>' , err);
-	    else
-	         console.log(err);
-	    app.exit(1);
-	});
-
-//The ultimate error handler.
-// app.use(loopback.errorHandler());
-
-//Bootstrap the application, configure models, datasources and middleware.
-//Sub-apps like REST API are mounted via boot scripts.
 bootOptions = { "appRootDir": __dirname};
 
 boot(app, bootOptions, function(err) {
@@ -156,6 +52,32 @@ boot(app, bootOptions, function(err) {
 		}
 	}
 });
+
+passportConfigurator.init(false);
+
+app.middleware('auth', loopback.token({
+  model: app.models.CustomAccessToken,
+  currentUserLiteral: 'me',
+  searchDefaultTokenKeys: false,
+  cookies: ['access_token'],
+  headers: ['access_token', 'X-Access-Token'],
+  params: ['access_token']
+}));
+
+/*
+var myContext = require('./middleware/context-myContext')();
+app.use(myContext);
+
+// put currentUser in req.context on /api routes
+var getCurrentUserApi = require('./middleware/context-currentUserApi')();
+app.use(getCurrentUserApi);
+
+// use basic-auth for development environment
+if (app.get('env') === 'development') {
+  var basicAuth = require('./middleware/basicAuth')();
+  app.use(basicAuth);
+}
+*/
 
 //app.use(loopback.cookieParser(app.get('cookieSecret')));
 app.use(cookieParser(app.get('cookieSecret')));
@@ -174,17 +96,52 @@ app.middleware('session', expressSession({
 //We need flash messages to see passport errors
 app.use(flash());
 
-var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn;
+// var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn;
 
 passportConfigurator.setupModels({
-	  userModel: app.models.user,
+	  userModel: app.models.MyUser,
 	  userIdentityModel: app.models.userIdentity,
-	  userCredentialModel: app.models.userCredential,
-	  applicationCredentialModel: app.models.applicationCredential
+	  userCredentialModel: app.models.userCredential
 	});
+
+function customProfileToUser(provider, profile, options) {
+  // console.log("IN customProfileToUser: >>> ", options);
+  delete profile["_raw"];
+  var userInfo = {
+    userId: profile.id,
+    username: profile.emails[0].value,
+    password: 'secret',
+    email: profile.emails[0].value,
+    profile: profile["_json"]
+  };
+  return userInfo;
+}
 
 for (var s in config) {
 	var c = config[s];
 	c.session = c.session !== false;
+  c.profileToUser = customProfileToUser;
 	passportConfigurator.configureProvider(s, c);
 	}
+
+
+  app.start = function() {
+  	  // start the web server
+  	  return app.listen(function() {
+  	    app.emit('started');
+  	    var baseUrl = app.get('url').replace(/\/$/, '');
+  	    console.log('Web server listening at: %s', baseUrl);
+  	    if (app.get('loopback-component-explorer')) {
+  	      var explorerPath = app.get('loopback-component-explorer').mountPath;
+  	      console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
+  	    }
+  	  });
+  	};
+
+  	app.on('uncaughtException', function(err) {
+  	    if(err.errno === 'EADDRINUSE')
+  	         console.log('err: >>>>' , err);
+  	    else
+  	         console.log(err);
+  	    app.exit(1);
+  	});

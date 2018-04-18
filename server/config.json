@@ -3,7 +3,6 @@
   "aclErrorStatus": 403,
   "remoting": {
     "json": {},
-    "context": false,
     "urlencoded": {},
     "rest": {
       "normalizeHttpPath": false,
@@ -11,7 +10,7 @@
     },
     "cors": false,
     "errorHandler": {
-      "disableStackTrace": false
+      "debug": true
     }
   },
   "logoutSessionsOnSensitiveChanges": true,

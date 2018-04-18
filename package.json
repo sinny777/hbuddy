@@ -15,8 +15,10 @@
   },
   "dependencies": {
     "@cloudant/cloudant": "^2.1.0",
+    "basic-auth": "^2.0.0",
     "body-parser": "^1.9.0",
     "chrono-node": "^1.2.4",
+    "cls-hooked": "^4.2.2",
     "compression": "^1.0.3",
     "connect-ensure-login": "^0.1.1",
     "connect-redis": "^3.0.2",
@@ -31,7 +33,7 @@
     "feedparser": "latest",
     "google": "^2.1.0",
     "ibmiotf": "latest",
-    "loopback": "^2.22.0",
+    "loopback": "^3.0.0",
     "loopback-boot": "^2.6.5",
     "loopback-component-explorer": "^2.1.0",
     "loopback-component-passport": "^2.1.0",
@@ -51,7 +53,8 @@
     "serve-favicon": "^2.0.1",
     "serve-static": "^1.10.2",
     "socket.io": "latest",
-    "strong-error-handler": "^2.2.0",
+    "strong-error-handler": "^2.3.2",
+    "verror": "^1.10.0",
     "watson-developer-cloud": "^2.38.0"
   },
   "devDependencies": {

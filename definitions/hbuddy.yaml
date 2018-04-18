@@ -359,95 +359,17 @@ paths:
                 type: number
                 format: double
       deprecated: false
-  '/MyUsers/{id}/accessTokens/{fk}':
+  '/MyUsers/{id}/identities':
     get:
       tags:
         - MyUser
-      summary: Find a related item by id for accessTokens.
-      operationId: MyUser.prototype.__findById__accessTokens
+      summary: Fetches hasOne relation identities.
+      operationId: MyUser.prototype.__get__identities
       parameters:
-        - name: fk
-          in: path
-          description: Foreign key for accessTokens
-          required: true
-          type: string
-          format: JSON
-        - name: id
-          in: path
-          description: MyUser id
-          required: true
-          type: string
-          format: JSON
-      responses:
-        '200':
-          description: Request was successful
-          schema:
-            $ref: '#/definitions/CustomAccessToken'
-      deprecated: false
-    delete:
-      tags:
-        - MyUser
-      summary: Delete a related item by id for accessTokens.
-      operationId: MyUser.prototype.__destroyById__accessTokens
-      parameters:
-        - name: fk
-          in: path
-          description: Foreign key for accessTokens
-          required: true
-          type: string
-          format: JSON
-        - name: id
-          in: path
-          description: MyUser id
-          required: true
-          type: string
-          format: JSON
-      responses:
-        '204':
-          description: Request was successful
-      deprecated: false
-    put:
-      tags:
-        - MyUser
-      summary: Update a related item by id for accessTokens.
-      operationId: MyUser.prototype.__updateById__accessTokens
-      parameters:
-        - name: fk
-          in: path
-          description: Foreign key for accessTokens
-          required: true
-          type: string
-          format: JSON
-        - name: data
-          in: body
+        - name: refresh
+          in: query
           required: false
-          schema:
-            $ref: '#/definitions/CustomAccessToken'
-        - name: id
-          in: path
-          description: MyUser id
-          required: true
-          type: string
-          format: JSON
-      responses:
-        '200':
-          description: Request was successful
-          schema:
-            $ref: '#/definitions/CustomAccessToken'
-      deprecated: false
-  '/MyUsers/{id}/identities/{fk}':
-    get:
-      tags:
-        - MyUser
-      summary: Find a related item by id for identities.
-      operationId: MyUser.prototype.__findById__identities
-      parameters:
-        - name: fk
-          in: path
-          description: Foreign key for identities
-          required: true
-          type: string
-          format: JSON
+          type: boolean
         - name: id
           in: path
           description: MyUser id
@@ -460,40 +382,12 @@ paths:
           schema:
             $ref: '#/definitions/UserIdentity'
       deprecated: false
-    delete:
+    post:
       tags:
         - MyUser
-      summary: Delete a related item by id for identities.
-      operationId: MyUser.prototype.__destroyById__identities
+      summary: Creates a new instance in identities of this model.
+      operationId: MyUser.prototype.__create__identities
       parameters:
-        - name: fk
-          in: path
-          description: Foreign key for identities
-          required: true
-          type: string
-          format: JSON
-        - name: id
-          in: path
-          description: MyUser id
-          required: true
-          type: string
-          format: JSON
-      responses:
-        '204':
-          description: Request was successful
-      deprecated: false
-    put:
-      tags:
-        - MyUser
-      summary: Update a related item by id for identities.
-      operationId: MyUser.prototype.__updateById__identities
-      parameters:
-        - name: fk
-          in: path
-          description: Foreign key for identities
-          required: true
-          type: string
-          format: JSON
         - name: data
           in: body
           required: false
@@ -510,6 +404,45 @@ paths:
           description: Request was successful
           schema:
             $ref: '#/definitions/UserIdentity'
+      deprecated: false
+    put:
+      tags:
+        - MyUser
+      summary: Update identities of this model.
+      operationId: MyUser.prototype.__update__identities
+      parameters:
+        - name: data
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/UserIdentity'
+        - name: id
+          in: path
+          description: MyUser id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/UserIdentity'
+      deprecated: false
+    delete:
+      tags:
+        - MyUser
+      summary: Deletes identities of this model.
+      operationId: MyUser.prototype.__destroy__identities
+      parameters:
+        - name: id
+          in: path
+          description: MyUser id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '204':
+          description: Request was successful
       deprecated: false
   '/MyUsers/{id}/credentials/{fk}':
     get:
@@ -587,16 +520,17 @@ paths:
           schema:
             $ref: '#/definitions/UserCredential'
       deprecated: false
-  '/MyUsers/{id}/accessTokens':
+  '/MyUsers/{id}/accessTokens/{fk}':
     get:
       tags:
         - MyUser
-      summary: Queries accessTokens of MyUser.
-      operationId: MyUser.prototype.__get__accessTokens
+      summary: Find a related item by id for accessTokens.
+      operationId: MyUser.prototype.__findById__accessTokens
       parameters:
-        - name: filter
-          in: query
-          required: false
+        - name: fk
+          in: path
+          description: Foreign key for accessTokens
+          required: true
           type: string
           format: JSON
         - name: id
@@ -609,16 +543,42 @@ paths:
         '200':
           description: Request was successful
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/CustomAccessToken'
+            $ref: '#/definitions/CustomAccessToken'
       deprecated: false
-    post:
+    delete:
       tags:
         - MyUser
-      summary: Creates a new instance in accessTokens of this model.
-      operationId: MyUser.prototype.__create__accessTokens
+      summary: Delete a related item by id for accessTokens.
+      operationId: MyUser.prototype.__destroyById__accessTokens
       parameters:
+        - name: fk
+          in: path
+          description: Foreign key for accessTokens
+          required: true
+          type: string
+          format: JSON
+        - name: id
+          in: path
+          description: MyUser id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '204':
+          description: Request was successful
+      deprecated: false
+    put:
+      tags:
+        - MyUser
+      summary: Update a related item by id for accessTokens.
+      operationId: MyUser.prototype.__updateById__accessTokens
+      parameters:
+        - name: fk
+          in: path
+          description: Foreign key for accessTokens
+          required: true
+          type: string
+          format: JSON
         - name: data
           in: body
           required: false
@@ -635,145 +595,6 @@ paths:
           description: Request was successful
           schema:
             $ref: '#/definitions/CustomAccessToken'
-      deprecated: false
-    delete:
-      tags:
-        - MyUser
-      summary: Deletes all accessTokens of this model.
-      operationId: MyUser.prototype.__delete__accessTokens
-      parameters:
-        - name: id
-          in: path
-          description: MyUser id
-          required: true
-          type: string
-          format: JSON
-      responses:
-        '204':
-          description: Request was successful
-      deprecated: false
-  '/MyUsers/{id}/accessTokens/count':
-    get:
-      tags:
-        - MyUser
-      summary: Counts accessTokens of MyUser.
-      operationId: MyUser.prototype.__count__accessTokens
-      parameters:
-        - name: where
-          in: query
-          description: Criteria to match model instances
-          required: false
-          type: string
-          format: JSON
-        - name: id
-          in: path
-          description: MyUser id
-          required: true
-          type: string
-          format: JSON
-      responses:
-        '200':
-          description: Request was successful
-          schema:
-            type: object
-            properties:
-              count:
-                type: number
-                format: double
-      deprecated: false
-  '/MyUsers/{id}/identities':
-    get:
-      tags:
-        - MyUser
-      summary: Queries identities of MyUser.
-      operationId: MyUser.prototype.__get__identities
-      parameters:
-        - name: filter
-          in: query
-          required: false
-          type: string
-          format: JSON
-        - name: id
-          in: path
-          description: MyUser id
-          required: true
-          type: string
-          format: JSON
-      responses:
-        '200':
-          description: Request was successful
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/UserIdentity'
-      deprecated: false
-    post:
-      tags:
-        - MyUser
-      summary: Creates a new instance in identities of this model.
-      operationId: MyUser.prototype.__create__identities
-      parameters:
-        - name: data
-          in: body
-          required: false
-          schema:
-            $ref: '#/definitions/UserIdentity'
-        - name: id
-          in: path
-          description: MyUser id
-          required: true
-          type: string
-          format: JSON
-      responses:
-        '200':
-          description: Request was successful
-          schema:
-            $ref: '#/definitions/UserIdentity'
-      deprecated: false
-    delete:
-      tags:
-        - MyUser
-      summary: Deletes all identities of this model.
-      operationId: MyUser.prototype.__delete__identities
-      parameters:
-        - name: id
-          in: path
-          description: MyUser id
-          required: true
-          type: string
-          format: JSON
-      responses:
-        '204':
-          description: Request was successful
-      deprecated: false
-  '/MyUsers/{id}/identities/count':
-    get:
-      tags:
-        - MyUser
-      summary: Counts identities of MyUser.
-      operationId: MyUser.prototype.__count__identities
-      parameters:
-        - name: where
-          in: query
-          description: Criteria to match model instances
-          required: false
-          type: string
-          format: JSON
-        - name: id
-          in: path
-          description: MyUser id
-          required: true
-          type: string
-          format: JSON
-      responses:
-        '200':
-          description: Request was successful
-          schema:
-            type: object
-            properties:
-              count:
-                type: number
-                format: double
       deprecated: false
   '/MyUsers/{id}/credentials':
     get:
@@ -846,6 +667,100 @@ paths:
         - MyUser
       summary: Counts credentials of MyUser.
       operationId: MyUser.prototype.__count__credentials
+      parameters:
+        - name: where
+          in: query
+          description: Criteria to match model instances
+          required: false
+          type: string
+          format: JSON
+        - name: id
+          in: path
+          description: MyUser id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+            properties:
+              count:
+                type: number
+                format: double
+      deprecated: false
+  '/MyUsers/{id}/accessTokens':
+    get:
+      tags:
+        - MyUser
+      summary: Queries accessTokens of MyUser.
+      operationId: MyUser.prototype.__get__accessTokens
+      parameters:
+        - name: filter
+          in: query
+          required: false
+          type: string
+          format: JSON
+        - name: id
+          in: path
+          description: MyUser id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CustomAccessToken'
+      deprecated: false
+    post:
+      tags:
+        - MyUser
+      summary: Creates a new instance in accessTokens of this model.
+      operationId: MyUser.prototype.__create__accessTokens
+      parameters:
+        - name: data
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/CustomAccessToken'
+        - name: id
+          in: path
+          description: MyUser id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/CustomAccessToken'
+      deprecated: false
+    delete:
+      tags:
+        - MyUser
+      summary: Deletes all accessTokens of this model.
+      operationId: MyUser.prototype.__delete__accessTokens
+      parameters:
+        - name: id
+          in: path
+          description: MyUser id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '204':
+          description: Request was successful
+      deprecated: false
+  '/MyUsers/{id}/accessTokens/count':
+    get:
+      tags:
+        - MyUser
+      summary: Counts accessTokens of MyUser.
+      operationId: MyUser.prototype.__count__accessTokens
       parameters:
         - name: where
           in: query
@@ -5882,30 +5797,6 @@ definitions:
     additionalProperties: false
   x-any:
     properties: {}
-  CustomAccessToken:
-    properties:
-      id:
-        type: string
-      ttl:
-        default: 1209600
-        description: time to live in seconds (2 weeks by default)
-        type: number
-        format: double
-      scopes:
-        description: Array of scopes granted to this access token.
-        type: array
-        items:
-          type: string
-      created:
-        type: string
-        format: date-time
-      userId:
-        type: string
-      principalType:
-        type: string
-    required:
-      - id
-    additionalProperties: false
   UserIdentity:
     properties:
       provider:
@@ -5927,8 +5818,6 @@ definitions:
       id:
         type: number
         format: double
-      myUserId:
-        type: string
       userId:
         type: string
     additionalProperties: false
@@ -5953,10 +5842,32 @@ definitions:
       id:
         type: number
         format: double
-      myUserId:
-        type: string
       userId:
         type: string
+    additionalProperties: false
+  CustomAccessToken:
+    properties:
+      id:
+        type: string
+      ttl:
+        default: 1209600
+        description: time to live in seconds (2 weeks by default)
+        type: number
+        format: double
+      scopes:
+        description: Array of scopes granted to this access token.
+        type: array
+        items:
+          type: string
+      created:
+        type: string
+        format: date-time
+      userId:
+        type: string
+      principalType:
+        type: string
+    required:
+      - id
     additionalProperties: false
   MyUser:
     properties:

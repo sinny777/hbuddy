@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { CookieService } from 'ngx-cookie-service';
 
 import { Http, Headers, Response, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
@@ -9,7 +10,7 @@ import { environment } from '../../environments/environment';
 @Injectable()
 export class MyAuthService {
 
-  private headers: Headers;
+  headers: Headers;
   private reqOptions: RequestOptions;
 
   userProfile: any;
@@ -19,7 +20,7 @@ export class MyAuthService {
   loggedIn: boolean;
   loggedIn$ = new BehaviorSubject<boolean>(this.loggedIn);
 
-  constructor(private http: Http) {
+  constructor(private http: Http, private cookieService: CookieService) {
     // You can restore an unexpired authentication session on init
     // by using the checkSession() endpoint from auth0.js:
     // https://auth0.com/docs/libraries/auth0js/v9#using-checksession-to-acquire-new-tokens
@@ -53,33 +54,43 @@ export class MyAuthService {
         return this.http.post(POST_URL, payload.params, this.reqOptions)
         .toPromise()
         .then(function(resp){
-          var profile = resp.json();
-          var authResult = {"userId": profile.userId, "accessToken": profile.id};
-          that._setSession(authResult, profile);
+          that.userProfile = resp.json();
+          var authResult = {"userId": that.userProfile.userId, "accessToken": that.userProfile.id};
+          that._setSession(authResult, that.userProfile);
           that.refreshHeaders();
-          return profile;
+          return that.userProfile;
         }).catch(this.handleErrorPromise);
     }
   }
 
-  getUserInfo(authResult) {
-    let GET_URL: string = environment.API_BASE_URL + "/MyUsers";
-    if(!authResult || !authResult.userId){
-        return Promise.reject("INVALID DATA TO FETCH USER");
-    }else{
-        let findReq: any = {filter: {where: {userId: authResult.userId}}};
-        this.reqOptions = new RequestOptions({headers: this.headers});
-        this.reqOptions.params = findReq;
-        var that = this;
-        return this.http.get(GET_URL, this.reqOptions)
-        .toPromise()
-        .then(function(resp){
-          var profile = resp.json();
-          that._setSession(authResult, profile);
-          return profile;
-        }).catch(this.handleErrorPromise);
+  getUserInfo(): Promise<any> {
+    if(this.userProfile){
+      return Promise.resolve(this.userProfile);
     }
+    var authData = this.getAuthData();
 
+      if(authData && authData.userId && authData.accessToken){
+        this.accessToken = authData.accessToken;
+        this.refreshHeaders();
+          let GET_URL: string = environment.API_BASE_URL + "/MyUsers?include=user";
+          let findReq: any = {filter: {where: {id: authData.userId}}};
+          this.reqOptions = new RequestOptions({headers: this.headers});
+          this.reqOptions.params = findReq;
+          var that = this;
+          return this.http.get(GET_URL, this.reqOptions)
+          .toPromise()
+          .then(function(resp){
+            var users = resp.json();
+            if(users && users.length > 0){
+              that.userProfile = users[0];
+              that._setSession(authData, that.userProfile);              
+            }
+            return that.userProfile;
+          }).catch(this.handleErrorPromise);
+
+      }else{
+          return Promise.reject("No User Found !! ");
+      }
   }
 
   private _setSession(authResult, profile) {
@@ -98,33 +109,24 @@ export class MyAuthService {
     localStorage.removeItem('expires_at');
     localStorage.removeItem('userId');
     localStorage.removeItem('accessToken');
+    this.cookieService.deleteAll();
     this.accessToken = undefined;
     this.userProfile = undefined;
     this._setLoggedIn(false);
   }
 
   get authenticated(): boolean {
-    // Check if current date is greater than expiration
-    // and user is currently logged in
-    const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-
-    const isLoggedIn = (Date.now() < expiresAt) && this.loggedIn;
-    if(!this.loggedIn && (Date.now() < expiresAt)) {
-      const userId = localStorage.getItem('userId');
-      this.accessToken = localStorage.getItem('accessToken');
-      if(userId){
-        this.refreshHeaders();
-        console.log("accessToken: >> ", this.accessToken);
-        this.getUserInfo({"userId": userId, "accessToken": this.accessToken}).then( result => {
-            console.log("Response of getUserInfo: >>> ", result);
-       },
-       error => {
-          console.log("ERROR: >>> ", error);
-       });
-      }
-    }    
-
+    var expiresAt = Number(this.cookieService.get('expires_at'));
     return (Date.now() < expiresAt) && this.loggedIn;
+  }
+
+  private getAuthData(){
+    var accessToken = this.cookieService.get('access_token');
+    var userId = this.cookieService.get('userId');
+    var expiresAt = Number(this.cookieService.get('expires_at'));
+
+    return {"userId": userId, "expiresAt": expiresAt, accessToken: accessToken};
+
   }
 
   private extractData(res: Response) {

@@ -1,6 +1,5 @@
 {
   "name": "MyUser",
-  "plural": "MyUsers",
   "base": "User",
   "idInjection": true,
   "ownerRelations": true,
@@ -28,17 +27,17 @@
         "discriminator": "principalType"
       },
       "options": {
-        "disableInclude": true
+        "disableInclude": false
       }
     },
     "identities": {
       "type": "hasOne",
-      "model": "userIdentity",
+      "model": "UserIdentity",
       "foreignKey": "userId"
     },
     "credentials": {
       "type": "hasMany",
-      "model": "userCredential",
+      "model": "UserCredential",
       "foreignKey": "userId"
     }
   },
@@ -98,7 +97,7 @@
     },
     {
       "principalType": "ROLE",
-      "principalId": "$owner",
+      "principalId": "$everyone",
       "permission": "ALLOW",
       "property": "findById"
     },
@@ -116,7 +115,7 @@
     },
     {
       "principalType": "ROLE",
-      "principalId": "$owner",
+      "principalId": "$everyone",
       "permission": "ALLOW",
       "property": "__get__identities"
     },

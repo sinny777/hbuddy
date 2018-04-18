@@ -14,6 +14,7 @@ module.exports = function(app) {
 
   // app.use(serveStatic(path.join(__dirname, '../../client/dist')));
 
+/*
   var ignoredPaths = ['/api', '/explorer', '/status', '/auth'];
   app.all('/**', function(req, res, next) {
    if(!includes(req.originalUrl, ignoredPaths)){
@@ -37,7 +38,7 @@ module.exports = function(app) {
      }
    return false;
   }
-
+*/
   /*
   router.get('/account', setCurrentUser, ensureLoggedIn, function (req, res, next) {
         var ctx = server.req.getCurrentContext();

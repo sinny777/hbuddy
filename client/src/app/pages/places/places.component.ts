@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { SharedService } from '../../services/shared.service';
+import { MyAuthService } from '../../services/auth.service';
 import { HbuddyService } from '../../services/hbuddy.service';
 
 @Component({
@@ -15,18 +15,26 @@ export class PlacesComponent implements OnInit {
   selectedPlace: any;
   placeAreas: any;
 
-  constructor(private router: Router, public sharedService: SharedService, private hBuddyService: HbuddyService,) {
+  constructor(private router: Router, private authService: MyAuthService, private hBuddyService: HbuddyService,) {
 
   }
 
   ngOnInit() {
-    this.currentUser = this.sharedService.getCurrentUser();
-    console.log("ngOnInit Places, this.currentUser: >> ", this.currentUser);
-    if(!this.currentUser || (!this.currentUser.id && !this.currentUser.uid)){
+    this.authService.getUserInfo().then( result => {
+        this.currentUser = result;
+        console.log("In Init of Places Page: >>>", this.authService.authenticated);
+        console.log("In Init of Places Page: >>>", this.currentUser);
+        if(!this.currentUser || (!this.currentUser.id && !this.currentUser.uid)){
+          this.router.navigate(['/', {"action": "login"}]);
+          return false;
+        }
+        this.fetchPlaces();
+   },
+   error => {
+      console.log("ERROR: >>> ", error);
       this.router.navigate(['/', {"action": "login"}]);
-      return false;
-    }
-    this.fetchPlaces();
+   });
+
   }
 
   fetchPlaces(){

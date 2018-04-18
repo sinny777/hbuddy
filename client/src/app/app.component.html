@@ -19,17 +19,17 @@
 
 	    <div class="collapse navbar-collapse" id="navigation-index">
 	    	<ul class="nav navbar-nav navbar-right">
-						<li *ngIf="!currentUser || (!currentUser.name && !currentUser.user)">
+						<li *ngIf="!currentUser || (!currentUser.name && !currentUser.profile) || !currentUser.id">
 								<a href="#" data-toggle="modal" data-target="#loginModal">
 									<i class="material-icons">login</i> Login
 								</a>
 						</li>
-						<li *ngIf="currentUser && (currentUser.name || currentUser.user)" class="dropdown">
+						<li *ngIf="currentUser && (currentUser.name || currentUser.profile)" class="dropdown">
 								<a *ngIf="currentUser.name" href="#" class="dropdown-toggle" data-toggle="dropdown">
 									 {{currentUser.name}}
 								</a>
-								<a *ngIf="currentUser.user" href="#" class="dropdown-toggle" data-toggle="dropdown">
-									 {{currentUser.user.firstName}}
+								<a *ngIf="currentUser.profile" href="#" class="dropdown-toggle" data-toggle="dropdown">
+									 {{currentUser.profile.firstName}}
 								</a>
 								<ul class="dropdown-menu dropdown-menu-right">
 										<li><a routerLink="/account" >Account Settings</a></li>
@@ -83,7 +83,7 @@
 					<div class="header header-primary text-center">
 						<h4 class="card-title">Log in</h4>
 						<div class="social-line">
-							<a href="/api/MyUsers/authenticate?provider=google&redirectTo='/'" class="btn btn-just-icon btn-simple">
+							<a href="http://localhost:3000/api/MyUsers/authenticate?provider=google&redirectTo='/'" class="btn btn-just-icon btn-simple">
 								<i class="fa fa-google-plus"></i>
 							</a>
 							<a href="/auth/facebook" class="btn btn-just-icon btn-simple">

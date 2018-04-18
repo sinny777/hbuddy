@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from "angular2-social-login";
@@ -19,8 +20,15 @@ export class AppComponent {
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
 
-  constructor(public _auth: AuthService, private myAuthService: MyAuthService, public sharedService: SharedService, private hBuddyService: HbuddyService, private fb: FormBuilder){
-      this.currentUser = this.sharedService.getCurrentUser();
+  constructor(private router: Router, public _auth: AuthService, private myAuthService: MyAuthService, public sharedService: SharedService, private hBuddyService: HbuddyService, private fb: FormBuilder){
+        this.myAuthService.getUserInfo().then( result => {
+            this.currentUser = result;
+            console.log("In Init of AppComponent: >>>", this.myAuthService.authenticated);
+            console.log("In Init of AppComponent: >>>", this.currentUser);
+       },
+       error => {
+          console.log("ERROR: >>> ", error);
+       });
       this.loginForm = fb.group({
         'username' : [null, Validators.required],
         'password' : [null, Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(20)])],
@@ -55,7 +63,6 @@ export class AppComponent {
     this.myAuthService.login(loginReq).then( result => {
         console.log("Response of LOGIN: >>> ", result);
         this.currentUser = result;
-        this.sharedService.setCurrentUser(this.currentUser);
         this.closeBtn.nativeElement.click();
    },
    error => {
@@ -69,6 +76,8 @@ export class AppComponent {
         this.currentUser = null;
       }
     );
+    this.myAuthService.logout();
+    this.router.navigate(['/', {"action": "login"}]);
   }
 
 }

@@ -79,18 +79,8 @@ module.exports = function(MyUser) {
 							//user not found for accessToken, which is odd.
 							next();
 					}
-
 					req.session.user = user;
-
-					res.cookie('access_token', accessToken.id, {
-						signed: req.signedCookies ? true : false,
-						maxAge: 1000 * accessToken.ttl
-					});
-					res.cookie('userId', req.accessToken.userId.toString(), {
-						signed: req.signedCookies ? true : false,
-						maxAge: 1000 * accessToken.ttl
-					});
-
+					setCookies(req, res, accessToken);
 					res.redirect(req.headers.referer);
 
 			});
@@ -149,15 +139,8 @@ module.exports = function(MyUser) {
 	    try{
 	    	if (accessToken != null) {
 		        if (accessToken.id != null) {
-		          res.cookie('access_token', accessToken.id, {
-		            signed: req.signedCookies ? true : false,
-		            maxAge: 1000 * accessToken.ttl
-		          });
-		          res.cookie('userId', accessToken.userId.toString(), {
-		            signed: req.signedCookies ? true : false,
-		            maxAge: 1000 * accessToken.ttl
-		          });
-
+		          req.session.user = accessToken.user;
+							setCookies(req, res, accessToken);
 							// return res.redirect('/');
 		        }
 		      }
@@ -175,5 +158,22 @@ module.exports = function(MyUser) {
 	    res.clearCookie('userId');
 	    return next();
 	  });
+
+	function setCookies(req, res, accessToken){
+		console.log("IN setCookies: >> ", accessToken);
+		const expTime = accessToken.ttl * 1000 + Date.now();
+    res.cookie('userId', accessToken.userId.toString(), {
+			// signed: req.signedCookies ? true : false,
+			maxAge: 1000 * accessToken.ttl
+		});
+		res.cookie('access_token', accessToken.id, {
+			// signed: req.signedCookies ? true : false,
+			maxAge: 1000 * accessToken.ttl
+		});
+		res.cookie('expires_at', JSON.stringify(expTime), {
+			// signed: req.signedCookies ? true : false,
+			maxAge: 1000 * accessToken.ttl
+		});
+	}
 
 };

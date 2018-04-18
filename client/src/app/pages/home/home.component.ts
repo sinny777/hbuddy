@@ -15,8 +15,15 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("In Init of Home Page: >>>", this.authService.authenticated);
-    console.log("In Init of Home Page: >>>", this.authService.userProfile);
+    this.authService.getUserInfo().then( result => {
+        this.currentUser = result;
+        console.log("In Init of Home Page: >>>", this.authService.authenticated);
+        console.log("In Init of Home Page: >>>", this.currentUser);
+   },
+   error => {
+      console.log("ERROR: >>> ", error);
+   });
+
   }
 
 }

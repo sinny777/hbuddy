@@ -1,8 +1,6 @@
 {
   "initial:before": {
-    "loopback#favicon": {
-      "params": "$!../client/dist/favicon.ico"
-    }
+    "loopback#favicon": {}
   },
   "initial": {
     "loopback-context#per-request": {
@@ -35,9 +33,7 @@
       }
     ]
   },
-  "final": {
-    "loopback#urlNotFound": {}
-  },
+  "final":{ "./middleware/log-error": {} } ,
   "final:after": {
     "strong-error-handler": {
       "params": {

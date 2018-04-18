@@ -9,6 +9,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AgmCoreModule } from '@agm/core';
 import { GoogleMapsAPIWrapper } from '@agm/core/services/google-maps-api-wrapper';
 import { MarkerManager } from '@agm/core/services/managers/marker-manager';
+import { CookieService } from 'ngx-cookie-service';
+
 import { MyAuthService } from './services/auth.service';
 import { MqttService } from './services/mqtt.service';
 import { SharedService } from './services/shared.service';
@@ -51,7 +53,7 @@ let providers = {
       apiKey: 'AIzaSyD3oMSe59cIpUnouvFcWT3oP3iPwsRp5zk'
     })
   ],
-  providers: [GoogleMapsAPIWrapper, MarkerManager, MyAuthService, MqttService, SharedService, HbuddyService],
+  providers: [GoogleMapsAPIWrapper, MarkerManager, CookieService, MyAuthService, MqttService, SharedService, HbuddyService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

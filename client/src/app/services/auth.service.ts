@@ -68,6 +68,7 @@ export class MyAuthService {
       return Promise.resolve(this.userProfile);
     }
     var authData = this.getAuthData();
+    console.log("AuthData: >>> ", authData);
 
       if(authData && authData.userId && authData.accessToken){
         this.accessToken = authData.accessToken;

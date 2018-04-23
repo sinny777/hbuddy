@@ -5,6 +5,7 @@ import { AuthService } from "angular2-social-login";
 import { MyAuthService } from './services/auth.service';
 import { SharedService } from './services/shared.service';
 import { HbuddyService } from './services/hbuddy.service';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -17,10 +18,13 @@ export class AppComponent {
   currentUser: any;
   loginForm: FormGroup;
   post:any;
+  CONFIG: any;
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
 
   constructor(private router: Router, public _auth: AuthService, private myAuthService: MyAuthService, public sharedService: SharedService, private hBuddyService: HbuddyService, private fb: FormBuilder){
+        this.CONFIG = environment;
+        console.log("CONFIG: >>> ", this.CONFIG);
         this.myAuthService.getUserInfo().then( result => {
             this.currentUser = result;
             // console.log("In Init of AppComponent: >>>", this.myAuthService.authenticated);

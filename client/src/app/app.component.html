@@ -83,13 +83,13 @@
 					<div class="header header-primary text-center">
 						<h4 class="card-title">Log in</h4>
 						<div class="social-line">
-							<a href="http://localhost:3000/api/MyUsers/authenticate?provider=google&redirectTo='/'" class="btn btn-just-icon btn-simple">
+							<a href="{{CONFIG.API_BASE_URL}}/MyUsers/authenticate?provider=google&redirectTo='/'" class="btn btn-just-icon btn-simple">
 								<i class="fa fa-google-plus"></i>
 							</a>
-							<a href="/auth/facebook" class="btn btn-just-icon btn-simple">
+							<a href="{{CONFIG.API_BASE_URL}}/MyUsers/authenticate?provider=facebook&redirectTo='/'" class="btn btn-just-icon btn-simple">
 								<i class="fa fa-facebook-square"></i>
 							</a>
-							<a href="javascript:void(0);" (click)="signIn('linkedin');" class="btn btn-just-icon btn-simple">
+							<a href="{{CONFIG.API_BASE_URL}}/MyUsers/authenticate?provider=linkedin&redirectTo='/'" (click)="signIn('linkedin');" class="btn btn-just-icon btn-simple">
 								<i class="fa fa-linkedin"></i>
 							</a>
 						</div>

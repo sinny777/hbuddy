@@ -144,7 +144,7 @@ module.exports = function(MyUser) {
 	    try{
 	    	if (accessToken != null) {
 		        if (accessToken.id != null) {
-		          req.session.user = accessToken.user;
+		          // req.session.user = accessToken.user;
 							setCookies(req, res, accessToken);
 							// return res.redirect('/');
 		        }
@@ -167,24 +167,27 @@ module.exports = function(MyUser) {
 	function setCookies(req, res, accessToken){
 		console.log("IN setCookies: >> ", accessToken);
 		const expTime = accessToken.ttl * 1000 + Date.now();
-    res.cookie('userId', accessToken.userId.toString(), {
-			// signed: req.signedCookies ? true : false,
-			domain: '.hukamtechnologies.com',
-			maxAge: 1000 * accessToken.ttl
-			// httpOnly: true
-		});
-		res.cookie('access_token', accessToken.id, {
-			// signed: req.signedCookies ? true : false,
-			domain: '.hukamtechnologies.com',
-			maxAge: 1000 * accessToken.ttl
-			// httpOnly: true
-		});
-		res.cookie('expires_at', JSON.stringify(expTime), {
-			// signed: req.signedCookies ? true : false,
-			domain: '.hukamtechnologies.com',
-			maxAge: 1000 * accessToken.ttl
-			// httpOnly: true
-		});
+		if(accessToken.userId){
+			res.cookie('access_token', accessToken.id, {
+				// signed: req.signedCookies ? true : false,
+				domain: '.hukamtechnologies.com',
+				maxAge: 1000 * accessToken.ttl
+				// httpOnly: true
+			});
+			res.cookie('expires_at', JSON.stringify(expTime), {
+				// signed: req.signedCookies ? true : false,
+				domain: '.hukamtechnologies.com',
+				maxAge: 1000 * accessToken.ttl
+				// httpOnly: true
+			});
+			res.cookie('userId', accessToken.userId.toString(), {
+				// signed: req.signedCookies ? true : false,
+				domain: '.hukamtechnologies.com',
+				maxAge: 1000 * accessToken.ttl
+				// httpOnly: true
+			});
+		}
+
 	}
 
 };

@@ -1,10 +1,13 @@
 {
   "initial:before": {
-    "loopback#favicon": {
-      "params": "$!../client/dist/favicon.ico"
-    }
+    "loopback#favicon": {}
   },
   "initial": {
+    "loopback-context#per-request": {
+      "params": {
+        "enableHttpContext": true
+      }
+    },
     "compression": {},
     "cors": {
       "params": {
@@ -14,9 +17,13 @@
       }
     }
   },
-  "session": {},
-  "auth": {},
-  "parse": {},
+  "auth": {
+    "loopback#token": {
+      "params": {
+        "model": "CustomAccessToken"
+      }
+    }
+  },
   "routes": {
     "loopback#rest": {
       "paths": [
@@ -25,20 +32,20 @@
     }
   },
   "files": {
-    "loopback#static": {
-      "paths": "/",
-      "params": "$!../client/dist"
-    }
+    "loopback#static": [
+      {
+        "paths": "/",
+        "params": "$!../client/dist"
+      }
+    ]
   },
-  "final": {
-    "loopback#urlNotFound": {}
-  },
+  "final":{ "./middleware/log-error": {} } ,
   "final:after": {
     "strong-error-handler": {
       "params": {
-         "debug": false,
-         "log": true
-       }
+        "debug": true,
+        "log": true
+      }
     }
   }
 }

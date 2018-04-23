@@ -72,8 +72,8 @@ export class MyAuthService {
       if(authData && authData.userId && authData.accessToken){
         this.accessToken = authData.accessToken;
         this.refreshHeaders();
-          let GET_URL: string = environment.API_BASE_URL + "/MyUsers?include=user";
-          let findReq: any = {filter: {where: {id: authData.userId}}};
+          let GET_URL: string = environment.API_BASE_URL + "/MyUsers";
+          let findReq: any = {"filter": {"where": {"id": authData.userId}, "include": {"relation": "identities"}}};
           this.reqOptions = new RequestOptions({headers: this.headers});
           this.reqOptions.params = findReq;
           var that = this;
@@ -83,7 +83,7 @@ export class MyAuthService {
             var users = resp.json();
             if(users && users.length > 0){
               that.userProfile = users[0];
-              that._setSession(authData, that.userProfile);              
+              that._setSession(authData, that.userProfile);
             }
             return that.userProfile;
           }).catch(this.handleErrorPromise);

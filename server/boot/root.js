@@ -15,6 +15,8 @@ module.exports = function(app) {
   // app.use(serveStatic(path.join(__dirname, '../../client/dist')));
 
 /*
+  app.use(serveStatic(path.join(__dirname, '../../client/dist')));
+
   var ignoredPaths = ['/api', '/explorer', '/status', '/auth'];
   app.all('/**', function(req, res, next) {
    if(!includes(req.originalUrl, ignoredPaths)){

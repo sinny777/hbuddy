@@ -9,7 +9,7 @@ var request = require('request');
 var appClient = {};
 
 module.exports = function(app) {
-
+	console.log("INSIDEboot:01-startup-script >>>>>>>> ");
 	if (app.dataSources.db.name !== 'Memory' && !process.env.INITDB) {
 		return;
 	}
@@ -28,6 +28,7 @@ module.exports = function(app) {
 
 //	testConversation();
 //	testDeviceUpdate();
+
 
 	function testConversation(){
 		var Conversation = app.models.Conversation;

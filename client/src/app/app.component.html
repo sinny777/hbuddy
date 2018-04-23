@@ -19,16 +19,16 @@
 
 	    <div class="collapse navbar-collapse" id="navigation-index">
 	    	<ul class="nav navbar-nav navbar-right">
-						<li *ngIf="!currentUser || (!currentUser.name && !currentUser.profile) || !currentUser.id">
+						<li *ngIf="!currentUser || !currentUser.id">
 								<a href="#" data-toggle="modal" data-target="#loginModal">
 									<i class="material-icons">login</i> Login
 								</a>
 						</li>
-						<li *ngIf="currentUser && (currentUser.name || currentUser.profile)" class="dropdown">
-								<a *ngIf="currentUser.name" href="#" class="dropdown-toggle" data-toggle="dropdown">
-									 {{currentUser.name}}
+						<li *ngIf="currentUser && (currentUser.user || currentUser.profile)" class="dropdown">
+								<a *ngIf="currentUser.user" href="#" class="dropdown-toggle" data-toggle="dropdown">
+									 {{currentUser.user.firstName}}
 								</a>
-								<a *ngIf="currentUser.profile" href="#" class="dropdown-toggle" data-toggle="dropdown">
+								<a *ngIf="currentUser.profile && currentUser.profile.firstName" href="#" class="dropdown-toggle" data-toggle="dropdown">
 									 {{currentUser.profile.firstName}}
 								</a>
 								<ul class="dropdown-menu dropdown-menu-right">

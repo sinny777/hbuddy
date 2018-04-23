@@ -1,0 +1,6 @@
+---
+applications:
+- name:      hukam-ui
+  host:      hukam-ui
+  memory:    64M
+  buildpack: https://github.com/cloudfoundry-community/staticfile-buildpack.git

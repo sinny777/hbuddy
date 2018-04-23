@@ -1,8 +1,8 @@
 {
   "name": "MyUser",
   "base": "User",
+  "ownerRelations": ["user", "owner"],
   "idInjection": true,
-  "ownerRelations": true,
   "options": {
     "validateUpsert": true
   },
@@ -39,6 +39,13 @@
       "type": "hasMany",
       "model": "UserCredential",
       "foreignKey": "userId"
+    },
+    "roles": {
+      "type": "hasMany",
+      "model": "Role",
+      "foreignKey": "principalId",
+      "keyThrough": "roleId",
+      "through": "RoleMapping"
     }
   },
   "acls": [
@@ -97,13 +104,13 @@
     },
     {
       "principalType": "ROLE",
-      "principalId": "$everyone",
+      "principalId": "$owner",
       "permission": "ALLOW",
       "property": "findById"
     },
     {
       "principalType": "ROLE",
-      "principalId": "$everyone",
+      "principalId": "$authenticated",
       "permission": "ALLOW",
       "property": "find"
     },
@@ -117,13 +124,14 @@
       "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "ALLOW",
-      "property": "__get__identities"
+      "property": "confirm"
     },
     {
       "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "ALLOW",
-      "property": "confirm"
+      "property": "resetPassword",
+      "accessType": "EXECUTE"
     }
   ],
   "methods": {}

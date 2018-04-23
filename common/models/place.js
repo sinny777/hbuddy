@@ -49,33 +49,28 @@ module.exports = function(Place, Member) {
 			var userId = accessToken && accessToken.userId;
 	    var ownerId = context.query && context.query.where && context.query.where.ownerId;
 
-		console.log('accessToken: >> ', accessToken);
-
+		// console.log('accessToken: >> ', accessToken);
+		/*
 	    if(loopback){
-
 	    	var loopbackContext = LoopBackContext.getCurrentContext();
-				console.log(loopbackContext);
-				var currentUser;
-				if(loopbackContext){
-						currentUser = loopbackContext.get('currentUser');
+				console.log(loopbackContext.active);
+				var currentUserId;
+				if(loopbackContext.active){
+						currentUserId = loopbackContext.active;
 				}
-	     	console.log('CurrentUser From LoopbackContext: ' , currentUser);
-
-		    if(!currentUser){
-		    	currentUser = context.req.user;
-		    }
-
-	    	console.log("IN place.js current userId: ", userId, ", query: ", context.filter+", currentUser: ", currentUser);
-	    	if(currentUser){
-	    		findMembers(currentUser);
+	     	console.log('CurrentUser From LoopbackContext: ' , currentUserId);
+		   	console.log("IN place.js current userId: ", userId);
+	    	if(userId){
+	    		findMembers(userId);
 	    	}
 	    }
+		*/
 
 	   return next();
 	  });
 
-	  findMembers = function(currentUser){
-		  console.log('IN place.js, findMembers for memberId: ', currentUser.id);
+	  findMembers = function(currentUserId){
+		  console.log('IN place.js, findMembers for memberId: ', currentUserId);
 		  var findReq = {filter: {where: {"username": "sinny777@gmail.com"}}};
 	  }
 

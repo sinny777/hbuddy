@@ -23,8 +23,8 @@ export class AppComponent {
   constructor(private router: Router, public _auth: AuthService, private myAuthService: MyAuthService, public sharedService: SharedService, private hBuddyService: HbuddyService, private fb: FormBuilder){
         this.myAuthService.getUserInfo().then( result => {
             this.currentUser = result;
-            console.log("In Init of AppComponent: >>>", this.myAuthService.authenticated);
-            console.log("In Init of AppComponent: >>>", this.currentUser);
+            // console.log("In Init of AppComponent: >>>", this.myAuthService.authenticated);
+            // console.log("In Init of AppComponent: >>>", this.currentUser);
        },
        error => {
           console.log("ERROR: >>> ", error);
@@ -53,7 +53,7 @@ export class AppComponent {
   }
 
   handleLogin(post){
-    console.log("IN handleLogin: >>> ", JSON.stringify(post));
+    // console.log("IN handleLogin: >>> ", JSON.stringify(post));
     let loginReq = {
       "params": {
         "email": post.username,
@@ -61,7 +61,7 @@ export class AppComponent {
       }
     }
     this.myAuthService.login(loginReq).then( result => {
-        console.log("Response of LOGIN: >>> ", result);
+        // console.log("Response of LOGIN: >>> ", result);
         this.currentUser = result;
         this.closeBtn.nativeElement.click();
    },

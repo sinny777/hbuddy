@@ -44,7 +44,7 @@
     "public": false
   },
   "RoleMapping": {
-    "dataSource": "roles",
+    "dataSource": "rolemappings",
     "public": true
   },
   "Role": {

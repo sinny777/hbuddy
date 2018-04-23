@@ -17,7 +17,13 @@
       }
     }
   },
-  "parse": {},
+  "auth": {
+    "loopback#token": {
+      "params": {
+        "model": "CustomAccessToken"
+      }
+    }
+  },
   "routes": {
     "loopback#rest": {
       "paths": [

@@ -19,6 +19,8 @@ var passportConfigurator = new PassportConfigurator(app);
 // app.use('/api', loopback.rest());
 
 var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({extended: true}));
+/*
 app.middleware('parse', bodyParser.json({limit: 1024*1024*50, type:'application/json'}));
 app.middleware('parse', bodyParser.urlencoded({
 	limit: 1024*1024*50,
@@ -26,6 +28,7 @@ app.middleware('parse', bodyParser.urlencoded({
 	parameterLimit:50000,
 	type:'application/x-www-form-urlencoding'
 }));
+*/
 
 var flash = require('express-flash');
 
@@ -55,6 +58,7 @@ boot(app, bootOptions, function(err) {
 
 passportConfigurator.init(false);
 
+/*
 app.middleware('auth', loopback.token({
   model: app.models.CustomAccessToken,
   currentUserLiteral: 'me',
@@ -63,6 +67,7 @@ app.middleware('auth', loopback.token({
   headers: ['access_token', 'X-Access-Token'],
   params: ['access_token']
 }));
+*/
 
 /*
 var myContext = require('./middleware/context-myContext')();
@@ -100,8 +105,9 @@ app.use(flash());
 
 passportConfigurator.setupModels({
 	  userModel: app.models.MyUser,
-	  userIdentityModel: app.models.userIdentity,
-	  userCredentialModel: app.models.userCredential
+	  userIdentityModel: app.models.UserIdentity,
+	  userCredentialModel: app.models.UserCredential,
+		applicationCredential: app.models.ApplicationCredential
 	});
 
 function customProfileToUser(provider, profile, options) {
@@ -128,7 +134,7 @@ for (var s in config) {
 	c.session = c.session !== false;
   c.profileToUser = customProfileToUser;
 	passportConfigurator.configureProvider(s, c);
-	}
+}
 
 
   app.start = function() {

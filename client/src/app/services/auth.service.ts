@@ -116,6 +116,7 @@ export class MyAuthService {
     // localStorage.removeItem('expires_at');
     // localStorage.removeItem('userId');
     // localStorage.removeItem('accessToken');
+    console.log("IN AuthService.logout:>>>>> ");
     let LOGOUT_URL: string = environment.API_BASE_URL + "/MyUsers/logout";
     this.reqOptions = new RequestOptions({headers: this.headers});
     var that = this;

@@ -27,14 +27,14 @@ export class PlacesComponent implements OnInit {
               console.log("In Init of Places Page: >>>", this.authService.authenticated);
               console.log("In Init of Places Page: >>>", this.currentUser);
               if(!this.currentUser || (!this.currentUser.id && !this.currentUser.uid)){
-                this.router.navigate(['/', {"action": "login"}]);
+                this.router.navigate(['/']);
                 return false;
               }
               this.fetchPlaces();
          },
          error => {
             console.log("ERROR: >>> ", error);
-            this.router.navigate(['/', {"action": "login"}]);
+            this.router.navigate(['/']);
          });
    }else{
      this.router.navigate(['/']);

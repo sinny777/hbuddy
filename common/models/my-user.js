@@ -168,9 +168,16 @@ module.exports = function(MyUser) {
 
 	function setCookies(req, res, accessToken){
 		var domain = req.headers.origin;
-		console.log("IN setCookies: >> origin: ", domain);
-		if(!domain){
-			domain = req.headers.host;
+		// console.log("IN setCookies: >> origin: ", domain);
+
+		if(!domain && req.headers.referer){
+			var referer = req.headers.referer;
+			domain = referer.substring(referer.firstIndexOf("."), (referer.lastIndexOf(".") + 3);
+		}
+
+		if(!domain && req.headers.host){
+			var host = req.headers.host;
+			domain = host.substring(host.firstIndexOf("."), (host.lastIndexOf(".") + 3);
 		}
 		console.log("IN setCookies: >> host: ", domain);
 		const expTime = accessToken.ttl * 1000 + Date.now();

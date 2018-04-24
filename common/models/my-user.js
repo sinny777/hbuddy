@@ -172,12 +172,12 @@ module.exports = function(MyUser) {
 
 		if(!domain && req.headers.referer){
 			var referer = req.headers.referer;
-			domain = referer.substring(referer.firstIndexOf("."), (referer.lastIndexOf(".") + 3);
+			domain = referer.substring(referer.indexOf("."), referer.lastIndexOf(".")+4);
 		}
 
 		if(!domain && req.headers.host){
 			var host = req.headers.host;
-			domain = host.substring(host.firstIndexOf("."), (host.lastIndexOf(".") + 3);
+			domain = host.substring(host.indexOf("."), host.lastIndexOf(".")+4);
 		}
 		console.log("IN setCookies: >> host: ", domain);
 		const expTime = accessToken.ttl * 1000 + Date.now();

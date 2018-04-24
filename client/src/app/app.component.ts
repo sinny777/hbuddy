@@ -1,7 +1,6 @@
 import { Router } from '@angular/router';
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from "angular2-social-login";
 import { MyAuthService } from './services/auth.service';
 import { SharedService } from './services/shared.service';
 import { HbuddyService } from './services/hbuddy.service';
@@ -22,17 +21,18 @@ export class AppComponent {
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
 
-  constructor(private router: Router, public _auth: AuthService, private myAuthService: MyAuthService, public sharedService: SharedService, private hBuddyService: HbuddyService, private fb: FormBuilder){
+  constructor(private router: Router, private myAuthService: MyAuthService, public sharedService: SharedService, private hBuddyService: HbuddyService, private fb: FormBuilder){
         this.CONFIG = environment;
         console.log("CONFIG: >>> ", this.CONFIG);
         this.myAuthService.getUserInfo().then( result => {
-            this.currentUser = result;
-            // console.log("In Init of AppComponent: >>>", this.myAuthService.authenticated);
-            // console.log("In Init of AppComponent: >>>", this.currentUser);
-       },
-       error => {
-          console.log("ERROR: >>> ", error);
-       });
+              this.currentUser = result;
+              // console.log("In Init of AppComponent: >>>", this.myAuthService.authenticated);
+              // console.log("In Init of AppComponent: >>>", this.currentUser);
+         },
+         error => {
+            console.log("ERROR: >>> ", error);
+         });
+
       this.loginForm = fb.group({
         'username' : [null, Validators.required],
         'password' : [null, Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(20)])],
@@ -43,18 +43,6 @@ export class AppComponent {
    gotoRegister(){
      console.log("IN gotoRegister: >>> ");
    }
-
-  signIn(provider){
-    console.log("Sign In to: >>> ", provider);
-    this.sub = this._auth.login(provider).subscribe(
-      (data) => {
-                  console.log(data);
-                  this.currentUser = data;
-                  this.sharedService.setCurrentUser(this.currentUser);
-                  this.closeBtn.nativeElement.click();
-                }
-    );
-  }
 
   handleLogin(post){
     // console.log("IN handleLogin: >>> ", JSON.stringify(post));
@@ -75,13 +63,14 @@ export class AppComponent {
   }
 
   logout(){
-    this._auth.logout().subscribe(
-      (data)=>{
+    this.myAuthService.logout().then( result => {
+        console.log("Response of LOGOUT: >>> ", result);
         this.currentUser = null;
-      }
-    );
-    this.myAuthService.logout();
-    this.router.navigate(['/', {"action": "login"}]);
+        this.router.navigate(['/']);
+   },
+   error => {
+      console.log("ERROR: >>> ", error);
+   });
   }
 
 }

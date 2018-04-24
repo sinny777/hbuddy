@@ -20,20 +20,25 @@ export class PlacesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authService.getUserInfo().then( result => {
-        this.currentUser = result;
-        console.log("In Init of Places Page: >>>", this.authService.authenticated);
-        console.log("In Init of Places Page: >>>", this.currentUser);
-        if(!this.currentUser || (!this.currentUser.id && !this.currentUser.uid)){
-          this.router.navigate(['/', {"action": "login"}]);
-          return false;
-        }
-        this.fetchPlaces();
-   },
-   error => {
-      console.log("ERROR: >>> ", error);
-      this.router.navigate(['/', {"action": "login"}]);
-   });
+    console.log("IN Places Page: >>> ");
+    if(this.authService.authenticated){
+          this.authService.getUserInfo().then( result => {
+              this.currentUser = result;
+              console.log("In Init of Places Page: >>>", this.authService.authenticated);
+              console.log("In Init of Places Page: >>>", this.currentUser);
+              if(!this.currentUser || (!this.currentUser.id && !this.currentUser.uid)){
+                this.router.navigate(['/', {"action": "login"}]);
+                return false;
+              }
+              this.fetchPlaces();
+         },
+         error => {
+            console.log("ERROR: >>> ", error);
+            this.router.navigate(['/', {"action": "login"}]);
+         });
+   }else{
+     this.router.navigate(['/']);
+   }
 
   }
 

@@ -68,8 +68,7 @@ export class MyAuthService {
       return Promise.resolve(this.userProfile);
     }
     var authData = this.getAuthData();
-    console.log("AuthData: >>> ", authData);
-
+    // console.log("AuthData: >>> ", authData);
       if(authData && authData.userId && authData.accessToken){
         this.accessToken = authData.accessToken;
         this.refreshHeaders();
@@ -87,7 +86,15 @@ export class MyAuthService {
               that._setSession(authData, that.userProfile);
             }
             return that.userProfile;
-          }).catch(this.handleErrorPromise);
+          }).catch(function(error){
+            console.log("ERROR IN getUserInfo: >>> ", error.status);
+            if(error.status == 401){
+              that.cookieService.deleteAll();
+              that.accessToken = undefined;
+              that.userProfile = undefined;
+              that._setLoggedIn(false);
+            }
+          });
 
       }else{
           return Promise.reject("No User Found !! ");
@@ -97,37 +104,53 @@ export class MyAuthService {
   private _setSession(authResult, profile) {
     const expTime = authResult.expiresIn * 1000 + Date.now();
     // Save session data and update login status subject
-    localStorage.setItem('expires_at', JSON.stringify(expTime));
-    localStorage.setItem("userId", authResult.userId);
-    localStorage.setItem("accessToken", authResult.accessToken);
+    // localStorage.setItem('expires_at', JSON.stringify(expTime));
+    // localStorage.setItem("userId", authResult.userId);
+    // localStorage.setItem("accessToken", authResult.accessToken);
     this.accessToken = authResult.accessToken;
     this.userProfile = profile;
     this._setLoggedIn(true);
   }
 
   logout() {
-    // Remove token and profile and update login status subject
-    localStorage.removeItem('expires_at');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('accessToken');
-    this.cookieService.deleteAll();
-    this.accessToken = undefined;
-    this.userProfile = undefined;
-    this._setLoggedIn(false);
+    // localStorage.removeItem('expires_at');
+    // localStorage.removeItem('userId');
+    // localStorage.removeItem('accessToken');
+    let LOGOUT_URL: string = environment.API_BASE_URL + "/MyUsers/logout";
+    this.reqOptions = new RequestOptions({headers: this.headers});
+    var that = this;
+    return this.http.post(LOGOUT_URL, {"sid": this.accessToken}, this.reqOptions)
+            .toPromise()
+            .then(function(resp){
+              that.cookieService.deleteAll();
+              that.accessToken = undefined;
+              that.userProfile = undefined;
+              that._setLoggedIn(false);
+              console.log("LOGOUT RESP: >> ", resp);
+              return resp;
+          }).catch(this.handleErrorPromise);
   }
 
   get authenticated(): boolean {
-    var expiresAt = Number(this.cookieService.get('expires_at'));
-    return (Date.now() < expiresAt) && this.loggedIn;
+    this.accessToken = this.getCookieVal('access_token');
+    return this.accessToken && this.loggedIn;
   }
 
   private getAuthData(){
-    var accessToken = this.cookieService.get('access_token');
-    var userId = this.cookieService.get('userId');
-    var expiresAt = Number(this.cookieService.get('expires_at'));
+    var accessToken = this.getCookieVal('access_token');
+    var userId = this.getCookieVal('userId');
+    var expiresAt = Number(this.getCookieVal('expires_at'));
 
     return {"userId": userId, "expiresAt": expiresAt, accessToken: accessToken};
 
+  }
+
+  private getCookieVal(cookieName){
+    var cookieVal = this.cookieService.get(cookieName);
+    if(cookieVal && cookieVal.indexOf(":") != -1 && cookieVal.lastIndexOf(".")){
+      return cookieVal.substring(2, cookieVal.lastIndexOf("."));
+    }
+    return null;
   }
 
   private extractData(res: Response) {

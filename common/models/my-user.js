@@ -167,10 +167,10 @@ module.exports = function(MyUser) {
 	  });
 
 	function setCookies(req, res, accessToken){
-		var domain = req.headers.origin;
-		// console.log("IN setCookies: >> origin: ", domain);
+		var domain;
+		console.log("IN setCookies: >> accessToken: ", accessToken);
 
-		if(!domain && req.headers.referer){
+		if(req.headers.referer){
 			var referer = req.headers.referer;
 			domain = referer.substring(referer.indexOf("."), referer.lastIndexOf(".")+4);
 		}

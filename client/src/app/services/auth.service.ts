@@ -148,10 +148,10 @@ export class MyAuthService {
 
   private getCookieVal(cookieName){
     var cookieVal = this.cookieService.get(cookieName);
-    if(cookieVal && cookieVal.indexOf(":") != -1 && cookieVal.lastIndexOf(".")){
+    if(cookieVal && cookieVal.indexOf(":") != -1 && cookieVal.lastIndexOf(".") != -1){
       return cookieVal.substring(2, cookieVal.lastIndexOf("."));
     }
-    return null;
+    return cookieVal;
   }
 
   private extractData(res: Response) {

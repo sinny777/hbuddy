@@ -103,15 +103,15 @@ app.use(flash());
 
 // var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn;
 
-passportConfigurator.setupModels({
+  passportConfigurator.setupModels({
 	  userModel: app.models.MyUser,
-	  userIdentityModel: app.models.UserIdentity,
+	  userIdentityModel: app.models.MyUserIdentity,
 	  userCredentialModel: app.models.UserCredential,
 		applicationCredential: app.models.ApplicationCredential
 	});
 
 function customProfileToUser(provider, profile, options) {
-  // console.log("IN customProfileToUser: >>> ", profile);
+  console.log("IN customProfileToUser: >>> ", profile);
 	var userObj = profile["_json"];
 	userObj.firstName = userObj.given_name;
 	userObj.lastName = userObj.family_name;

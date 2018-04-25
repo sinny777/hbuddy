@@ -10,6 +10,9 @@ var appClient = {};
 
 module.exports = function(app) {
 	console.log("INSIDEboot:01-startup-script >>>>>>>> ");
+
+	console.log("environment: >> ", process.env.NODE_ENV);
+
 	if (app.dataSources.db.name !== 'Memory' && !process.env.INITDB) {
 		return;
 	}

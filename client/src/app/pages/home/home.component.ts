@@ -17,8 +17,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     if(this.authService.authenticated){
       this.authService.getUserInfo().then( result => {
-          this.currentUser = result;
-          console.log("In Init of Home Page: User is Authenticated >>>");
+          this.currentUser = result;          
      },
      error => {
         console.log("ERROR: >>> ", error);

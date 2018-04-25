@@ -1,10 +1,11 @@
 {
   "_meta": {
     "sources": [
-      "loopback/common/models",
-      "loopback-component-passport/lib/models",
-      "../common/models",
-      "./models"
+        "loopback/common/models",
+        "loopback/server/models",
+        "../common/models",
+        "./models",
+        "../node_modules/loopback-component-passport/lib/models"
     ],
     "mixins": [
       "loopback/common/mixins",
@@ -29,15 +30,22 @@
   },
   "ApplicationCredential": {
     "dataSource": "db",
-    "public": true
+    "public": false
   },
   "UserCredential": {
     "dataSource": "db",
     "public": false
   },
-  "UserIdentity": {
-    "dataSource": "db",
-    "public": false
+  "MyUserIdentity": {
+    "dataSource": "identities",
+    "public": true,
+    "options": {
+                "remoting": {
+                  "sharedMethods": {
+                    "login": true
+                  }
+                }
+              }
   },
   "ACL": {
     "dataSource": "db",

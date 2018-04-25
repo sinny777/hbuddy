@@ -1,0 +1,12 @@
+{
+  "name": "MyUserIdentity",
+  "base": "UserIdentity",
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "login"
+    }
+  ]
+}

@@ -65,10 +65,11 @@ export class MyAuthService {
 
   getUserInfo(): Promise<any> {
     if(this.userProfile){
+      console.log("In AuthService, userProfile 1 >>> ", this.userProfile);
       return Promise.resolve(this.userProfile);
     }
     var authData = this.getAuthData();
-    // console.log("AuthData: >>> ", authData);
+    console.log("AuthData: >>> ", authData);
       if(authData && authData.userId && authData.accessToken){
         this.accessToken = authData.accessToken;
         this.refreshHeaders();
@@ -85,9 +86,10 @@ export class MyAuthService {
               that.userProfile = users[0];
               that._setSession(authData, that.userProfile);
             }
+            console.log("In AuthService, userProfile 2 >>> ", that.userProfile);
             return that.userProfile;
           }).catch(function(error){
-            console.log("ERROR IN getUserInfo: >>> ", error.status);
+            console.log("ERROR IN getUserInfo: >>> ", error);
             if(error.status == 401){
               that.cookieService.deleteAll();
               that.accessToken = undefined;

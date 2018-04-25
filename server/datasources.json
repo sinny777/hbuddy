@@ -13,6 +13,12 @@
     "name": "accounts",
     "connector": "cloudant"
   },
+  "identities": {
+    "url": "https://34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix:75ae9c3507534f29ddfd175531aa780f889f4fc858a666dcacf572b097d08849@34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix.cloudant.com",
+    "database": "identities",
+    "name": "identities",
+    "connector": "cloudant"
+  },
   "roles": {
     "url": "https://34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix:75ae9c3507534f29ddfd175531aa780f889f4fc858a666dcacf572b097d08849@34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix.cloudant.com",
     "database": "roles",

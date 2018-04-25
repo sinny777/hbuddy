@@ -81,44 +81,31 @@ module.exports = function(MyUser) {
 					}
 					req.session.user = user;
 					setCookies(req, res, accessToken);
-					if(req.headers.referer){
-						res.redirect(req.headers.referer);
+
+					console.log("environment: >> ", process.env.NODE_ENV);
+
+					if(!process.env.NODE_ENV){
+						res.redirect("http://localhost:4200");
 					}else{
 						res.redirect("http://www.hukamtechnologies.com");
 					}
-
-
 			});
 	};
 
 	MyUser.failedAuthentication = function(ctx, next){
 		console.log("IN failedAuthentication: >>> ", ctx.accessToken);
-		ctx.res.redirect('/');
+		ctx.res.redirect('http://www.hukamtechnologies.com');
 	}
 
 	MyUser.observe('access', function logQuery(ctx, next) {
 	  console.log('Accessing %s matching %s', ctx.Model.modelName, JSON.stringify(ctx.query.where));
+		console.log(ctx.accessToken);
 		next();
 	});
 
 	MyUser.observe('before save', function updateTimestamp(ctx, next) {
 		console.log('\n\nInside MyUser.js before save: ', ctx.instance);
 		  if (ctx.instance) {
-
-				if(ctx.instance.username.includes("google")){
-					var userId = ctx.instance.username.substring(7, ctx.instance.username.length);
-					ctx.Model.app.models.UserIdentity.find({}, function (err, identity) {
-						console.log("UserIdentity: >>> ", identity);
-					});
-				}
-
-				if(ctx.instance.profile && ctx.instance.profile.id){
-					var userId = ctx.instance.profile.id;
-					console.log("USER_ID: >> ", userId);
-					ctx.Model.app.models.UserIdentity.find({}, function (err, identity) {
-						console.log("UserIdentity: >>> ", identity);
-					});
-				}
 
 			  if(!ctx.instance.audit){
 				  ctx.instance.audit = {};
@@ -172,14 +159,19 @@ module.exports = function(MyUser) {
 
 		if(req.headers.referer){
 			var referer = req.headers.referer;
-			domain = referer.substring(referer.indexOf("."), referer.lastIndexOf(".")+4);
+			if(referer.indexOf("localhost") != -1){
+					domain = referer;
+					console.log("Localhost running !!!!! ", domain);
+			}else{
+					domain = referer.substring(referer.indexOf("."), referer.lastIndexOf(".")+4);
+			}
 		}
 
 		if(!domain && req.headers.host){
 			var host = req.headers.host;
 			domain = host.substring(host.indexOf("."), host.lastIndexOf(".")+4);
 		}
-		console.log("IN setCookies: >> host: ", domain);
+		console.log("IN setCookies: >> domain: ", domain);
 		const expTime = accessToken.ttl * 1000 + Date.now();
 		if(accessToken.userId){
 			res.cookie('access_token', accessToken.id, {

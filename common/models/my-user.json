@@ -32,7 +32,7 @@
     },
     "identities": {
       "type": "hasOne",
-      "model": "UserIdentity",
+      "model": "MyUserIdentity",
       "foreignKey": "userId"
     },
     "credentials": {

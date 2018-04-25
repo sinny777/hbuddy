@@ -184,19 +184,19 @@ module.exports = function(MyUser) {
 		if(accessToken.userId){
 			res.cookie('access_token', accessToken.id, {
 				signed: req.signedCookies ? false : false, // No Signed Cookie for now
-				domain: '.'+domain,
+				domain: domain,
 				maxAge: 1000 * accessToken.ttl,
 				httpOnly: false
 			});
 			res.cookie('expires_at', JSON.stringify(expTime), {
 				signed: req.signedCookies ? false : false, // No Signed Cookie for now
-				domain: '.'+domain,
+				domain: domain,
 				maxAge: 1000 * accessToken.ttl,
 				httpOnly: false
 			});
 			res.cookie('userId', accessToken.userId.toString(), {
 				signed: req.signedCookies ? false : false, // No Signed Cookie for now
-				domain: '.'+domain,
+				domain: domain,
 				maxAge: 1000 * accessToken.ttl,
 				httpOnly: false
 			});

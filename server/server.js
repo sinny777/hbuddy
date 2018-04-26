@@ -111,19 +111,16 @@ app.use(flash());
 	});
 
 function customProfileToUser(provider, profile, options) {
-  console.log("IN customProfileToUser: >>> ", profile);
+  // console.log("IN customProfileToUser: >>> ", profile);
 	var userObj = profile["_json"];
-	userObj.firstName = userObj.given_name;
-	userObj.lastName = userObj.family_name;
-	delete userObj["given_name"];
-	delete userObj["family_name"];
 	delete userObj["_raw"];
 
   var userInfo = {
+    provider: provider,
     providerId: profile.id,
-    username: profile.emails[0].value,
+    username: provider+"."+profile.id,
     password: 'secret',
-    email: profile.emails[0].value,
+    email: profile.id+"@loopback."+provider+".com",
     profile: userObj
   };
   return userInfo;

@@ -104,7 +104,7 @@ module.exports = function(MyUser) {
 	});
 
 	MyUser.observe('before save', function updateTimestamp(ctx, next) {
-		console.log('\n\nInside MyUser.js before save: ', ctx.instance);
+		// console.log('\n\nInside MyUser.js before save: ', ctx.instance);
 		  if (ctx.instance) {
 
 			  if(!ctx.instance.audit){

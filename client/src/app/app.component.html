@@ -28,8 +28,8 @@
 								<a *ngIf="currentUser.user" href="#" class="dropdown-toggle" data-toggle="dropdown">
 									 {{currentUser.user.firstName}}
 								</a>
-								<a *ngIf="currentUser.profile && currentUser.profile.firstName" href="#" class="dropdown-toggle" data-toggle="dropdown">
-									 {{currentUser.profile.firstName}}
+								<a *ngIf="currentUser.provider && currentUser.provider == 'google'" href="#" class="dropdown-toggle" data-toggle="dropdown">
+									 {{currentUser.profile.displayName}}
 								</a>
 								<ul class="dropdown-menu dropdown-menu-right">
 										<li><a routerLink="/account" >Account Settings</a></li>

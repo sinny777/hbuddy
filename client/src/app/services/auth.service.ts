@@ -46,15 +46,18 @@ export class MyAuthService {
 
   login(payload): Promise<any>{
     let POST_URL: string = environment.API_BASE_URL + "/MyUsers/login?include=user";
+    let findReq: any = {"filter": {"include": {"relation": "roles"}}};
     if(!payload || !payload.params){
         return Promise.reject("INVALID DATA");
     }else{
         this.reqOptions = new RequestOptions({headers: this.headers});
+        this.reqOptions.params = findReq;
         var that = this;
         return this.http.post(POST_URL, payload.params, this.reqOptions)
         .toPromise()
         .then(function(resp){
           that.userProfile = resp.json();
+          that.accessToken = that.userProfile.id;
           var authResult = {"userId": that.userProfile.userId, "accessToken": that.userProfile.id};
           that._setSession(authResult, that.userProfile);
           that.refreshHeaders();
@@ -65,7 +68,7 @@ export class MyAuthService {
 
   getUserInfo(): Promise<any> {
     if(this.userProfile){
-      console.log("In AuthService, userProfile 1 >>> ", this.userProfile);
+      // console.log("In AuthService, userProfile 1 >>> ", this.userProfile);
       return Promise.resolve(this.userProfile);
     }
     var authData = this.getAuthData();
@@ -73,20 +76,18 @@ export class MyAuthService {
       if(authData && authData.userId && authData.accessToken){
         this.accessToken = authData.accessToken;
         this.refreshHeaders();
-          let GET_URL: string = environment.API_BASE_URL + "/MyUsers";
-          let findReq: any = {"filter": {"where": {"id": authData.userId}, "include": {"relation": "identities"}}};
+          let GET_URL: string = environment.API_BASE_URL + "/MyUsers/"+authData.userId;
+          // let findReq: any = {"filter": {"where": {"id": authData.userId}, "include": {"relation": "identities"}}};
+          let findReq: any = {"filter": {"include": {"relation": "roles"}}};
           this.reqOptions = new RequestOptions({headers: this.headers});
           this.reqOptions.params = findReq;
           var that = this;
           return this.http.get(GET_URL, this.reqOptions)
           .toPromise()
           .then(function(resp){
-            var users = resp.json();
-            if(users && users.length > 0){
-              that.userProfile = users[0];
-              that._setSession(authData, that.userProfile);
-            }
-            console.log("In AuthService, userProfile 2 >>> ", that.userProfile);
+            that.userProfile = resp.json();
+            that._setSession(authData, that.userProfile);
+            // console.log("In AuthService, userProfile 2 >>> ", that.userProfile);
             return that.userProfile;
           }).catch(function(error){
             console.log("ERROR IN getUserInfo: >>> ", error);

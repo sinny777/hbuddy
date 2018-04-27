@@ -12,6 +12,7 @@ module.exports = function(app) {
 	var FCM = require('fcm-push');
 	var Notification;
 	var UserSetting;
+	var Device;
 
 	var methods = {};
 
@@ -23,6 +24,71 @@ module.exports = function(app) {
 		if(reqPayload.users && reqPayload.users.length > 0){
 			methods.notifyUsers(reqPayload, cb);
 		}
+
+	};
+
+	methods.eventTriggered = function(reqPayload, cb) {
+		console.log('IN notificationHandler.eventTriggered: >> ', reqPayload);
+		let deviceSerial = reqPayload.deviceSerial;
+		let eventName = reqPayload.event;
+		if(!deviceSerial){
+			return cb(new Error("No Device Serial provided..."), null);
+		}
+		var deviceHandler = require('../../server/handlers/deviceHandler')();
+		var findReq =  {where: {"deviceId": deviceSerial}};
+		console.log('IN NotificationHandler.eventTriggered, findDevice with deviceId: ', deviceSerial);
+		if(!Device){
+			Device = app.models.Device;
+		}
+		Device.find(findReq, function(err, devices) {
+			if(err){
+				console.log("Error in finding Device: >>> ", err);
+				return;
+			}
+
+			var device;
+			if(devices && devices.length > 0){
+				device = devices[0];
+			}
+			var notifyUsers = [];
+			if(device && device.config && device.config.onEvent){
+				for(let eventConfig of device.config.onEvent){
+					if(eventConfig.name == eventName){
+						for(let notifyWho of eventConfig.notify){
+								if(notifyWho.type == "user"){
+										var user = {
+											"userId": notifyWho.userId,
+											"push": {
+												"notify": true,
+												"title":"hBuddy Notification",
+											    "pushData":{
+											    	"style" : "picture",
+													"picture" : "http://wallpapercave.com/wp/3Ma6LaY.jpg"
+												},
+												"pushMsg":"There's "+eventName+" at "+device.title
+											}
+										}
+										notifyUsers.push(user);
+								}
+						}
+
+						methods.notifyUsers({"users": notifyUsers}, function(notifyErr, notifyResp){
+							if(notifyErr){
+								console.log("ERROR in Notifying User: >> ", notifyErr);
+								return;
+							}
+							console.log("User Notified Resp: >> ", notifyResp);
+						});
+
+					}
+				}
+				cb(null, "Users Notified >>> ");
+			}else{
+				cb(new Error("No device Found with serial >> "+deviceSerial), null);
+			}
+
+		});
+
 
 	};
 
@@ -62,6 +128,10 @@ module.exports = function(app) {
 					if(err){
 						console.log("ERROR WHILE FETCHING USER SETTINGS: ", err);
 					}else{
+						if(!userSettings || userSettings.length == 0){
+							console.log("No User settings found for userId: >> ", user.userId);
+							return;
+						}
 						registrationIds.push(userSettings[0].registrationId);
 						if(count == reqPayload.users.length){
 							methods.sendPushNotification({"title": user.push.title,"pushData": user.push.pushData, "pushMsg": user.push.pushMsg, "registrationIds": registrationIds}, function(err, response){

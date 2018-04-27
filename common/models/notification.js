@@ -20,6 +20,16 @@ module.exports = function(Notification) {
 		         returns: {arg: 'data', type: 'object'}
 	});
 
+  Notification.remoteMethod('eventTriggered', {
+		    	accepts: [
+		            { arg: 'req', type: 'object', http: function(ctx) {
+		              return ctx.req;
+		            }
+		          }],
+		         http: {path: '/trigger', verb: 'post'},
+		         returns: {arg: 'data', type: 'object'}
+	});
+
 	Notification.notify = function(req, cb) {
 		console.log("\n\nIn Notification.notify : >>>> ", req.body);
 		var notificationHandler = require('../../server/handlers/notificationHandler')(Notification.app);
@@ -46,6 +56,20 @@ module.exports = function(Notification) {
      }
      cb(err, resp);
    });
+};
+
+Notification.eventTriggered = function(req, cb) {
+  console.log("\n\nIn Notification.triggerEvent : >>>> ", req.body);
+  var notificationHandler = require('../../server/handlers/notificationHandler')(Notification.app);
+  var reqPayload = req.body;
+  notificationHandler.eventTriggered(reqPayload, function(err, resp){
+    if (err) {
+        console.log("Error in Notification.eventTriggeredn: >> ", err);
+    } else {
+        console.log("Notification.eventTriggered Successfully sent with response: ", resp);
+    }
+    cb(err, resp);
+  });
 };
 
 };

@@ -44,9 +44,13 @@
     },
     "parentId": {
       "type": "string",
-      "required": true,
+      "required": false,
       "index": true,
       "deleted": false
+    },
+    "parentType": {
+      "type": "string",
+      "index": true
     },
     "status": {
       "type": "number",

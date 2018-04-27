@@ -5,7 +5,7 @@
   "initial": {
     "loopback-context#per-request": {
       "params": {
-        "enableHttpContext": true
+        "enableHttpContext": false
       }
     },
     "compression": {},
@@ -21,7 +21,10 @@
     "loopback#token": {
       "params": {
         "model": "CustomAccessToken"
-      }
+      },
+      "paths": [
+        "${restApiRoot}"
+      ]
     }
   },
   "routes": {
@@ -34,7 +37,7 @@
   "files": {
     "loopback#static": [
       {
-        "paths": "/",
+        "paths": ["/"],
         "params": "$!../client/dist"
       }
     ]

@@ -12,7 +12,7 @@ import { PlacesComponent } from './pages/places/places.component';
   imports: [
     RouterModule.forRoot([
       { path: '',      component: HomeComponent },
-      { path: 'public/dashboard', component: DashboardComponent },
+      { path: 'dashboard', component: DashboardComponent },
       { path: 'iot/hbuddy', component: HBuddyComponent },
       { path: 'account/places', component: PlacesComponent, canActivate: [AuthGuard] },
       { path: '**', redirectTo: '', pathMatch: 'full'}

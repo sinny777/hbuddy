@@ -85,7 +85,7 @@ module.exports = function(MyUser) {
 					console.log("environment: >> ", process.env.NODE_ENV);
 
 					if(!process.env.NODE_ENV){
-						res.redirect("http://localhost:4200");
+						res.redirect("http://localhost:3000");
 					}else{
 						res.redirect("http://www.hukamtechnologies.com");
 					}

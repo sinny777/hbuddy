@@ -36,7 +36,7 @@ module.exports = function(Notification) {
 
  Notification.sendEmail = function(req, cb) {
    console.log("\n\nIn Notification.sendEmail : >>>> ", req.body);
-   var notificationHandler = require('../../server/handlers/commonHandler')(Notification.app);
+   var commonHandler = require('../../server/handlers/commonHandler')(Notification.app);
    var reqPayload = req.body;
    commonHandler.sendEmail(reqPayload, function(err, resp){
      if (err) {

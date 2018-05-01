@@ -5,8 +5,11 @@ var boot = require('loopback-boot');
 var cookieParser = require('cookie-parser');
 var expressSession = require('express-session');
 var path = require('path');
+const fs = require('fs');
 
 require('dotenv').config({path: process.env.PWD+"/.env"});
+
+process.env.VCAP_SERVICES = process.env.VCAP_SERVICES || fs.readFileSync('./credentials.json', 'utf-8');
 
 var app = module.exports = loopback();
 
@@ -35,7 +38,7 @@ var flash = require('express-flash');
 //attempt to build the providers/passport config
 var config = {};
 try {
-  config = require('../server/providers.json');
+  config = require('../server/providers.js');
 } catch (err) {
   console.log(err);
   process.exit(1); // fatal
@@ -47,9 +50,22 @@ boot(app, bootOptions, function(err) {
 	if (err) throw err;
 
 	//start the server if `$ node server.js`
-	if (require.main === module){
+  if (require.main === module){
 		try{
+      console.log("\n\n<<<<<<<< IN SERVER BOOT >>>>>>> ");
 			app.io = require('socket.io')(app.start());
+
+      app.io.on('connection', function(socket){
+        console.log('a user connected');
+        socket.on('CHAT', function(msg){
+          console.log('message: ' + msg);
+          app.io.emit('CHAT', msg);
+        });
+        socket.on('disconnect', function(){
+            console.log('\n\n<<<<<<<< USER DISCONNECTED >>>>>> \n\n');
+        });
+
+      });
 		}catch(err){
 			console.log(err);
 		}

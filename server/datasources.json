@@ -7,82 +7,96 @@
     "name": "transient",
     "connector": "transient"
   },
+  "containers": {
+    "username": "",
+    "password": "",
+    "name": "containers",
+    "connector": "loopback-component-storage",
+    "provider": "openstack",
+    "authUrl": "https://identity.open.softlayer.com",
+    "useServiceCatalog": true,
+    "useInternal": false,
+    "keystoneAuthVersion": "v3",
+    "tenantId": "",
+    "domainId": "",
+    "region": "dallas"
+  },
   "accounts": {
-    "url": "https://34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix:75ae9c3507534f29ddfd175531aa780f889f4fc858a666dcacf572b097d08849@34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix.cloudant.com",
+    "url": "",
     "database": "accounts",
     "name": "accounts",
-    "connector": "cloudant"
+    "connector": "memory"
   },
   "identities": {
-    "url": "https://34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix:75ae9c3507534f29ddfd175531aa780f889f4fc858a666dcacf572b097d08849@34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix.cloudant.com",
+    "url": "",
     "database": "identities",
     "name": "identities",
-    "connector": "cloudant"
+    "connector": "memory"
   },
   "roles": {
-    "url": "https://34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix:75ae9c3507534f29ddfd175531aa780f889f4fc858a666dcacf572b097d08849@34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix.cloudant.com",
+    "url": "",
     "database": "roles",
     "name": "roles",
-    "connector": "cloudant"
+    "connector": "memory"
   },
   "rolemappings": {
-    "url": "https://34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix:75ae9c3507534f29ddfd175531aa780f889f4fc858a666dcacf572b097d08849@34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix.cloudant.com",
+    "url": "",
     "database": "rolemappings",
     "name": "rolemappings",
-    "connector": "cloudant"
+    "connector": "memory"
   },
   "groups": {
-    "url": "https://34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix:75ae9c3507534f29ddfd175531aa780f889f4fc858a666dcacf572b097d08849@34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix.cloudant.com",
+    "url": "",
     "database": "groups",
     "name": "groups",
-    "connector": "cloudant"
+    "connector": "memory"
   },
   "usersettings": {
-    "url": "https://34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix:75ae9c3507534f29ddfd175531aa780f889f4fc858a666dcacf572b097d08849@34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix.cloudant.com",
+    "url": "",
     "database": "usersettings",
     "name": "usersettings",
-    "connector": "cloudant"
+    "connector": "memory"
   },
   "notifications": {
-    "url": "https://34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix:75ae9c3507534f29ddfd175531aa780f889f4fc858a666dcacf572b097d08849@34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix.cloudant.com",
+    "url": "",
     "database": "notifications",
     "name": "notifications",
-    "connector": "cloudant"
+    "connector": "memory"
   },
   "configurations": {
-    "url": "https://34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix:75ae9c3507534f29ddfd175531aa780f889f4fc858a666dcacf572b097d08849@34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix.cloudant.com",
+    "url": "",
     "database": "configurations",
     "name": "configurations",
-    "connector": "cloudant"
+    "connector": "memory"
   },
   "places": {
-    "url": "https://34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix:75ae9c3507534f29ddfd175531aa780f889f4fc858a666dcacf572b097d08849@34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix.cloudant.com",
+    "url": "",
     "database": "places",
     "name": "places",
-    "connector": "cloudant"
+    "connector": "memory"
   },
   "placeareas": {
-    "url": "https://34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix:75ae9c3507534f29ddfd175531aa780f889f4fc858a666dcacf572b097d08849@34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix.cloudant.com",
+    "url": "",
     "database": "placeareas",
     "name": "placeareas",
-    "connector": "cloudant"
+    "connector": "memory"
   },
   "boards": {
-    "url": "https://34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix:75ae9c3507534f29ddfd175531aa780f889f4fc858a666dcacf572b097d08849@34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix.cloudant.com",
+    "url": "",
     "database": "boards",
     "name": "boards",
-    "connector": "cloudant"
+    "connector": "memory"
   },
   "devices": {
-    "url": "https://34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix:75ae9c3507534f29ddfd175531aa780f889f4fc858a666dcacf572b097d08849@34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix.cloudant.com",
+    "url": "",
     "database": "devices",
     "name": "devices",
-    "connector": "cloudant"
+    "connector": "memory"
   },
   "scenes": {
-    "url": "https://34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix:75ae9c3507534f29ddfd175531aa780f889f4fc858a666dcacf572b097d08849@34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix.cloudant.com",
+    "url": "",
     "database": "scenes",
     "name": "scenes",
-    "connector": "cloudant"
+    "connector": "memory"
   }
 }

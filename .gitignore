@@ -50,3 +50,4 @@ Thumbs.db
 .env
 .datastore
 package-lock.json
+credentials.json

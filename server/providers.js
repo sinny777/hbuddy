@@ -1,4 +1,4 @@
-{
+module.export = {
   "local": {
     "provider": "local",
     "module": "passport-local",
@@ -15,8 +15,8 @@
   "facebook-login": {
     "provider": "facebook",
     "module": "passport-facebook",
-    "clientID": "676775262334675",
-    "clientSecret": "a9d28ff440df75c06363cf3eb46bbc2a",
+    "clientID": process.env.FACEBOOK_LOGIN_CLIENT_ID,
+    "clientSecret": process.env.FACEBOOK_LOGIN_CLIENT_SECRET,
     "callbackURL": "/auth/facebook/callback",
     "authPath": "/auth/facebook",
     "callbackPath": "/auth/facebook/callback/",
@@ -29,8 +29,8 @@
     "provider": "google",
     "module": "passport-google-oauth",
     "strategy": "OAuth2Strategy",
-    "clientID": "874807563899-9kk6gpacomg9t56pqfc4o8n4gn365ppg.apps.googleusercontent.com",
-    "clientSecret": "Z_HktcSYMZMLBx8Usz0DL-pS",
+    "clientID": process.env.GOOGLE_LOGIN_CLIENT_ID,
+    "clientSecret": process.env.GOOGLE_LOGIN_CLIENT_SECRET,
     "callbackURL": "/auth/google/callback",
     "authPath": "/auth/google",
     "callbackPath": "/auth/google/callback/",
@@ -48,15 +48,15 @@
     "callbackPath": "/auth/twitter/callback",
     "successRedirect": "/api/MyUsers/authenticated",
     "failureRedirect": "/login",
-    "consumerKey": "HgabJ73ut83WKomes4qb8A",
-    "consumerSecret": "GIRJVj0yS79uGj94xNK11dcoVFZlxnqTuBKffU4ptI",
+    "consumerKey": process.env.TWITTER_LOGIN_CONSUMER_KEY,
+    "consumerSecret": process.env.TWITTER_LOGIN_CONSUMER_SECRET,
     "failureFlash": true
   },
   "facebook-link": {
     "provider": "facebook",
     "module": "passport-facebook",
-    "clientID": "{facebook-client-id-2}",
-    "clientSecret": "{facebook-client-secret-2}",
+    "clientID": process.env.FACEBOOK_LOGIN_CLIENT_ID,
+    "clientSecret": process.env.FACEBOOK_LOGIN_CLIENT_SECRET,
     "callbackURL": "/link/facebook/callback",
     "authPath": "/link/facebook",
     "callbackPath": "/link/facebook/callback",
@@ -70,8 +70,8 @@
     "provider": "google",
     "module": "passport-google-oauth",
     "strategy": "OAuth2Strategy",
-    "clientID": "874807563899-9kk6gpacomg9t56pqfc4o8n4gn365ppg.apps.googleusercontent.com",
-    "clientSecret": "Z_HktcSYMZMLBx8Usz0DL-pS",
+    "clientID": process.env.GOOGLE_LOGIN_CLIENT_ID,
+    "clientSecret": process.env.GOOGLE_LOGIN_CLIENT_SECRET,
     "callbackURL": "/link/google/callback",
     "authPath": "/link/google",
     "callbackPath": "/link/google/callback/",
@@ -81,4 +81,4 @@
     "link": true,
     "failureFlash": true
   }
-}
+};

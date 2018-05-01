@@ -3,7 +3,6 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MyAuthService } from './services/auth.service';
 import { SharedService } from './services/shared.service';
-import { HbuddyService } from './services/hbuddy.service';
 import { environment } from '../environments/environment';
 
 @Component({
@@ -21,7 +20,7 @@ export class AppComponent {
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
 
-  constructor(private router: Router, private myAuthService: MyAuthService, public sharedService: SharedService, private hBuddyService: HbuddyService, private fb: FormBuilder){
+  constructor(private router: Router, private myAuthService: MyAuthService, public sharedService: SharedService, private fb: FormBuilder){
         this.CONFIG = environment;
         console.log("CONFIG: >>> ", this.CONFIG);
         this.myAuthService.getUserInfo().then( result => {

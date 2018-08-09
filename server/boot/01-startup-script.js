@@ -5,6 +5,7 @@ var log = require('debug')('boot:01-startup-script');
 var Client = require('ibmiotf');
 var chrono = require('chrono-node');
 var request = require('request');
+var CONFIG = require('../../common/config/config').get();
 
 var appClient = {};
 
@@ -13,19 +14,20 @@ module.exports = function(app) {
 
 	console.log("environment: >> ", process.env.NODE_ENV);
 
-	if (app.dataSources.db.name !== 'Memory' && !process.env.INITDB) {
-		return;
-	}
+	// if (app.dataSources.db.name !== 'Memory' && !process.env.INITDB) {
+	// 	return;
+	// }
 
 	var appConfig = require('../../common/config/config').get();
-	var deviceHandler = require('../../server/handlers/deviceHandler')(app);
+	// var deviceHandler = require('../../server/handlers/deviceHandler')(app);
 	var commonHandler = require('../../server/handlers/commonHandler')();
 
 //	initStartupLogic();
 
 //	saveAndExecuteScenes();
 
-	// testPushNotification();
+	 // testPushNotification();
+	 testFCMNotification();
 
 //	testNLCDateParser();
 
@@ -180,6 +182,51 @@ module.exports = function(app) {
 				format, payload);
 	};
 
+	function testFCMNotification(){
+		var notificationHandler = require('../../server/handlers/notificationHandler')(app);
+		// var registrationToken = "drdNN6TiDEs:APA91bHZvXNu3cDCV2lsuu89R97wAj1TnM7ZjSO92RVppiDJH8XS26N2f8j5Dk4u_vtkboUV38b6VE5f7dQN5VrxWoxHRPQgsfcn8D5uGnVd8APphlC0KhagZm39kEg4ms9Ud4Ux9HUlUYEvLTJbY1vsxYR3R_Tx9A";
+			var message = {
+					notification: {
+						title: "Hukam Notification",
+						body: "Your room AC is just switched on !"
+					},
+					data: {
+						deviceIndex: "5",
+						deviceValue: "1"
+					},
+					android: {
+						ttl: 3600 * 1000, // 1 hour in milliseconds
+						priority: 'high',
+						notification: {
+							icon: 'stock_ticker_update',
+							color: '#f45342'
+						}
+					},
+					apns: {
+								headers: {
+									'apns-priority': '10'
+								},
+								payload: {
+									aps: {
+										badge: 0,
+										sound: "default"
+									}
+								}
+							},
+					topic: "000000008c0be72b"
+			};
+
+			console.log(message)
+			notificationHandler.sendFCMNotification(message, function(err, response){
+				if(err){
+					console.log('Error sending message:', err);
+				}else{
+					console.log('Successfully sent message:', response);
+				}
+			});
+
+	};
+
 	function testPushNotification(){
 		var FCM = require('fcm-push');
 		var pushMsg = "Just for tesing Push Notification on " +new Date();
@@ -191,7 +238,8 @@ module.exports = function(app) {
 				picture : "http://wallpapercave.com/wp/3Ma6LaY.jpg"
 			};
 		var registrationIds = [];
-		var deviceToken = "ebzeLu9zkfA:APA91bHX2bKk_9Fp6ghttuGSfCjuC8ra5KxJuRlPF8BPNlLWJdYHAwkwF-xubUWflK_eFwc1y_8WhK_ZFAhHKeeULK8Esu070RkLgdV6Waxjdf2yDTowvixgjLXe1tE40MSlNugRWJ1L";
+		// var deviceToken = "ebzeLu9zkfA:APA91bHX2bKk_9Fp6ghttuGSfCjuC8ra5KxJuRlPF8BPNlLWJdYHAwkwF-xubUWflK_eFwc1y_8WhK_ZFAhHKeeULK8Esu070RkLgdV6Waxjdf2yDTowvixgjLXe1tE40MSlNugRWJ1L";
+		var deviceToken = "fca4cec3a9cf45ccced61437851117439b9a05ace3024a60f424439dd15441b4"
 		registrationIds.push(deviceToken);
 
 		console.log('IN notificationHandler.sendPushNotification: >> ', pushMsg);
@@ -203,6 +251,7 @@ module.exports = function(app) {
 			    "priority": "high",
 			    collapse_key: '',
 			    data: pushData,
+					sound: 'default',
 			    notification: {
 			        title: 'hBuddy Notification',
 			        body: pushMsg

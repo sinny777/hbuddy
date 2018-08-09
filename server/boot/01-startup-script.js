@@ -27,7 +27,7 @@ module.exports = function(app) {
 //	saveAndExecuteScenes();
 
 	 // testPushNotification();
-	 testFCMNotification();
+	 // testFCMNotification();
 
 //	testNLCDateParser();
 
@@ -224,48 +224,6 @@ module.exports = function(app) {
 					console.log('Successfully sent message:', response);
 				}
 			});
-
-	};
-
-	function testPushNotification(){
-		var FCM = require('fcm-push');
-		var pushMsg = "Just for tesing Push Notification on " +new Date();
-		var pushData = {
-				boardId : "ABCXYZ",
-				deviceIndex : 5,
-				deviceValue : 1,
-				style : "picture",
-				picture : "http://wallpapercave.com/wp/3Ma6LaY.jpg"
-			};
-		var registrationIds = [];
-		// var deviceToken = "ebzeLu9zkfA:APA91bHX2bKk_9Fp6ghttuGSfCjuC8ra5KxJuRlPF8BPNlLWJdYHAwkwF-xubUWflK_eFwc1y_8WhK_ZFAhHKeeULK8Esu070RkLgdV6Waxjdf2yDTowvixgjLXe1tE40MSlNugRWJ1L";
-		var deviceToken = "fca4cec3a9cf45ccced61437851117439b9a05ace3024a60f424439dd15441b4"
-		registrationIds.push(deviceToken);
-
-		console.log('IN notificationHandler.sendPushNotification: >> ', pushMsg);
-		var serverKey = "AAAAy66YFns:APA91bHa_RXSrxCHUYlrVW5fl89dxfLx02sjsby6OEhPPqgKi0fF66BFNNxHSUhyOmK8PQ_Oj2bfADAsMu_MPUyDpL08qmIPddsMMcRNmGVB-SdMPHZ_cothPtNyGNMY09pWVW32Zi77";
-		var fcm = new FCM(serverKey);
-		var message = {
-			    to: deviceToken, // required fill with device token or topics
-			    "content_available":true,
-			    "priority": "high",
-			    collapse_key: '',
-			    data: pushData,
-					sound: 'default',
-			    notification: {
-			        title: 'hBuddy Notification',
-			        body: pushMsg
-			    }
-			};
-
-		fcm.send(message, function(err, response){
-		    if (err) {
-		        console.log("Error in sending PushNotification: >> ", err);
-		    }
-
-		    console.log("PushNotification sent and got response: ", response);
-
-		});
 
 	};
 

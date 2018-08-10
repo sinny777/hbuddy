@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "server/server.js",
   "engines": {
-    "node": "6.2.2",
-    "npm": "4.1.2"
+    "node": "8.9.0",
+    "npm": "6.1.0"
   },
   "private": true,
   "scripts": {

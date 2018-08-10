@@ -6,9 +6,6 @@ import { Angular2SocialLoginModule } from "angular2-social-login";
 import { BrowserXhr, HttpModule } from '@angular/http';
 
 import { AppRoutingModule } from './app-routing.module';
-import { AgmCoreModule } from '@agm/core';
-import { GoogleMapsAPIWrapper } from '@agm/core/services/google-maps-api-wrapper';
-import { MarkerManager } from '@agm/core/services/managers/marker-manager';
 import { CookieService } from 'ngx-cookie-service';
 
 import { MyAuthService } from './services/auth.service';
@@ -49,11 +46,8 @@ let providers = {
     FormsModule,
     ReactiveFormsModule,
     Angular2SocialLoginModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyD3oMSe59cIpUnouvFcWT3oP3iPwsRp5zk'
-    })
   ],
-  providers: [GoogleMapsAPIWrapper, MarkerManager, CookieService, MyAuthService, MqttService, SharedService, HbuddyService],
+  providers: [CookieService, MyAuthService, MqttService, SharedService, HbuddyService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

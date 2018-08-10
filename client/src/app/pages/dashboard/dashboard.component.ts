@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NgModule } from '@angular/core';
-import { AgmCoreModule } from '@agm/core';
-import { GoogleMapsAPIWrapper } from '@agm/core/services/google-maps-api-wrapper';
-import { MarkerManager } from '@agm/core/services/managers/marker-manager';
 
 import { MqttService } from '../../services/mqtt.service';
 import { SharedService } from '../../services/shared.service';
@@ -21,8 +18,7 @@ export class DashboardComponent implements OnInit {
   cityMap: any;
   private connectionOptions: any = {};
 
-  constructor(public markerManager: MarkerManager, private mapsAPIWrapper: GoogleMapsAPIWrapper,
-              public mqttService: MqttService, public sharedService: SharedService) {
+  constructor(public mqttService: MqttService, public sharedService: SharedService) {
           let mqttTopic: string = "iot-2/type/" +this.sharedService.CONFIG.GATEWAY_TYPE +"/id/000000008c0be72b/evt/airquality/fmt/json";
           this.connectionOptions.subscribeToTopic = mqttTopic;
           this.mqttService.connectMQTT(this.connectionOptions);

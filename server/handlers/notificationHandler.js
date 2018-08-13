@@ -2,11 +2,6 @@
 
 	var CONFIG = require('../../common/config/config').get();
 
-/**
- * Make sure app is provided while instantiating this class and calling any method
- */
-module.exports = function(app) {
-
 	var commonHandler = require('../../server/handlers/commonHandler')();
 	var emailHandler = require('../../server/handlers/emailHandler')();
 	var admin = require('firebase-admin');
@@ -14,6 +9,12 @@ module.exports = function(app) {
 			credential: admin.credential.cert(CONFIG.FIREBASE),
 			databaseURL: "https://"+CONFIG.FIREBASE_project_id+".firebaseio.com"
 		});
+
+/**
+ * Make sure app is provided while instantiating this class and calling any method
+ */
+module.exports = function(app) {
+
 	var Notification;
 	var UserSetting;
 	var Device;

@@ -1,3 +1,6 @@
+
+var notificationHandler = require('../../server/handlers/notificationHandler')(Notification.app);
+
 module.exports = function(Notification) {
 
   Notification.remoteMethod('notify', {
@@ -32,7 +35,6 @@ module.exports = function(Notification) {
 
 	Notification.notify = function(req, cb) {
 		console.log("\n\nIn Notification.notify : >>>> ", req.body);
-		var notificationHandler = require('../../server/handlers/notificationHandler')(Notification.app);
 		var reqPayload = req.body;
 		notificationHandler.sendNotification(reqPayload, function(err, resp){
 			if (err) {

@@ -7,7 +7,7 @@ module.exports = function(app) {
 
   // createDefaultUsers();
 
-  loginUserTest();
+  // loginUserTest();
 
   function loginUserTest(){
     log('Login User: >>>>> ');

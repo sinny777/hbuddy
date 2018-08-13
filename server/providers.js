@@ -1,4 +1,4 @@
-module.export = {
+module.exports = {
   "local": {
     "provider": "local",
     "module": "passport-local",

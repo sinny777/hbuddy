@@ -31,11 +31,11 @@
   },
   "ApplicationCredential": {
     "dataSource": "db",
-    "public": false
+    "public": true
   },
   "UserCredential": {
     "dataSource": "db",
-    "public": false
+    "public": true
   },
   "MyUserIdentity": {
     "dataSource": "identities",

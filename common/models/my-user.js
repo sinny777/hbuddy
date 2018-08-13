@@ -82,7 +82,7 @@ module.exports = function(MyUser) {
 					req.session.user = user;
 					setCookies(req, res, accessToken);
 
-					if(!process.env.NODE_ENV){
+					if(!process.env.NODE_ENV || process.env.NODE_ENV != "production"){
 						res.redirect("http://localhost:4200");
 					}else{
 						res.redirect("http://www.hukamtechnologies.com");
@@ -92,7 +92,12 @@ module.exports = function(MyUser) {
 
 	MyUser.failedAuthentication = function(ctx, next){
 		console.log("IN failedAuthentication: >>> ", ctx.accessToken);
-		ctx.res.redirect('http://www.hukamtechnologies.comt');
+		if(!process.env.NODE_ENV || process.env.NODE_ENV != "production"){
+			ctx.res.redirect('http://localhost:4200');
+		}else{
+			ctx.res.redirect('http://www.hukamtechnologies.com');
+		}
+
 	}
 
 	MyUser.observe('access', function logQuery(ctx, next) {

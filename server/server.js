@@ -38,15 +38,6 @@ app.middleware('parse', bodyParser.urlencoded({
 
 var flash = require('express-flash');
 
-//attempt to build the providers/passport config
-var config = {};
-try {
-  config = require('../server/providers.js');
-} catch (err) {
-  console.log(err);
-  process.exit(1); // fatal
-}
-
 bootOptions = { "appRootDir": __dirname};
 
 boot(app, bootOptions, function(err) {
@@ -98,6 +89,18 @@ if (app.get('env') === 'development') {
   app.use(basicAuth);
 }
 */
+
+//attempt to build the providers/passport config
+var config = {};
+try {
+  config = require('../server/providers.js');
+  // console.log("\n\n<<<<<<<<: PASSPORT CONFIG INITIALIZED :>>>>> \n\n");
+} catch (err) {
+  console.log(err);
+  console.error('Please configure your passport strategy in `providers.json`.');
+  console.error('Copy `providers.json.template` to `providers.json` and replace the clientID/clientSecret values with your own.');
+  process.exit(1); // fatal
+}
 
 passportConfigurator.init(false);
 

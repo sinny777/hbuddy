@@ -1,6 +1,5 @@
 module.exports = function (app) {
 
-/*
   if (process.env.NODE_ENV !== 'production' && process.env.DEV_ACCESS_TOKEN !== undefined) {
     var defaultToken = {
       id: process.env.DEV_ACCESS_TOKEN || new Date().getTime(),
@@ -12,6 +11,5 @@ module.exports = function (app) {
       console.log(err);
     });
   }
-*/
 
 };

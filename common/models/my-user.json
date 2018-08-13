@@ -1,11 +1,14 @@
 {
   "name": "MyUser",
   "base": "User",
-  "ownerRelations": ["user", "owner"],
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
+  "ownerRelations": [
+    "user",
+    "owner"
+  ],
   "properties": {
     "provider": {
       "type": "string"
@@ -127,11 +130,11 @@
       "property": "confirm"
     },
     {
+      "accessType": "EXECUTE",
       "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "ALLOW",
-      "property": "resetPassword",
-      "accessType": "EXECUTE"
+      "property": "resetPassword"
     }
   ],
   "methods": {}

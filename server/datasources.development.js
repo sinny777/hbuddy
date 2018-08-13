@@ -27,6 +27,12 @@ module.export = {
     "name": "accounts",
     "connector": "cloudant"
   },
+  "identities": {
+    "url": JSON.parse(process.env.VCAP_SERVICES).cloudantNoSQLDB[0].credentials.url,
+    "database": "identities",
+    "name": "identities",
+    "connector": "cloudant"
+  },
   "roles": {
     "url": JSON.parse(process.env.VCAP_SERVICES).cloudantNoSQLDB[0].credentials.url,
     "database": "roles",

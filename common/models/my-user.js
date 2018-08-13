@@ -82,10 +82,8 @@ module.exports = function(MyUser) {
 					req.session.user = user;
 					setCookies(req, res, accessToken);
 
-					console.log("environment: >> ", process.env.NODE_ENV);
-
 					if(!process.env.NODE_ENV){
-						res.redirect("http://localhost:3000");
+						res.redirect("http://localhost:4200");
 					}else{
 						res.redirect("http://www.hukamtechnologies.com");
 					}
@@ -94,7 +92,7 @@ module.exports = function(MyUser) {
 
 	MyUser.failedAuthentication = function(ctx, next){
 		console.log("IN failedAuthentication: >>> ", ctx.accessToken);
-		ctx.res.redirect('http://www.hukamtechnologies.com');
+		ctx.res.redirect('http://www.hukamtechnologies.comt');
 	}
 
 	MyUser.observe('access', function logQuery(ctx, next) {
@@ -160,8 +158,8 @@ module.exports = function(MyUser) {
 		if(req.headers.referer){
 			var referer = req.headers.referer;
 			if(referer.indexOf("localhost") != -1){
-					domain = referer;
-					console.log("Localhost running !!!!! ", domain);
+					domain = ".localhost";
+					console.log("Localhost running !!!!! ", referer);
 			}else{
 					domain = referer.substring(referer.indexOf("."), referer.lastIndexOf(".")+4);
 			}

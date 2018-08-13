@@ -1,4 +1,4 @@
-module.export = {
+module.exports = {
   "db": {
     "name": "db",
     "connector": "memory"
@@ -6,20 +6,6 @@ module.export = {
   "transient": {
     "name": "transient",
     "connector": "transient"
-  },
-  "containers": {
-    "username": JSON.parse(process.env.VCAP_SERVICES)["Object-Storage"][0].credentials.username,
-    "password": JSON.parse(process.env.VCAP_SERVICES)["Object-Storage"][0].credentials.password,
-    "name": "containers",
-    "connector": "loopback-component-storage",
-    "provider": "openstack",
-    "authUrl": "https://identity.open.softlayer.com",
-    "useServiceCatalog": true,
-    "useInternal": false,
-    "keystoneAuthVersion": "v3",
-    "tenantId": JSON.parse(process.env.VCAP_SERVICES)["Object-Storage"][0].credentials.projectId,
-    "domainId": JSON.parse(process.env.VCAP_SERVICES)["Object-Storage"][0].credentials.domainId,
-    "region": "dallas"
   },
   "accounts": {
     "url": JSON.parse(process.env.VCAP_SERVICES).cloudantNoSQLDB[0].credentials.url,
@@ -44,6 +30,20 @@ module.export = {
     "database": "rolemappings",
     "name": "rolemappings",
     "connector": "cloudant"
+  },
+  "containers": {
+    "username": JSON.parse(process.env.VCAP_SERVICES)["Object-Storage"][0].credentials.username,
+    "password": JSON.parse(process.env.VCAP_SERVICES)["Object-Storage"][0].credentials.password,
+    "name": "containers",
+    "connector": "loopback-component-storage",
+    "provider": "openstack",
+    "authUrl": "https://identity.open.softlayer.com",
+    "useServiceCatalog": true,
+    "useInternal": false,
+    "keystoneAuthVersion": "v3",
+    "tenantId": JSON.parse(process.env.VCAP_SERVICES)["Object-Storage"][0].credentials.projectId,
+    "domainId": JSON.parse(process.env.VCAP_SERVICES)["Object-Storage"][0].credentials.domainId,
+    "region": "dallas"
   },
   "groups": {
     "url": JSON.parse(process.env.VCAP_SERVICES).cloudantNoSQLDB[0].credentials.url,

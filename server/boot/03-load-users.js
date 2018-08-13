@@ -7,6 +7,20 @@ module.exports = function(app) {
 
   // createDefaultUsers();
 
+  loginUserTest();
+
+  function loginUserTest(){
+    log('Login User: >>>>> ');
+    var MyUser = app.models.MyUser;
+    MyUser.login({"email": "contact.hukam@gmail.com", "password": "1SatnamW"},
+        function(err, existingUser) {
+          if (err) {
+            console.error('error in login', err);
+          }
+          console.log(existingUser);
+        });
+  }
+
   function createDefaultUsers() {
 
     log('Creating roles and users');

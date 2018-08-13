@@ -13,6 +13,8 @@ process.env.VCAP_SERVICES = process.env.VCAP_SERVICES || fs.readFileSync('./cred
 
 var app = module.exports = loopback();
 
+console.log("\n\n<<<<<<< RUNNING ON ", process.env.NODE_ENV, " ENVIRONMENT >>>>>>>>>> \n\n")
+
 //Passport configurators..
 var loopbackPassport = require('loopback-component-passport');
 var PassportConfigurator = loopbackPassport.PassportConfigurator;
@@ -23,6 +25,7 @@ var passportConfigurator = new PassportConfigurator(app);
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 /*
 app.middleware('parse', bodyParser.json({limit: 1024*1024*50, type:'application/json'}));
 app.middleware('parse', bodyParser.urlencoded({
@@ -54,25 +57,21 @@ boot(app, bootOptions, function(err) {
 		try{
       console.log("\n\n<<<<<<<< IN SERVER BOOT >>>>>>> ");
 			app.io = require('socket.io')(app.start());
-
       app.io.on('connection', function(socket){
         console.log('a user connected');
         socket.on('CHAT', function(msg){
           console.log('message: ' + msg);
-          app.io.emit('CHAT', msg);
+          // app.io.emit('CHAT', msg);
         });
         socket.on('disconnect', function(){
             console.log('\n\n<<<<<<<< USER DISCONNECTED >>>>>> \n\n');
         });
-
       });
 		}catch(err){
 			console.log(err);
 		}
 	}
 });
-
-passportConfigurator.init(false);
 
 /*
 app.middleware('auth', loopback.token({
@@ -99,6 +98,8 @@ if (app.get('env') === 'development') {
   app.use(basicAuth);
 }
 */
+
+passportConfigurator.init(false);
 
 //app.use(loopback.cookieParser(app.get('cookieSecret')));
 app.use(cookieParser(app.get('cookieSecret')));

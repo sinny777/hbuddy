@@ -38,47 +38,5 @@ module.exports = {
     "failureRedirect": "/api/MyUsers/authentication/failed",
     "scope": ["email", "profile"],
     "failureFlash": true
-  },
-  "twitter-login": {
-    "provider": "twitter",
-    "authScheme": "oauth",
-    "module": "passport-twitter",
-    "callbackURL": "/auth/twitter/callback",
-    "authPath": "/auth/twitter",
-    "callbackPath": "/auth/twitter/callback",
-    "successRedirect": "/api/MyUsers/authenticated",
-    "failureRedirect": "/login",
-    "consumerKey": process.env.TWITTER_LOGIN_CONSUMER_KEY,
-    "consumerSecret": process.env.TWITTER_LOGIN_CONSUMER_SECRET,
-    "failureFlash": true
-  },
-  "facebook-link": {
-    "provider": "facebook",
-    "module": "passport-facebook",
-    "clientID": process.env.FACEBOOK_LOGIN_CLIENT_ID,
-    "clientSecret": process.env.FACEBOOK_LOGIN_CLIENT_SECRET,
-    "callbackURL": "/link/facebook/callback",
-    "authPath": "/link/facebook",
-    "callbackPath": "/link/facebook/callback",
-    "successRedirect": "/api/MyUsers/authenticated",
-    "failureRedirect": "/login",
-    "scope": ["email", "user_likes"],
-    "link": true,
-    "failureFlash": true
-  },
-  "google-link": {
-    "provider": "google",
-    "module": "passport-google-oauth",
-    "strategy": "OAuth2Strategy",
-    "clientID": process.env.GOOGLE_LOGIN_CLIENT_ID,
-    "clientSecret": process.env.GOOGLE_LOGIN_CLIENT_SECRET,
-    "callbackURL": "/link/google/callback",
-    "authPath": "/link/google",
-    "callbackPath": "/link/google/callback/",
-    "successRedirect": "/api/MyUsers/authenticated",
-    "failureRedirect": "/login",
-    "scope": ["email", "profile"],
-    "link": true,
-    "failureFlash": true
   }
 };

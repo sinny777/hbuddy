@@ -6,4 +6,4 @@ applications:
   name: hbuddy-dev
   command: node .
   path: .
-  memory: 256M
+  memory: 128M

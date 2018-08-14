@@ -1,211 +1,248 @@
 'use strict'
 
-var bluemix = require('../../common/config/bluemix');
+var request = require('request'),
+		format = require('format');
+const assert = require('assert');
 
-// var CONFIG = require('../../common/config/config').get(),
-    watson = require('watson-developer-cloud'),
+var watson = require('watson-developer-cloud'),
     request = require('request'),
     format = require('util').format,
-    // conversationConfig = CONFIG.SERVICES_CONFIG.conversation,
-    conversation_service = watson.conversation({ version: 'v1', version_date: '2017-11-07' });
+    conversationService = watson.conversation({ version: 'v1', version_date: '2017-11-07' });
 
-var feedsHandler = require('../../server/handlers/feedsHandler')();
-var searchHandler = require('../../server/handlers/searchHandler')();
-var commonHandler = require('../../server/handlers/commonHandler')();
+const commonHandler = require('./commonHandler')();
+const externalCallHandler = require('./externalCallHandler')();
+var discoveryHandler;
+
+var pubsub = require('../../server/pubsub.js');
+var socket;
+var ENABLE_DISCOVERY = false;
+
+let Conversation;
 
 module.exports = function(app) {
 
+	if(!Conversation){
+		Conversation = app.models.Conversation;
+	}
+
+	const responseHandler = require('./responseHandler')(app);
+
+	if(process.env.ENABLE_DISCOVERY){
+		ENABLE_DISCOVERY = (process.env.ENABLE_DISCOVERY.toLowerCase() === 'true');
+	}
+
+	if(ENABLE_DISCOVERY){
+		 discoveryHandler = require('./discoveryHandler')();
+	}
+
 var methods = {};
 
-	methods.callConversation = function(reqPayload, cb) {
-		if(!reqPayload && !reqPayload.params || !reqPayload.params.input){
-			cb("INVALID PARMS FOR CONVERSATION ! ", null);
-		}
+		methods.callVirtualAssistant = function(params){
 
-    const workspaceId = params.workspaceId || process.env.WATSON_ASSISTANT_WORKSPACE_ID || '<workspace-id>';
-    if (!workspaceId || workspaceId === '<workspace-id>') {
-      return reject(new Error('The app has not been configured with a <b>WORKSPACE_ID</b> environment variable. Please refer to the ' + '<a href="https://github.com/sinny777/conversation">README</a> documentation on how to set this variable. <br>' + 'Once a workspace has been defined the intents may be imported from ' + '<a href="https://github.com/sinny777/conversation/blob/master/training/conversation/car_workspace.json">here</a> in order to get a working application.'));
-    }
+			function logError(e) {
+        console.error(e);
+        throw e;  // reject the Promise returned by then
+      }
+			return callWatsonAssistant(params)
+			.then(callWatsonDiscovery)
+			.then(updateWatsonResponse)
+			.then(methods.formatWatsonResponse)
+			.then(null, logError);
 
-		reqPayload.params.workspace_id = workspaceId;
-		reqPayload.params.input = { "text": reqPayload.params.input };
-		reqPayload.params.entities = [];
-		reqPayload.params.intents = [];
-		reqPayload.params.output = {};
-        conversation_service.message(reqPayload.params, function(err, conversationResp) {
-//        	console.log("<<<<<<<< CONVERSATION API RESPONSE :>>>>>>>>>>>> ", JSON.stringify(conversationResp));
-            handleConversationResponse(err, conversationResp, cb);
-        });
-	};
+		};
 
-	function handleConversationResponse(err, conversationResp, cb){
-		var response = {conversationResp: conversationResp};
 
-		if(conversationResp.intents && conversationResp.intents.length > 0
-			&& conversationResp.intents[0].intent == 'appliance_action'){
-			handleApplianceAction(response, function(err, resp){
-				cb(err, resp);
-				return false;
-			});
-		}else if (conversationResp.context){
-			var next_action = conversationResp.context.next_action;
-			if(!next_action){
-				console.log("No next_action found in Conversation response context !! ");
-				cb(err, response);
-				return false;
-			}
-
-			switch(next_action) {
-			    case "weather_service":
-			    	getWeather(response, function(err, resp){
-						cb(err, resp);
-					});
-			        break;
-			    case "news_service":
-			    	getNewsFeeds(response, function(err, resp){
-						cb(err, resp);
-					});
-			        break;
-			    case "google_search":
-			    	searchGoogle(response, function(err, resp){
-						cb(err, resp);
-					});
-			        break;
-			    case "date_time":
-			    	cb(err, response);
-			        break;
-			    case "joke":
-			    	getRandomJoke(response, function(err, resp){
-						cb(err, resp);
-						return false;
-					});
-			        break;
-			    case "continue":
-			    	cb(err, response);
-			        break;
-			    case "completed":
-			    	cb(err, response);
-			        break;
-			    default:
-			    	cb(err, response);
-			}
-
-		}else if(conversationResp && conversationResp.output && conversationResp.output.text){
-				cb(err, response);
-			}else{
-				cb(err, response);
-			}
-	};
-
-	function handleApplianceAction(response, cb){
-		if(response.conversationResp.context && response.conversationResp.context.gatewayId){
-			console.log("IN handleApplianceAction, Fetch Data for Gateway: >>> ", response.conversationResp);
-
-			if(response.conversationResp.entities && response.conversationResp.entities.length > 0){
-				var area, action, appliance;
-				for(var i = 0; i < response.conversationResp.entities.length; i++){
-					var entity = response.conversationResp.entities[i];
-					if(entity.entity == 'actions'){
-						action = entity.value;
-					}
-					if(entity.entity == 'area'){
-						area = entity.value;
-					}
-					if(entity.entity == 'appliance'){
-						appliance = entity.value;
-					}
+/**
+ * This method is used to call IBM Watson Assistant (formerly Conversation)
+ * and based on the response it handles business logic and even call watson
+ * Discovery Service for fetching response.
+ * @param  {[type]} params       Payload for calling Watson Assistant
+ * @param  {[type]} Conversation Loopback Model for CRUD operations in DB
+ * @return {[type]}              API Response with Context, Output and more
+ */
+ function callWatsonAssistant(params) {
+		console.info("IN conversationHandler.callConversation with params: ", params);
+		return new Promise(function(resolve, reject){
+		    assert(params, 'params cannot be null');
+				if(params.context){
+						params.context.next_action = null;
+				}else{
+          params.context = {};
+        }
+				console.info("User text: ", params.input.text);
+				if((!params.input || !params.input.text) && !params.context.initConversation){
+						return reject(new Error('Input text cannot be null or empty !'));
 				}
-				console.log("ACTION: ", action, ", AREA: ", area, ", APPLIANCE: ", appliance);
+			  const workspaceId = params.workspaceId || process.env.WATSON_ASSISTANT_WORKSPACE_ID || '<workspace-id>';
+		    if (!workspaceId || workspaceId === '<workspace-id>') {
+		      return reject(new Error('The app has not been configured with a <b>WORKSPACE_ID</b> environment variable. Please refer to the ' + '<a href="https://github.com/sinny777/conversation">README</a> documentation on how to set this variable. <br>' + 'Once a workspace has been defined the intents may be imported from ' + '<a href="https://github.com/sinny777/conversation/blob/master/training/conversation/car_workspace.json">here</a> in order to get a working application.'));
+		    }
+
+		    var payload = {
+		      workspace_id: workspaceId,
+		      context: params.context || {},
+		      input: params.input || {}
+		    };
+		    // console.info("Calling Watson Assistant with payload: >> ", payload);
+		    conversationService.message(payload, function(err, conversationResp) {
+					if (err) {
+		        return reject(err);
+		      }
+					conversationResp.context.initConversation = false;
+					conversationResp.datetime = new Date();
+
+		        let returnJson = conversationResp;
+		        delete returnJson.environment_id;
+		        delete returnJson.collection_id;
+		        delete returnJson.username;
+		        delete returnJson.password;
+
+						return resolve(conversationResp);
+
+		    });
+		});
+
+};
+
+function callWatsonDiscovery(conversationResp){
+	// console.info("IN callWatsonDiscovery, conversationResp: ", conversationResp);
+	return new Promise(function(resolve, reject){
+			if(conversationResp.output.hasOwnProperty('action') && conversationResp.output.action.hasOwnProperty('call_discovery')) {
+				if(ENABLE_DISCOVERY && discoveryHandler){
+					discoveryHandler.callDiscovery(conversationResp).then((discoveryResults) => {
+							conversationResp.output.discoveryResults = discoveryResults;
+							delete conversationResp.username;
+							delete conversationResp.password;
+							console.log("CALLED DISCOVERY: >>>>>>> ");
+							return resolve(conversationResp);
+						}).catch(function(error) {
+							return reject(error);
+						});
+				}else{
+					console.info("\n\n<<<<<<< DISCOVERY SERVICE IS DISABLED >>>>>>>>>>\n\n");
+					return resolve(conversationResp);
+				}
+			}else{
+				return resolve(conversationResp);
 			}
+	});
+}
 
+	function updateWatsonResponse(response) {
+		return new Promise(function(resolve, reject){
+					    var responseText;
+					    if (!response.output) {
+					      response.output = {};
+					    }
+
+					    if (response.intents && response.intents[0]) {
+					      var intent = response.intents[0];
+					      if (intent.confidence <= 0.5 && (!response.output.text || response.output.text == "")) {
+					        responseText = 'I did not understand your intent, please rephrase your question';
+					      }
+					    }
+							if(response.context && response.context.next_action){
+					        var next_action = response.context.next_action;
+					        if(next_action && next_action.constructor === Object
+										&& next_action.hasOwnProperty('action') && next_action.action == "external_call"){
+											console.info("NEXT ACTION OBJECT: >>> ", next_action);
+											 setTimeout(function(){
+													externalCallHandler.handleResponse(response, function(err, response){
+														console.log("External Call Response: >> ", response.output.text);
+														console.log("External Call Context: >> ", response.context);
+														commonHandler.getEventEmitter().emit("external_call", err, response);
+													});
+											 }, 2000);
+									}else{
+										return resolve(response);
+									}
+					    }else{
+							      if(!response.output.text){
+							        response.output.text = [];
+							      }
+										if(responseText){
+												response.output.text.push(responseText);
+										}
+							     return resolve(response);
+					    }
+
+							if(response.output.text){
+									return resolve(response);
+							}
+
+				});
+
+  }
+
+	methods.formatWatsonResponse = function(response){
+		return new Promise(function(resolve, reject){
+			responseHandler.formatResponse(response, function(err, formattedResp){
+				updateDBIfRequired(formattedResp);
+				return resolve(formattedResp);
+			});
+		});
+	}
+
+	function updateDBIfRequired(conversationResp){
+		if(!conversationResp.context.hasOwnProperty('save_in_db') || conversationResp.context.save_in_db){
+			console.info("IN updateDBIfRequired: >>> ", conversationResp.context.save_in_db);
+			// conversationResp.context.save_in_db = false;
+			if(!Conversation){
+				Conversation = app.models.Conversation;
+			}
+			Conversation.upsert(conversationResp, function(err, savedConversation){
+					if(err){
+						console.info("ERROR IN SAVING CONVERSATION: >> ", err);
+					}else{
+						console.info("<<<< CONVERSATION SAVED IN DB SUCCESSFULLY >>>>>>> ");
+					}
+				});
 		}
-		cb(null, response);
-	};
+	}
 
-	function getRandomJoke(response, cb){
-		cb(null, response);
-	};
+	methods.publishResponse = function(formattedResp){
+					if(formattedResp.context.next_action == "append"){
+								if(!formattedResp.context.channel || formattedResp.context.channel == "WEB"){
+									if(!socket){
+										socket = Conversation.app.io;
+									}
 
-	function searchGoogle(response, cb) {
-	    console.log('Doing Google Search ');
-	    var params = {"keyword": response.conversationResp.input.text};
-	    searchHandler.searchGoogle(params, function(err, results){
-	    	if (err) {
-	            cb(err, null);
-	        }else{
-	        	if(results && results.length > 0){
-	        		response.conversationResp.output = {
-		        			text: results
-		        	};
-	        	}else{
-	        		delete response.conversationResp.output["text"];
-	        		response.conversationResp.context.next_action == "DO_NOTHING";
-	        	}
-	            cb(null, response);
-	        }
-	    });
-	};
+									var conversation = {"conversation": formattedResp};
+									var collectionName = 'CHAT'; // DEFAULT collectionName
+									if(formattedResp.context.conversation_id){
+										collectionName = formattedResp.context.conversation_id;
+									}
 
-	function getNewsFeeds(response, cb) {
-	    console.log('fetching News Feeds');
-	    var params = {"feedURL": "http://feeds.feedburner.com/ndtvnews-latest"};
-	    feedsHandler.fetchFeedsData(params, function(err, feedsResp){
-	    	if (err) {
-	            cb(err, null);
-	        }else{
-	        	console.log("Feeds Response: >>> ", feedsResp);
-	        	if(feedsResp && feedsResp.length > 0){
-	        		response.conversationResp.output = {
-		        			text: feedsResp
-		        	};
-	        	}else{
-	        		delete response.conversationResp.output["text"];
-	        		response.conversationResp.context.next_action == "DO_NOTHING";
-	        	}
-	            cb(null, response);
-	        }
-	    });
-	};
+									console.info("PUBLISHING CONVERSATION RESPONSE TO collectionName: >>>> ", collectionName);
+									pubsub.publish(socket, {
+											collectionName : collectionName,
+											data: conversation,
+											method: 'POST'
+									});
+								}else{
+									console.info("NOTHING TO APPEND Channel: >>>> ", formattedResp.context.channel);
+								}
+					}
+	}
 
-	function getWeather(response, cb) {
-		var location = response.conversationResp.context.location;
-		if(!location){
-			response.conversationResp.output = {
-        			text: ["Please tell me the location"]
-        	};
-            cb(null, response);
-            return false;
-		}
-	    console.log('fetching weather data for ', location);
-	    var url =  "https://query.yahooapis.com/v1/public/yql?q=select item.condition from weather.forecast where woeid in (select woeid from geo.places(1) where text='"+location+"')&format=json";
-	    request({
-	        url: url,
-	        json: true
-	    }, function (err, resp, body) {
-	        if (err) {
-	            cb(err, null);
-	        }
-	        if (resp.statusCode != 200) {
-	           cb(new Error(format("Unexpected status code %s from %s\n%s", resp.statusCode, url, body)), null);
-	        }
-	        try {
-	        	var weather = body.query.results.channel.item.condition;
+	methods.publishData = function(publishReq){
+		return new Promise(function(resolve, reject){
+				if(!socket){
+					socket = Conversation.app.io;
+				}
+				console.log("IN conversationHandler.publishData, publishReq: >>> ", publishReq);
+				/*
+				pubsub.publish(socket, {
+						collectionName : publishReq.collectionName,
+						data: publishReq.data,
+						method: 'POST'
+				});
+				*/
+				socket.emit(publishReq.collectionName, publishReq.data);
+				return resolve({"response": "PUBLISHED"});
+		});
+	}
 
-	        	var temperature = Number((weather.temp - 32) * 5/9).toFixed(2);
-	        	if(location)
-	        	var respText = format('The current weather conditions in %s are %s degrees and %s.', location, temperature, weather.text);
-	        	response.conversationResp.output = {
-	        			text: [respText]
-	        	};
-	        	console.log(respText);
-	            cb(null, response);
-	        } catch(ex) {
-	            ex.message = format("Unexpected response format from %s - %s", url, ex.message);
-	            cb(ex, null);
-	        }
-	    });
-	};
-
-    return methods;
+  return methods;
 
 }

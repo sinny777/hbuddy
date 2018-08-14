@@ -11,8 +11,8 @@ module.exports = function(app) {
 
 	// var bluemix = require('../../common/config/bluemix');
 	// var dbCredentials = bluemix.getServiceCreds('cloudantNoSQLDB');
-	var CONFIG = require('../../common/config/config').get();
-	var cloudant = require('cloudant')(CONFIG.SERVICES_CONFIG.CLOUDANT.credentials.url);
+	const CLOUDANT_CONFIG = JSON.parse(process.env.VCAP_SERVICES)["cloudantNoSQLDB"][0]
+	var cloudant = require('cloudant')(CLOUDANT_CONFIG.credentials.url);
 
 var methods = {};
 

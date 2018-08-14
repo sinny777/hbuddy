@@ -1,13 +1,13 @@
 
 var crypto = require('crypto');
-var CONFIG = require('../../common/config/config').get();
+// var CONFIG = require('../../common/config/config').get();
 const nodemailer = require('nodemailer');
 
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: CONFIG.EMAIL.username,
-    pass: CONFIG.EMAIL.password
+    user: process.env.email_username,
+    pass: process.env.email_password
   }
 });
 

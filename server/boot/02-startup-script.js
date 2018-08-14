@@ -18,11 +18,10 @@ module.exports = function(app) {
 	// 	return;
 	// }
 
-	var appConfig = require('../../common/config/config').get();
 	// var deviceHandler = require('../../server/handlers/deviceHandler')(app);
 	var commonHandler = require('../../server/handlers/commonHandler')();
 
-//	initStartupLogic();
+	// initStartupLogic();
 
 //	saveAndExecuteScenes();
 
@@ -134,11 +133,9 @@ module.exports = function(app) {
 	};
 
 	function initStartupLogic() {
-
-		var iotConfig = appConfig.CLOUD_CONFIG;
-		var clientId = parseInt(Math.random() * 100, 10);
-		iotConfig.id = iotConfig.id + clientId;
-		appClient = new Client.IotfApplication(iotConfig);
+		// var iotConfig = CONFIG.IOT_CONFIG;
+		// var clientId = parseInt(Math.random() * 100, 10);
+		appClient = new Client.IotfApplication(CONFIG.IOT_CONFIG);
 		appClient.connect();
 		appClient
 				.on(
@@ -169,9 +166,9 @@ module.exports = function(app) {
 	function publishWaterTankData(){
 		setInterval(function(){
 			var timeNow = new Date();
-			var deviceWithData = {data: {type: "watertank", uniqueId: "WT-ABC123", gatewayId: appConfig.gatewayId, ts: timeNow, distance: "150"}};
+			var deviceWithData = {data: {type: "watertank", uniqueId: "WT-ABC123", gatewayId: CONFIG.gatewayId, ts: timeNow, distance: "150"}};
 			var sensorData = {"d": deviceWithData.data};
-			appClient.publishDeviceEvent("HukamGateway", appConfig.gatewayId, "cloud", "json", sensorData);
+			appClient.publishDeviceEvent("HukamGateway", CONFIG.gatewayId, "cloud", "json", sensorData);
 			console.log("Published simulated Watertank data: >>> ", sensorData);
 		}, 120000);
 	};

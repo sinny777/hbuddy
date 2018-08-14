@@ -1,20 +1,52 @@
 {
   "name": "Conversation",
-  "base": "Model",
+  "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "mixins": {
-    "DisableMethods": {
-      "expose": [
-        "create",
-        "update",
-        "destroy"
-      ]
+    "SetupRemoteMethods": {
+      "disableAllExcept": [
+        "doconversation",
+        "publishToSocket",
+        "find"
+      ],
+      "addFromFile": {
+        "filename": "./common/models/conversation.js",
+        "methods": [
+          "doconversation",
+          "publishToSocket"
+        ]
+      }
     }
   },
-  "properties": {},
+  "properties": {
+    "context": {
+      "type": "object",
+      "required": false
+    },
+    "input": {
+      "type": "object",
+      "required": false
+    },
+    "output": {
+      "type": "object",
+      "required": false
+    },
+    "timestamp": {
+      "type": "date",
+      "required": false
+    },
+    "intents": {
+      "type": "object",
+      "required": false
+    },
+    "entities": {
+      "type": "object",
+      "required": false
+    }
+  },
   "validations": [],
   "relations": {},
   "acls": [
@@ -23,6 +55,18 @@
       "principalId": "$everyone",
       "permission": "ALLOW",
       "property": "doconversation"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "publishToSocket"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "find"
     }
   ],
   "methods": {}

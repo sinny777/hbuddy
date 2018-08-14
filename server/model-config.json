@@ -105,7 +105,11 @@
     "public": true
   },
   "Conversation": {
-    "dataSource": "db",
+    "dataSource": "conversations",
+    "public": true
+  },
+  "Mapping": {
+    "dataSource": "mappings",
     "public": true
   }
 }

@@ -2,6 +2,8 @@
 
 module.exports = function(Conversation) {
 
+	var conversationHandler;
+
 	Conversation.remoteMethod('doconversation', {
 		    	accepts: [
 		            { arg: 'req', type: 'object', http: function(ctx) {
@@ -12,14 +14,30 @@ module.exports = function(Conversation) {
 		         returns: {arg: 'conversation', type: 'object'}
 	});
 
-	Conversation.doconversation = function(req, cb) {
+	Conversation.doconversation = function(req, next) {
 		console.log("\n\nIn Conversation.doconversation : >>>> ", req.body);
-		var conversationHandler = require('../../server/handlers/conversationHandler')(Conversation.app);
+		if(!conversationHandler){
+			conversationHandler = require('../../server/handlers/conversationHandler')(Conversation.app);
+		}
 		var reqPayload = req.body;
-		conversationHandler.callConversation(reqPayload, function(err, resp){
-			console.log("SENDING CONVERSATION RESPONSE: >>>> ", resp);
-			cb(err, resp);
-		});
+			conversationHandler.callVirtualAssistant(reqPayload.params).then((responseJson) => {
+				// console.log("IBM WATSON RESPONSE: >>> ", responseJson);
+				next(null, responseJson);
+			}).catch(function(error) {
+					next(error, null);
+			});
+ };
+
+ Conversation.publishToSocket = function(req, next){
+	 var reqPayload = req.body;
+	 if(!conversationHandler){
+		 conversationHandler = require('../../server/handlers/conversationHandler')(Conversation.app);
+	 }
+	 conversationHandler.publishData(reqPayload).then((responseJson) => {
+			 next(null, responseJson);
+		 }).catch(function(error) {
+				 next(error, null);
+		 });
  };
 
 };

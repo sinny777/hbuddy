@@ -98,5 +98,17 @@ module.exports = {
     "database": "scenes",
     "name": "scenes",
     "connector": "cloudant"
+  },
+  "conversations": {
+    "url": JSON.parse(process.env.VCAP_SERVICES).cloudantNoSQLDB[0].credentials.url,
+    "database": "conversations",
+    "name": "conversations",
+    "connector": "cloudant"
+  },
+  "mappings": {
+    "url": JSON.parse(process.env.VCAP_SERVICES).cloudantNoSQLDB[0].credentials.url,
+    "database": "mappings",
+    "name": "mappings",
+    "connector": "cloudant"
   }
 };

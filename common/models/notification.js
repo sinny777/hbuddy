@@ -1,7 +1,7 @@
 
-var notificationHandler = require('../../server/handlers/notificationHandler')(Notification.app);
-
 module.exports = function(Notification) {
+
+  var notificationHandler = require('../../server/handlers/notificationHandler')(Notification.app);
 
   Notification.remoteMethod('notify', {
 		    	accepts: [

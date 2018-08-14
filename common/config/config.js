@@ -5,7 +5,7 @@
 
 module.exports.get = function() {
 		return {
-			"gatewayId": "000000001x2xx34y"
+			"gatewayId": "000000001x2xx34y",
 			"IOT_CONFIG":{
           "org": JSON.parse(process.env.VCAP_SERVICES)["iotf-service"][0].credentials.org,
           "id": "hukam_web", // you can define by yourself here

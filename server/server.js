@@ -36,6 +36,19 @@ app.middleware('parse', bodyParser.urlencoded({
 }));
 */
 
+app.use((req, res, next) => {
+	  const token = req.accessToken;
+	  if (!token) {
+	    return next();
+	  }
+	  const now = new Date();
+	  if (now.getTime() - token.created.getTime() < 1000) {
+	    return next();
+	  }
+	  req.accessToken.created = now; // eslint-disable-line
+	  return req.accessToken.save(next);
+});
+
 var flash = require('express-flash');
 
 bootOptions = { "appRootDir": __dirname};

@@ -7705,19 +7705,22 @@ definitions:
     additionalProperties: false
   UserSetting:
     properties:
-      notify:
+      audit:
+        type: object
+      type:
         type: string
+      config:
+        type: object
       userId:
         type: string
       registrationId:
         type: string
       placeId:
         type: string
-      timestamp:
-        type: string
-        format: date
       id:
         type: string
+    required:
+      - type
     additionalProperties: false
   Notification:
     properties:

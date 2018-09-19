@@ -6,8 +6,16 @@
     "validateUpsert": true
   },
   "properties": {
-    "notify": {
+    "audit": {
+      "type": "object",
+      "required": false
+    },
+    "type": {
       "type": "string",
+      "required": true
+    },
+    "config": {
+      "type": "object",
       "required": false
     },
     "userId": {
@@ -20,10 +28,6 @@
     },
     "placeId": {
       "type": "string",
-      "required": false
-    },
-    "timestamp": {
-      "type": "date",
       "required": false
     }
   },

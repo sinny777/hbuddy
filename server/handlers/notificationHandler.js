@@ -1,18 +1,22 @@
+/**
+ * Notification handler for
+ * Push notifications, Email Notifications
+ */
 
-
-	var CONFIG = require('../../common/config/config').get();
 
 	var commonHandler = require('../../server/handlers/commonHandler')();
 	var emailHandler = require('../../server/handlers/emailHandler')();
 	var admin = require('firebase-admin');
+	var CONFIG = require('../../common/config/config').get();
+
+	const firebaseCredentials = CONFIG.FIREBASE;
+	// const firebaseCredentials = require('../../common/keys/hukam-157906-c9fdab4d02d0.json');
+
 	admin.initializeApp({
-			credential: admin.credential.cert(CONFIG.FIREBASE),
+			credential: admin.credential.cert(firebaseCredentials),
 			databaseURL: "https://"+CONFIG.FIREBASE_project_id+".firebaseio.com"
 		});
 
-/**
- * Make sure app is provided while instantiating this class and calling any method
- */
 module.exports = function(app) {
 
 	var Notification;

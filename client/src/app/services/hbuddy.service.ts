@@ -138,7 +138,6 @@ export class HbuddyService {
    }
 
    fetchScenes(selectedPlace): Promise<any>{
-
      let findReq: any = {filter: {where: {placeId: selectedPlace.id}}};
      let GET_URL: string = environment.API_BASE_URL + "/Scenes?";
      this.reqOptions = new RequestOptions({headers: this.authService.headers});
@@ -150,7 +149,6 @@ export class HbuddyService {
    }
 
    fetchPlaceGroups(placeId): Promise<any>{
-
          let findReq: any = {filter: {where: {placeId: placeId}}};
          let GET_URL: string = environment.API_BASE_URL + "/Groups?";
          this.reqOptions = new RequestOptions({headers: this.authService.headers});

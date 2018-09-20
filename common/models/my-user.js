@@ -179,16 +179,19 @@ module.exports = function(MyUser) {
 		if(accessToken.userId){
 			res.cookie('access_token', accessToken.id, {
 				signed: req.signedCookies ? true : false,
+				domain: domain,
 				maxAge: 1000 * accessToken.ttl,
 				httpOnly: false
 			});
 			res.cookie('expires_at', JSON.stringify(expTime), {
 				signed: req.signedCookies ? true : false,
+				domain: domain,
 				maxAge: 1000 * accessToken.ttl,
 				httpOnly: false
 			});
 			res.cookie('userId', accessToken.userId.toString(), {
 				signed: req.signedCookies ? true : false,
+				domain: domain,
 				maxAge: 1000 * accessToken.ttl,
 				httpOnly: false
 			});

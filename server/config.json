@@ -6,12 +6,10 @@
     "urlencoded": {},
     "rest": {
       "normalizeHttpPath": false,
-      "xml": false
+      "xml": false,
+      "handleErrors": false
     },
-    "cors": false,
-    "errorHandler": {
-      "debug": true
-    }
+    "cors": false
   },
   "logoutSessionsOnSensitiveChanges": true,
   "legacyExplorer": false,

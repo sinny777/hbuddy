@@ -19,17 +19,14 @@
 
 	    <div class="collapse navbar-collapse" id="navigation-index">
 	    	<ul class="nav navbar-nav navbar-right">
-						<li *ngIf="!currentUser || !currentUser.id">
+						<li class="nav-item" *ngIf="!currentUser || !currentUser.id">
 								<a href="#" data-toggle="modal" data-target="#loginModal">
 									<i class="material-icons">login</i> Login
 								</a>
 						</li>
-						<li *ngIf="currentUser && (currentUser.user || currentUser.profile)" class="dropdown">
-								<a *ngIf="currentUser.user" href="#" class="dropdown-toggle" data-toggle="dropdown">
-									 {{currentUser.user.firstName}}
-								</a>
-								<a *ngIf="currentUser.provider && currentUser.provider == 'google'" href="#" class="dropdown-toggle" data-toggle="dropdown">
-									 {{currentUser.profile.displayName}}
+						<li *ngIf="currentUser && currentUser.username" class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+									 {{currentUser.username}}
 								</a>
 								<ul class="dropdown-menu dropdown-menu-right">
 										<li><a routerLink="/account" >Account Settings</a></li>
@@ -38,18 +35,19 @@
 										<li><a href="javascript:void(0);" (click)="logout();">Logout</a></li>
 								</ul>
 						</li>
-						<li *ngIf="currentUser && currentUser.email == 'sinny777@gmail.com'" class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-									Admin
-								</a>
-								<ul class="dropdown-menu dropdown-menu-right">
-										<li><a target="_blank" href="https://console.bluemix.net/services/iotf-service/fcff5d8e-6106-4013-b5a6-26c1de9917fa" >IoT Platform</a></li>
-										<li><a target="_blank" href="https://34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix.cloudant.com/dashboard.html#/_all_dbs">CloudantDB</a></li>
-										<li><a target="_blank" href="https://watson-conversation.ng.bluemix.net/us-south/9cafee8e-239f-412a-ae15-5bb338f83803/workspaces">Conversation</a></li>
-										<li><a target="_blank" href="https://console.bluemix.net/services/Object-Storage/cc2840c0-0a4a-4e30-a58c-4fb16873bc12">Object Storage</a></li>
-										<li><a target="_blank" href="https://console.bluemix.net/devops/pipelines/56d9538c-ef70-4c9a-b3cc-0254e653eda8?env_id=ibm:yp:us-south">DevOps</a></li>
-								</ul>
-						</li> 
+						<li class="dropdown" *ngIf="currentUser && currentUser.roles && currentUser.roles[0].name == 'admin'">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+										 Services
+									</a>
+									<ul class="dropdown-menu dropdown-menu-right">
+											<li><a target="_blank" href="https://console.bluemix.net/services/iotf-service/fcff5d8e-6106-4013-b5a6-26c1de9917fa" >IoT Platform</a></li>
+											<li><a target="_blank" href="https://34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix.cloudant.com/dashboard.html#/_all_dbs">CloudantDB</a></li>
+											<li><a target="_blank" href="https://watson-conversation.ng.bluemix.net/us-south/9cafee8e-239f-412a-ae15-5bb338f83803/workspaces">Conversation</a></li>
+											<li><a target="_blank" href="https://console.bluemix.net/services/Object-Storage/cc2840c0-0a4a-4e30-a58c-4fb16873bc12">Object Storage</a></li>
+											<li><a target="_blank" href="https://console.bluemix.net/devops/pipelines/56d9538c-ef70-4c9a-b3cc-0254e653eda8?env_id=ibm:yp:us-south">DevOps</a></li>
+									</ul>
+						</li>
+						
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 							<i class="material-icons">menu</i>

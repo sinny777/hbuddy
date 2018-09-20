@@ -16,34 +16,34 @@ export class PlacesComponent implements OnInit {
   placeAreas: any;
 
   constructor(private router: Router, private authService: MyAuthService, private hBuddyService: HbuddyService,) {
-
+    var that = this;
+    this.authService.userAuth.subscribe(function(userData){
+      that.currentUser = userData;
+      if(!that.currentUser || that.currentUser == null){
+          // this.router.navigate(['/']);
+          console.log("No USER FOUND IN PlacesPage: >>> ");
+      }else{
+          that.fetchPlaces();
+      }
+    });
   }
 
   ngOnInit() {
-    console.log("IN Places Page: >>> ");
-    if(this.authService.authenticated){
-          this.authService.getUserInfo().then( result => {
-              this.currentUser = result;
-              console.log("In Init of Places Page: >>>", this.authService.authenticated);
-              console.log("In Init of Places Page: >>>", this.currentUser);
-              if(!this.currentUser || (!this.currentUser.id && !this.currentUser.uid)){
+      this.authService.getUserInfo(false).then( result => {
+            this.currentUser = result;
+              if(this.currentUser && (this.currentUser.id || this.currentUser.uid)){
+                this.fetchPlaces();
+              }else{
                 this.router.navigate(['/']);
                 return false;
               }
-              this.fetchPlaces();
-         },
-         error => {
-            console.log("ERROR: >>> ", error);
-            this.router.navigate(['/']);
-         });
-   }else{
-     this.router.navigate(['/']);
-   }
-
-  }
+       },
+       error => {
+          console.log("USER IS NOT loggedIn !!! ");
+       });
+ }
 
   fetchPlaces(){
-
     this.hBuddyService.fetchUserPlaces(this.currentUser).then( result => {
         this.places = result;
         console.log("Response of fetchPlaces: >>> ", this.places);

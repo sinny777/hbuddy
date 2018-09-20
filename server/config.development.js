@@ -13,16 +13,9 @@ module.exports = {
     "rest": {
       "normalizeHttpPath": false,
       "xml": false,
-      "handleErrors": true
+      "handleErrors": false
     },
-    "cors": false,
-    errorHandler: {
-      handler: function(err, req, res, next) {
-        var log = require('debug')('server:rest:errorHandler'); // example
-        log(req.method, req.originalUrl, res.statusCode, err);
-        next(); // call next() to fall back to the default error handler
-      }
-    }
+    "cors": false  
   },
   "logoutSessionsOnSensitiveChanges": true,
   "legacyExplorer": false,

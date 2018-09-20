@@ -1,8 +1,7 @@
 import { Router } from '@angular/router';
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MyAuthService } from './services/auth.service';
-import { SharedService } from './services/shared.service';
 import { environment } from '../environments/environment';
 
 @Component({
@@ -17,54 +16,72 @@ export class AppComponent {
   loginForm: FormGroup;
   post:any;
   CONFIG: any;
+  showLogo: boolean = true;
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
 
-  constructor(private router: Router, private myAuthService: MyAuthService, public sharedService: SharedService, private fb: FormBuilder){
+  constructor(private router: Router, private myAuthService: MyAuthService, private fb: FormBuilder){
         this.CONFIG = environment;
-        console.log("CONFIG: >>> ", this.CONFIG);
-        this.myAuthService.getUserInfo().then( result => {
-              this.currentUser = result;
-              // console.log("In Init of AppComponent: >>>", this.myAuthService.authenticated);
-              // console.log("In Init of AppComponent: >>>", this.currentUser);
-         },
-         error => {
-            console.log("ERROR: >>> ", error);
-         });
-
+        // console.log("CONFIG: >>> ", this.CONFIG);
       this.loginForm = fb.group({
         'username' : [null, Validators.required],
-        'password' : [null, Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(20)])],
+        'password' : [null, Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(20)])],
         'validate' : ''
       });
+   }
+
+   ngOnInit() {
+      console.log("<<<<<< Inside Main App Component >>>> ")
+      // this.router.navigate([''])
+      this.myAuthService.getUserInfo(false).then( result => {
+            this.currentUser = result;
+            // console.log("In Init of AppComponent: >>>", this.myAuthService.authenticated);
+            // console.log("In Init of AppComponent: >>>", this.currentUser);
+       },
+       error => {
+          console.log("ERROR: >>> ", error);
+       });
    }
 
    gotoRegister(){
      console.log("IN gotoRegister: >>> ");
    }
 
+   signIn(provider){
+     console.log("Handle SignIn for Provider: >>> ", provider);
+   }
+
   handleLogin(post){
     // console.log("IN handleLogin: >>> ", JSON.stringify(post));
-    let loginReq = {
-      "params": {
+    var params = {};
+    if(post.username.indexOf('@') != -1){
+      params = {
         "email": post.username,
         "password": post.password
-      }
+      };
+    }else{
+      params = {
+        "username": post.username,
+        "password": post.password
+      };
     }
+
+    let loginReq = {
+      "params": params
+    }
+
     this.myAuthService.login(loginReq).then( result => {
-        // console.log("Response of LOGIN: >>> ", result);
         this.currentUser = result;
         this.closeBtn.nativeElement.click();
-   },
-   error => {
-      console.log("ERROR: >>> ", error);
-   });
+     },
+     error => {
+        console.log("ERROR: >>> ", error);
+     });
   }
 
   logout(){
     this.myAuthService.logout().then( result => {
-        console.log("Response of LOGOUT: >>> ", result);
-        this.currentUser = null;
+        this.currentUser = undefined;
         this.router.navigate(['/']);
    },
    error => {

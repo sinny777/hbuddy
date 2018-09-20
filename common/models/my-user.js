@@ -178,20 +178,17 @@ module.exports = function(MyUser) {
 		const expTime = accessToken.ttl * 1000 + Date.now();
 		if(accessToken.userId){
 			res.cookie('access_token', accessToken.id, {
-				signed: req.signedCookies ? false : false, // No Signed Cookie for now
-				domain: domain,
+				signed: req.signedCookies ? true : false,
 				maxAge: 1000 * accessToken.ttl,
 				httpOnly: false
 			});
 			res.cookie('expires_at', JSON.stringify(expTime), {
-				signed: req.signedCookies ? false : false, // No Signed Cookie for now
-				domain: domain,
+				signed: req.signedCookies ? true : false,
 				maxAge: 1000 * accessToken.ttl,
 				httpOnly: false
 			});
 			res.cookie('userId', accessToken.userId.toString(), {
-				signed: req.signedCookies ? false : false, // No Signed Cookie for now
-				domain: domain,
+				signed: req.signedCookies ? true : false,
 				maxAge: 1000 * accessToken.ttl,
 				httpOnly: false
 			});

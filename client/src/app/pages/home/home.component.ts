@@ -15,16 +15,16 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(this.authService.authenticated){
-      this.authService.getUserInfo().then( result => {
-          this.currentUser = result;          
-     },
-     error => {
-        console.log("ERROR: >>> ", error);
-     });
-   }else{
-     console.log("USER IS NOT loggedIn !!! ");
-   }
+    var that = this;
+      this.authService.userAuth.subscribe(function(userData){
+        that.currentUser = userData;
+        // console.log("IN Home Page user authenticated: >>> ", that.currentUser);
+        if(that.currentUser && that.currentUser.id){
+          console.log("USER IS loggedIn !!!")
+        }else{
+          console.log("USER IS NOT loggedIn !!!")
+        }
+      });
   }
 
 }

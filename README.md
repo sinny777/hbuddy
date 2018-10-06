@@ -10,3 +10,6 @@ sudo nano /usr/local/etc/nginx/nginx.conf
 Start Command: sudo nginx
 Reload Command: sudo nginx -s reload
 Stop Command: sudo nginx -s stop
+
+## How to run it locally using localtunnel:
+lt --port 3000

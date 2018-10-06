@@ -15,12 +15,11 @@ module.exports = function(Conversation) {
 	});
 
 	Conversation.doconversation = function(req, next) {
-		console.log("\n\nIn Conversation.doconversation : >>>> ", req.body);
+		console.info("\n\nIn Conversation.doconversation: >>>> ", req.body);
 		if(!conversationHandler){
 			conversationHandler = require('../../server/handlers/conversationHandler')(Conversation.app);
 		}
-		var reqPayload = req.body;
-			conversationHandler.callVirtualAssistant(reqPayload.params).then((responseJson) => {
+			conversationHandler.callVirtualAssistant(req.body).then((responseJson) => {
 				// console.log("IBM WATSON RESPONSE: >>> ", responseJson);
 				next(null, responseJson);
 			}).catch(function(error) {

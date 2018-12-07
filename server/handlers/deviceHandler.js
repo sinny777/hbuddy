@@ -59,7 +59,6 @@ var methods = {};
 	methods.handleDevicePayload = function(payload){
 		console.log('IN deviceHandler.handleDevicePayload with payload: >>>> ', payload);
 		if(payload.d.boardId){
-			if(payload.d.gatewayId){
 				methods.findDevice(payload.d.boardId, payload.d.deviceIndex, function(err, devices) {
 					if(err){
 						console.log("ERROR IN finding Board with uniqueIdentifier: ", payload.d.boardId, err);
@@ -87,7 +86,6 @@ var methods = {};
 						}
 					}
 				});
-			}
 		}
 	};
 
@@ -96,9 +94,9 @@ var methods = {};
 			if(boardId && deviceIndex){
 					var findReq =  {where: {"parentId": boardId, "deviceIndex": deviceIndex}};
 					console.log('IN findDevice, with boardId: ', boardId, ", deviceIndex: ", deviceIndex, ', findReq: ', findReq);
-					if(!Device){
-						Device = app.models.Device;
-					}
+
+					Device = app.models.Device;
+
 					Device.find(findReq, function(err, resp) {
 						cb(err, resp);
 					});
@@ -111,20 +109,42 @@ var methods = {};
 		}
 	};
 
+	methods.findDevice = function(deviceId, cb){
+		try{
+			if(deviceId){
+					var findReq =  {"where": {"deviceId": deviceId}};
+					console.log('IN deviceHandler, findDevice with deviceId: ', deviceId, ', findReq: ', findReq);
+					Device = app.models.Device;
+					Device.find(findReq, function(err, resp) {
+						cb(err, resp);
+					});
+			}else{
+				cb("deviceId can not be null", null);
+			}
+		}catch(err){
+			console.log(err);
+			cb("Some Error in findDevice: " +err, null);
+		}
+	};
+
 	methods.findBoard = function(boardId, gatewayId, cb){
 		try{
 			if(boardId){
+				if(!Board){
+					Board = app.models.Board;
+				}
 				if(gatewayId){
-					var findReq =  {where: {"uniqueIdentifier": boardId}};
+					var findReq =  {where: {"uniqueIdentifier": boardId, "gatewayId": gatewayId}};
 					console.log('IN findBoard, with boardId: ', boardId, ", gatewayId: ", gatewayId, ', findReq: ', findReq);
-					if(!Board){
-						Board = app.models.Board;
-					}
 					Board.find(findReq, function(err, resp) {
 						cb(err, resp);
 					});
 				}else{
-					cb("gatewayId can not be null", null);
+					var findReq =  {where: {"uniqueIdentifier": boardId}};
+					console.log('IN findBoard, with boardId: ', boardId, ', findReq: ', findReq);
+					Board.find(findReq, function(err, resp) {
+						cb(err, resp);
+					});
 				}
 			}else{
 				cb("boardId can not be null", null);

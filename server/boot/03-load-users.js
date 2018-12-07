@@ -35,9 +35,9 @@ module.exports = function(app) {
                     users: [{
                       firstName: 'Hukam',
                       lastName: 'Team',
-                      email: 'contact.hukam@gmail.com',
-                      username: 'hukam',
-                      password: '1SatnamW',
+                      email: 'abcd.efgh@ijkl.com',
+                      username: 'abcd',
+                      password: 'zyxvu',
                       provider: 'hukam'
                     }]
                   },

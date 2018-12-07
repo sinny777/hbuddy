@@ -1,6 +1,9 @@
 {
   "name": "MyUserIdentity",
   "base": "UserIdentity",
+  "properties": {},
+  "validations": [],
+  "relations": {},
   "acls": [
     {
       "principalType": "ROLE",
@@ -8,5 +11,6 @@
       "permission": "ALLOW",
       "property": "login"
     }
-  ]
+  ],
+  "methods": []
 }

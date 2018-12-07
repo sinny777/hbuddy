@@ -20,8 +20,6 @@
 module.exports = function(app) {
 
 	var Notification;
-	var UserSetting;
-	var Device;
 
 	var methods = {};
 
@@ -39,18 +37,13 @@ module.exports = function(app) {
 		if(!deviceSerial){
 			return cb(new Error("No Device Serial provided..."), null);
 		}
-		var deviceHandler = require('../../server/handlers/deviceHandler')();
-		var findReq =  {where: {"deviceId": deviceSerial}};
+		var deviceHandler = require('../../server/handlers/deviceHandler')(app);
 		console.log('IN NotificationHandler.eventTriggered, findDevice with deviceId: ', deviceSerial);
-		if(!Device){
-			Device = app.models.Device;
-		}
-		Device.find(findReq, function(err, devices) {
+		deviceHandler.findDevice(deviceSerial, function(err, devices) {
 			if(err){
 				console.log("Error in finding Device: >>> ", err);
 				return;
 			}
-
 			var device;
 			if(devices && devices.length > 0){
 				device = devices[0];
@@ -76,7 +69,7 @@ module.exports = function(app) {
 				}
 				cb(null, "Users Notified >>> ");
 			}else{
-				cb(new Error("No device Found with serial >> "+deviceSerial), null);
+				cb(null, {"message": "No configuration found for Device with serial >> "+deviceSerial});
 			}
 
 		});

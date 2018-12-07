@@ -19,12 +19,12 @@
   },
   "auth": {
     "loopback#token": {
-      "params": {
-        "model": "CustomAccessToken"
-      },
       "paths": [
         "${restApiRoot}"
-      ]
+      ],
+      "params": {
+        "model": "CustomAccessToken"
+      }
     }
   },
   "routes": {
@@ -35,12 +35,12 @@
     }
   },
   "files": {
-    "loopback#static": [
-      {
-        "paths": ["/"],
-        "params": "$!../client/dist"
-      }
-    ]
+    "loopback#static": {
+      "paths": [
+        "/"
+      ],
+      "params": "$!../client/dist"
+    }
   },
   "final:after": {
     "./middleware/error-logger": {},

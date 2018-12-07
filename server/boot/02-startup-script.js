@@ -32,6 +32,8 @@ module.exports = function(app) {
 
 //	testConversation();
 //	testDeviceUpdate();
+	// testFindDevice("E642-C623-E001");
+	// testEventTriggered();
 
 
 	function testConversation(){
@@ -223,6 +225,33 @@ module.exports = function(app) {
 			});
 
 	};
+
+	function testFindDevice(deviceId){
+		console.log('IN StartupScript, findDevice with deviceId: ', deviceId);
+		var deviceHandler = require('../../server/handlers/deviceHandler')(app);
+		deviceHandler.findDevice(deviceId, function(err, resp) {
+			if(err){
+				console.error(err);
+			}else{
+				console.info(resp);
+			}
+		});
+	}
+
+	function testEventTriggered(){
+		var notificationHandler = require('../../server/handlers/notificationHandler')(app);
+		var reqPayload = {
+			"deviceSerial": "E642-C623-E001",
+			"event": "ON"
+		};
+		notificationHandler.eventTriggered(reqPayload, function(err, resp) {
+			if(err){
+				console.error(err);
+			}else{
+				console.info(resp);
+			}
+		});
+	}
 
 	function testDeviceUpdate(){
 		console.log("IN testDeviceUpdate: >>> ");

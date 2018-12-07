@@ -110,7 +110,7 @@
       "principalId": "admin",
       "permission": "ALLOW",
       "property": "deleteById"
-    }    
+    }
   ],
-  "methods": {}
+  "methods": []
 }

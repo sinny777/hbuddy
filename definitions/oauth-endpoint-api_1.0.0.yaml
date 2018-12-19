@@ -8,18 +8,10 @@ info:
     email: contact.hukam@gmail.com
 schemes:
   - https
+  - http
 host: $(catalog.host)
-basePath: /oauth-end
+basePath: /confidential
 securityDefinitions:
-  OAuth definition:
-    type: oauth2
-    description: ''
-    flow: accessCode
-    authorizationUrl: 'http://localhost:3000/oauth-end/oauth2/authorize'
-    scopes:
-      trigger_event: ''
-      device_details: ''
-    tokenUrl: 'http://localhost:3000/oauth-end/oauth2/token'
   clientID:
     description: application's client_id
     in: query
@@ -27,9 +19,6 @@ securityDefinitions:
     type: apiKey
 security:
   - clientID: []
-    OAuth definition:
-      - trigger_event
-      - device_details
 paths:
   /oauth2/authorize:
     get:
@@ -279,16 +268,16 @@ x-ibm-configuration:
   oauth2:
     client-type: confidential
     scopes:
-      trigger_event: Allows access to trigger device events
-      device_details: Allow access to fetch device information
+      Notifications: Notifications Api Scope
+      Devices: Allow access to fetch device information
     grants:
-      - password
       - accessCode
       - application
+      - password
     identity-extraction:
       type: basic
     authentication:
-      x-ibm-authentication-registry: ''
+      x-ibm-authentication-registry: MyUsers
     authorization:
       type: default-form
     access-token:

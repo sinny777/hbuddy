@@ -1187,50 +1187,6 @@ paths:
                 type: number
                 format: double
       deprecated: false
-  /UserIdentities/login:
-    post:
-      tags:
-        - MyUserIdentity
-      operationId: MyUserIdentity.login
-      parameters:
-        - name: provider
-          in: formData
-          required: true
-          type: string
-        - name: authScheme
-          in: formData
-          required: true
-          type: string
-        - name: profile
-          in: body
-          required: true
-          schema:
-            type: object
-        - name: credentials
-          in: body
-          required: true
-          schema:
-            type: object
-        - name: options
-          in: body
-          required: false
-          schema:
-            type: object
-      responses:
-        '200':
-          description: Request was successful
-          schema:
-            type: object
-            properties:
-              user:
-                type: object
-              info:
-                type: object
-              identity:
-                type: object
-              accessToken:
-                type: object
-      deprecated: false
   '/MyUsers/{id}/identities':
     get:
       tags:
@@ -2390,40 +2346,6 @@ paths:
           required: true
           schema:
             type: object
-      responses:
-        '204':
-          description: Request was successful
-      deprecated: false
-  /MyUsers/change-password:
-    post:
-      tags:
-        - MyUser
-      summary: Change a user's password.
-      operationId: MyUser.changePassword
-      parameters:
-        - name: oldPassword
-          in: form
-          required: true
-          type: string
-        - name: newPassword
-          in: form
-          required: true
-          type: string
-      responses:
-        '204':
-          description: Request was successful
-      deprecated: false
-  /MyUsers/reset-password:
-    post:
-      tags:
-        - MyUser
-      summary: Reset user's password via a password-reset token.
-      operationId: MyUser.setPassword
-      parameters:
-        - name: newPassword
-          in: form
-          required: true
-          type: string
       responses:
         '204':
           description: Request was successful
@@ -8162,10 +8084,11 @@ securityDefinitions:
   OAuth definition:
     type: oauth2
     description: ''
-    flow: accessCode
-    scopes: {}
-    authorizationUrl: 'http://localhost:3000/oauth-end/oauth2/authorize'
-    tokenUrl: 'http://localhost:3000/oauth-end/oauth2/token'
+    flow: application
+    scopes:
+      Notifications: ''
+      Devices: ''
+    tokenUrl: 'http://localhost:3000/confidential/oauth2/token'
   clientIdHeader:
     type: apiKey
     in: header
@@ -8177,7 +8100,9 @@ securityDefinitions:
 security:
   - clientIdHeader: []
     clientSecretHeader: []
-    OAuth definition: []
+    OAuth definition:
+      - Notifications
+      - Devices
 x-ibm-configuration:
   testable: true
   enforced: true

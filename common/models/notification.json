@@ -38,7 +38,7 @@
       "required": false
     },
     "typeValue": {
-      "type": "any",
+      "type": "string",
       "required": false
     },
     "userId": {

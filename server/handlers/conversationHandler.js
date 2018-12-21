@@ -60,16 +60,18 @@ var methods = {};
  * @param  {[type]} Conversation Loopback Model for CRUD operations in DB
  * @return {[type]}              API Response with Context, Output and more
  */
- function callWatsonAssistant(params) {
-		console.info("IN conversationHandler.callConversation with params: ", params);
+ function callWatsonAssistant(reqPayload) {
+		console.info("IN conversationHandler.callConversation with params: ", reqPayload);
 		return new Promise(function(resolve, reject){
-		    assert(params, 'params cannot be null');
+		    assert(reqPayload.params, 'params cannot be null');
+			
+				var params = reqPayload.params;
 				if(params.context){
 						params.context.next_action = null;
 				}else{
           params.context = {};
         }
-				console.info("User text: ", params.input.text);
+				console.info("User text: ", params.input);
 				if((!params.input || !params.input.text) && !params.context.initConversation){
 						return reject(new Error('Input text cannot be null or empty !'));
 				}

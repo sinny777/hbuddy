@@ -2,12 +2,12 @@ product: 1.0.0
 info:
   name: hbuddy
   title: hbuddy
-  version: 1.0.0
+  version: 1.0.1
 apis:
   hbuddy:
     $ref: hbuddy.yaml
-  oauth-endpoint-api:
-    $ref: oauth-endpoint-api_1.0.0.yaml
+  oauthapi:
+    $ref: oauthapi_1.0.0.yaml
 visibility:
   view:
     type: public

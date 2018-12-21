@@ -1,0 +1,155 @@
+type: bluemix
+server:
+  displayName: US South
+  name: us-south
+  host: us.apiconnect.ibmcloud.com
+org:
+  id: 589849280cf28d38b4c2f735
+  name: sinny777gmailcom-dev
+  displayName: sinny777@gmail.com (dev)
+  orgType: apiProvider
+  status: active
+  advPortalOverride: true
+  extUaaAuthenticated: false
+  requiresSSLClientCertCheck: false
+  dormant: false
+  url: 'https://us.apiconnect.ibmcloud.com/v1/orgs/589849280cf28d38b4c2f735'
+  externalOrgId: 7f658b47-0d8c-46a0-a2f9-ae1eb685773e
+  externalInviteOverride: 'https://console.ng.bluemix.net/apis/catalog/invitation'
+  externalSpaceId: 7f658b47-0d8c-46a0-a2f9-ae1eb685773e
+  externalNativeOrgId: c3809645-c537-4f11-af9b-355792bc72c7
+  dormantDate: '2018-12-19T05:29:38.192+0000'
+  bluemix:
+    inviteUri: 'https://console.ng.bluemix.net/apis/catalog/invitation'
+    organization: c3809645-c537-4f11-af9b-355792bc72c7
+    space: 7f658b47-0d8c-46a0-a2f9-ae1eb685773e
+catalog:
+  id: 5c19ff730cf27cf844fc92d4
+  orgId: 589849280cf28d38b4c2f735
+  name: Development
+  shortName: dev
+  owner:
+    id: 589750730cf2482cfdfd604e
+    username: sinny777@gmail.com
+    context: apimanager
+    idpId: 58341db4e63b1219f0f068d1
+    email: sinny777@gmail.com
+    firstName: ''
+    lastName: ''
+    status: ACTIVE
+    lastLoginTime: '2018-12-19T07:19:18.397+0000'
+    url: 'https://us.apiconnect.ibmcloud.com/v1/users/589750730cf2482cfdfd604e'
+  apiCenter: false
+  portalType: BASIC
+  portalUrl: 'https://developer.us.apiconnect.ibmcloud.com/sinny777gmailcom-dev/dev'
+  advPortalUrl: 'https://dev-sinny777gmailcom-dev.developer.us.apiconnect.ibmcloud.com'
+  gatewayType: DataPowerGateway
+  gwServices:
+    - id: PRODAPIC_APIMGMT_GATEWAY
+      endpointUrl: 'https://api.us.apiconnect.ibmcloud.com/sinny777gmailcom-dev/dev'
+  idp: 56efd30e0cf24d8a758858b1
+  idps:
+    - 56efd30e0cf24d8a758858b1
+  availableRoles:
+    - developer
+    - viewer
+  default: false
+  autoDeploy: true
+  restrictedDeployment: false
+  invitationEnabled: true
+  selfSignUpEnabled: true
+  spaceEnabled: false
+  spaceIds:
+    - 5c19ff770cf27cf844fc92dc
+  testAppEnabled: true
+  testAppCredentials:
+    clientId: cb387286-fdc2-4ab9-a639-eb76a50ea215
+    clientSecret: Q1eO3jS6bD2oS7uL4hM5aJ5gI3cQ1vD8eN5uI6hB1kV1wD1hD2
+  createdAt: '2018-12-19T08:21:11.007+0000'
+  updatedAt: '2018-12-19T08:21:11.007+0000'
+  createdBy: sinny777@gmail.com
+  updatedBy: sinny777@gmail.com
+  url: >-
+    https://us.apiconnect.ibmcloud.com/v1/orgs/589849280cf28d38b4c2f735/environments/5c19ff730cf27cf844fc92d4
+  applicationLifecycleEnabled: false
+  productDeploymentApprovalRequiredStates: []
+  orgName: sinny777gmailcom-dev
+space:
+  none: true
+app:
+  metadata:
+    guid: fa46cbf8-fc73-4450-a438-a055c808be51
+    url: /v2/apps/fa46cbf8-fc73-4450-a438-a055c808be51
+    created_at: '2017-02-05T13:47:31Z'
+    updated_at: '2018-12-19T05:46:46Z'
+  entity:
+    name: hbuddy-dev
+    production: false
+    space_guid: 7f658b47-0d8c-46a0-a2f9-ae1eb685773e
+    stack_guid: ac91d31a-86a3-453b-babf-8d49c9d763fc
+    buildpack: null
+    detected_buildpack: 'SDK for Node.js(TM) (node.js-8.9.0, buildpack-v3.24-20181128-1339)'
+    detected_buildpack_guid: 187ca3a0-db0a-41f4-814c-359e7f5ed1ab
+    environment_json:
+      ENABLE_DISCOVERY: 'false'
+      FACEBOOK_LOGIN_CLIENT_ID: '330079704089458'
+      FACEBOOK_LOGIN_CLIENT_SECRET: 1b90ff47d86375149b62c234c7ce2adf
+      FIREBASE_client_email: firebase-adminsdk-wf72k@hukam-157906.iam.gserviceaccount.com
+      FIREBASE_client_id: '112010402556399428504'
+      FIREBASE_private_key_id: 6edc1cf7b402b24ed1f5ca14aae09fe2765eb48c
+      FIREBASE_project_id: hukam-157906
+      GOOGLE_LOGIN_CLIENT_ID: 874807563899-9kk6gpacomg9t56pqfc4o8n4gn365ppg.apps.googleusercontent.com
+      GOOGLE_LOGIN_CLIENT_SECRET: Z_HktcSYMZMLBx8Usz0DL-pS
+      NODE_ENV: production
+      PUSH_NOTIFICATION_SERVER_KEY: >-
+        AAAAy66YFns:APA91bHa_RXSrxCHUYlrVW5fl89dxfLx02sjsby6OEhPPqgKi0fF66BFNNxHSUhyOmK8PQ_Oj2bfADAsMu_MPUyDpL08qmIPddsMMcRNmGVB-SdMPHZ_cothPtNyGNMY09pWVW32Zi77
+      SERVICES_CONFIG_CLOUDANT_credentials_url: >-
+        https://34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix:75ae9c3507534f29ddfd175531aa780f889f4fc858a666dcacf572b097d08849@34fd0b82-60b8-4d0d-9231-1f03135d4273-bluemix.cloudant.com
+      SERVICES_CONFIG_CONVERSATION_credentials_password: 5vr8NeNBQnli
+      SERVICES_CONFIG_CONVERSATION_credentials_silent: 'true'
+      SERVICES_CONFIG_CONVERSATION_credentials_url: 'https://gateway.watsonplatform.net/conversation/api'
+      SERVICES_CONFIG_CONVERSATION_credentials_username: 2a071897-6991-47d4-87f2-fda6d2d9c021
+      SERVICES_CONFIG_CONVERSATION_credentials_version: v1
+      SERVICES_CONFIG_CONVERSATION_credentials_version_date: '2017-05-26'
+      SERVICES_CONFIG_CONVERSATION_worspace_id: 54a0fc6a-45e2-42a6-a68d-b09cd6d99db5
+      SERVICES_CONFIG_IOT_CONFIG_credentials_authkey: a-rqeofj-i7nm1fdo5d
+      SERVICES_CONFIG_IOT_CONFIG_credentials_authtoken: 3X0bTD*8tf4Q1rq12n
+      SERVICES_CONFIG_IOT_CONFIG_credentials_id: a-rqeofj-i7nm1fdo5d
+      SERVICES_CONFIG_IOT_CONFIG_credentials_org: rqeofj
+      SERVICES_CONFIG_IOT_CONFIG_credentials_type: shared
+      WATSON_ASSISTANT_WORKSPACE_ID: 54a0fc6a-45e2-42a6-a68d-b09cd6d99db5
+      email_password: '#1WaheguruJi'
+      email_username: sinny777@gmail.com
+    memory: 256
+    instances: 1
+    disk_quota: 1024
+    state: STARTED
+    version: 1c82970d-b52e-4d43-ae0b-bb2ff9c329d8
+    command: node .
+    console: false
+    debug: null
+    staging_task_id: 591045c1-e79d-442a-90bc-54fe9178d23d
+    package_state: STAGED
+    health_check_type: port
+    health_check_timeout: null
+    health_check_http_endpoint: ''
+    staging_failed_reason: null
+    staging_failed_description: null
+    diego: true
+    docker_image: null
+    docker_credentials:
+      username: null
+      password: null
+    package_updated_at: '2018-12-19T05:46:38Z'
+    detected_start_command: ./vendor/initial_startup.rb
+    enable_ssh: true
+    ports:
+      - 8080
+    space_url: /v2/spaces/7f658b47-0d8c-46a0-a2f9-ae1eb685773e
+    stack_url: /v2/stacks/ac91d31a-86a3-453b-babf-8d49c9d763fc
+    routes_url: /v2/apps/fa46cbf8-fc73-4450-a438-a055c808be51/routes
+    events_url: /v2/apps/fa46cbf8-fc73-4450-a438-a055c808be51/events
+    service_bindings_url: /v2/apps/fa46cbf8-fc73-4450-a438-a055c808be51/service_bindings
+    route_mappings_url: /v2/apps/fa46cbf8-fc73-4450-a438-a055c808be51/route_mappings
+id: 6513cef9-8020-465b-b36c-31f6e429aff3
+target: 1.0.0

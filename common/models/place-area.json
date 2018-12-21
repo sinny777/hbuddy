@@ -36,7 +36,7 @@
       "type": "string"
     },
     "sensors": {
-      "type": "any",
+      "type": "array",
       "required": false
     }
   },

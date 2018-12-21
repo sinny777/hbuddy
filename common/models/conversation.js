@@ -19,12 +19,18 @@ module.exports = function(Conversation) {
 		if(!conversationHandler){
 			conversationHandler = require('../../server/handlers/conversationHandler')(Conversation.app);
 		}
-			conversationHandler.callVirtualAssistant(req.body).then((responseJson) => {
-				// console.log("IBM WATSON RESPONSE: >>> ", responseJson);
-				next(null, responseJson);
-			}).catch(function(error) {
-					next(error, null);
-			});
+			var reqPayload = req.body;
+			if(reqPayload){
+				conversationHandler.callVirtualAssistant(reqPayload).then((responseJson) => {
+					// console.log("IBM WATSON RESPONSE: >>> ", responseJson);
+					next(null, responseJson);
+				}).catch(function(error) {
+						next(error, null);
+				});
+			}else{
+				next(new Error('Input text cannot be null or empty !'), null);
+			}
+
  };
 
  Conversation.publishToSocket = function(req, next){

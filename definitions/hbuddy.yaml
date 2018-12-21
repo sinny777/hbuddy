@@ -2281,6 +2281,9 @@ paths:
 
 
 
+
+
+
             type: object
       deprecated: false
   /MyUsers/logout:
@@ -2346,6 +2349,40 @@ paths:
           required: true
           schema:
             type: object
+      responses:
+        '204':
+          description: Request was successful
+      deprecated: false
+  /MyUsers/change-password:
+    post:
+      tags:
+        - MyUser
+      summary: Change a user's password.
+      operationId: MyUser.changePassword
+      parameters:
+        - name: oldPassword
+          in: formData
+          required: true
+          type: string
+        - name: newPassword
+          in: formData
+          required: true
+          type: string
+      responses:
+        '204':
+          description: Request was successful
+      deprecated: false
+  /MyUsers/reset-password:
+    post:
+      tags:
+        - MyUser
+      summary: Reset user's password via a password-reset token.
+      operationId: MyUser.setPassword
+      parameters:
+        - name: newPassword
+          in: formData
+          required: true
+          type: string
       responses:
         '204':
           description: Request was successful
@@ -7676,10 +7713,10 @@ definitions:
         type: object
       created:
         type: string
-        format: date
+        format: date-time
       modified:
         type: string
-        format: date
+        format: date-time
       id:
         type: number
         format: double
@@ -7723,10 +7760,10 @@ definitions:
         type: object
       created:
         type: string
-        format: date
+        format: date-time
       modified:
         type: string
-        format: date
+        format: date-time
       id:
         type: number
         format: double
@@ -7747,10 +7784,10 @@ definitions:
         type: object
       created:
         type: string
-        format: date
+        format: date-time
       modified:
         type: string
-        format: date
+        format: date-time
       id:
         type: string
       userId:
@@ -7772,7 +7809,7 @@ definitions:
           type: string
       created:
         type: string
-        format: date
+        format: date-time
       userId:
         type: string
       principalType:
@@ -7790,10 +7827,10 @@ definitions:
         type: string
       created:
         type: string
-        format: date
+        format: date-time
       modified:
         type: string
-        format: date
+        format: date-time
     required:
       - name
     additionalProperties: false
@@ -7872,7 +7909,9 @@ definitions:
       type:
         type: string
       sensors:
-        $ref: '#/definitions/x-any'
+        type: array
+        items:
+          $ref: '#/definitions/x-any'
       id:
         type: string
     required:
@@ -7896,7 +7935,7 @@ definitions:
         type: string
       mfgDate:
         type: string
-        format: date
+        format: date-time
       owner:
         type: object
       placeId:
@@ -7928,14 +7967,16 @@ definitions:
   Scene:
     properties:
       areas:
-        $ref: '#/definitions/x-any'
+        type: array
+        items:
+          $ref: '#/definitions/x-any'
       audit:
         type: object
       description:
         type: string
       lastExecutedTime:
         type: string
-        format: date
+        format: date-time
       placeId:
         type: string
       settings:
@@ -7993,7 +8034,7 @@ definitions:
       typeParentId:
         type: string
       typeValue:
-        $ref: '#/definitions/x-any'
+        type: string
       userId:
         type: string
       id:
@@ -8045,7 +8086,7 @@ definitions:
         type: object
       timestamp:
         type: string
-        format: date
+        format: date-time
       intents:
         type: object
       entities:
@@ -8071,38 +8112,41 @@ basePath: /api
 swagger: '2.0'
 info:
   x-ibm-name: hbuddy
-  version: 1.0.0
+  version: 1.0.1
   title: hbuddy
+  contact:
+    name: Gurvinder Singh
+    email: sinny777@gmail.com
+    url: 'http://www/hukamtechnologies.com'
 schemes:
   - https
-host: $(catalog.host)
 consumes:
   - application/json
 produces:
   - application/json
 securityDefinitions:
-  OAuth definition:
+  Oauth Definition:
     type: oauth2
     description: ''
     flow: application
     scopes:
-      Notifications: ''
-      Devices: ''
-    tokenUrl: 'http://localhost:3000/confidential/oauth2/token'
+      places: ''
+    tokenUrl: >-
+      https://api.us.apiconnect.ibmcloud.com/sinny777gmailcom-dev/sb/confidential/oauth2/token
+  clientSecretHeader:
+    type: apiKey
+    description: ''
+    in: header
+    name: X-IBM-Client-Secret
   clientIdHeader:
     type: apiKey
     in: header
     name: X-IBM-Client-Id
-  clientSecretHeader:
-    in: header
-    name: X-IBM-Client-Secret
-    type: apiKey
 security:
-  - clientIdHeader: []
-    clientSecretHeader: []
-    OAuth definition:
-      - Notifications
-      - Devices
+  - clientSecretHeader: []
+    clientIdHeader: []
+  - Oauth Definition:
+      - places
 x-ibm-configuration:
   testable: true
   enforced: true
@@ -8114,8 +8158,25 @@ x-ibm-configuration:
         runtime-url: $(TARGET_URL)
     sb:
       properties:
-        runtime-url: 'http://localhost:4001'
+        runtime-url: 'https://localhost:4001'
+        target-url: 'https://hbuddy-dev.mybluemix.net'
   assembly:
     execute:
-      - invoke:
-          target-url: $(runtime-url)$(request.path)$(request.search)
+      - proxy:
+          title: proxy
+          timeout: 60
+          verb: keep
+          cache-response: protocol
+          cache-ttl: 900
+          version: 1.0.0
+          tls-profile: 'client:Loopback-client'
+          target-url: $(target-url)$(request.path)$(request.search)
+    catch: []
+  gateway: datapower-gateway
+  phase: realized
+  properties:
+    target-url:
+      value: ''
+      description: ''
+      encoded: false
+host: $(catalog.host)

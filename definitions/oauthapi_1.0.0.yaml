@@ -1,14 +1,10 @@
 swagger: '2.0'
 info:
-  x-ibm-name: oauth-endpoint-api
-  title: OAuth Endpoint API
+  x-ibm-name: oauthapi
+  title: OauthAPI
   version: 1.0.0
-  contact:
-    name: Hukam
-    email: contact.hukam@gmail.com
 schemes:
   - https
-  - http
 host: $(catalog.host)
 basePath: /confidential
 securityDefinitions:
@@ -17,6 +13,14 @@ securityDefinitions:
     in: query
     name: client_id
     type: apiKey
+  clientIdHeader:
+    in: header
+    type: apiKey
+    name: X-IBM-Client-Id
+  clientSecretHeader:
+    in: header
+    type: apiKey
+    name: X-IBM-Client-Secret
 security:
   - clientID: []
 paths:
@@ -35,11 +39,6 @@ paths:
           enum:
             - code
             - token
-        - name: client_id
-          in: query
-          description: Application client ID
-          required: true
-          type: string
         - name: scope
           in: query
           description: Scope being requested
@@ -83,8 +82,7 @@ paths:
         issue an
 
         authorization code or access token to the application.
-      security:
-        - clientID: []
+      security: []
       parameters:
         - name: client_id
           in: formData
@@ -125,7 +123,7 @@ paths:
           type: string
       responses:
         '200':
-          description: Cool
+          description: A consent form for oauth processing.
   /oauth2/token:
     post:
       consumes:
@@ -263,21 +261,20 @@ paths:
           description: json document that may contain additional details about the failure
 x-ibm-configuration:
   testable: true
-  enforced: false
+  enforced: true
   phase: realized
   oauth2:
     client-type: confidential
     scopes:
-      Notifications: Notifications Api Scope
-      Devices: Allow access to fetch device information
+      places: ''
     grants:
-      - accessCode
       - application
-      - password
     identity-extraction:
-      type: basic
+      type: default-form
     authentication:
-      x-ibm-authentication-registry: MyUsers
+      x-ibm-authentication-url:
+        url: 'https://example.com/auth/url'
+        tls-profile: ''
     authorization:
       type: default-form
     access-token:
@@ -289,21 +286,6 @@ x-ibm-configuration:
       metadata-url:
         url: ''
         tls-profile: ''
-  cors:
-    enabled: false
-  assembly:
-    execute:
-      - invoke:
-          title: invoke
-          timeout: 60
-          verb: GET
-          cache-response: protocol
-          cache-ttl: 900
-          stop-on-error:
-            - null
-          version: 1.0.0
-          target-url: $(runtime-url)$(request.path)$(request.search)
-    catch: []
 definitions:
   access_token_response:
     type: object

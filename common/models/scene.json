@@ -7,7 +7,7 @@
   },
   "properties": {
     "areas": {
-      "type": "any",
+      "type": "array",
       "required": false
     },
     "audit": {

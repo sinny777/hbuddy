@@ -24,7 +24,7 @@ var passportConfigurator = new PassportConfigurator(app);
 // app.use('/api', loopback.rest());
 
 var bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 /*
 app.middleware('parse', bodyParser.json({limit: 1024*1024*50, type:'application/json'}));

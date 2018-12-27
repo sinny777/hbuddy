@@ -1,5 +1,5 @@
 module.exports = function(app) {
-
+  /*
   var oauth2 = require('loopback-component-oauth2');
   console.log("\n\n<<<<<<< IN OAUTH SETUP >>>>>>>>\n");
   var options = {
@@ -9,7 +9,7 @@ module.exports = function(app) {
     tokenPath: '/oauth/token',
     authorizationServer: true,
     resourceServer: true,
-    authorizePath: '/oauth'
+    authorizePath: '/oauth/authorize'
   };
 
   oauth2.oAuth2Provider(
@@ -19,9 +19,9 @@ module.exports = function(app) {
 
   oauth2.authenticate(['/protected', '/api', '/account'], {
     session: false,
-    scope: 'email'
+    scope: 'places'
   });
-
+  */
 
   /*
     var router = app.loopback.Router();

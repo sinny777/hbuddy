@@ -1,8 +1,9 @@
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Component, ViewChild, ElementRef} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MyAuthService } from './services/auth.service';
 import { environment } from '../environments/environment';
+
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,7 @@ export class AppComponent {
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
 
-  constructor(private router: Router, private myAuthService: MyAuthService, private fb: FormBuilder){
+  constructor(private router: Router, private route: ActivatedRoute, private myAuthService: MyAuthService, private fb: FormBuilder){
         this.CONFIG = environment;
         // console.log("CONFIG: >>> ", this.CONFIG);
       this.loginForm = fb.group({
@@ -32,6 +33,7 @@ export class AppComponent {
 
    ngOnInit() {
       console.log("<<<<<< Inside Main App Component >>>> ")
+      console.log("QUERY PARAMS: >>> ",this.route.snapshot.queryParamMap);
       // this.router.navigate([''])
       this.myAuthService.getUserInfo(false).then( result => {
             this.currentUser = result;
@@ -53,6 +55,7 @@ export class AppComponent {
 
   handleLogin(post){
     // console.log("IN handleLogin: >>> ", JSON.stringify(post));
+    console.log("IN handleLogin: >>> ", this.router.url);
     var params = {};
     if(post.username.indexOf('@') != -1){
       params = {
@@ -73,6 +76,9 @@ export class AppComponent {
     this.myAuthService.login(loginReq).then( result => {
         this.currentUser = result;
         this.closeBtn.nativeElement.click();
+        if(this.router.url == "/auth"){
+          
+        }
      },
      error => {
         console.log("ERROR: >>> ", error);

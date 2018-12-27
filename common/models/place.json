@@ -4,6 +4,11 @@
   "base": "PersistedModel",
   "strict": false,
   "idInjection": false,
+  "scopes": {
+    "places": {
+      "limit": 5
+    }
+  },
   "options": {
     "validateUpsert": true
   },

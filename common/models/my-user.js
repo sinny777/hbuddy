@@ -52,7 +52,7 @@ module.exports = function(MyUser) {
 	MyUser.authenticate = function(ctx, options, next) {
 		var req = ctx.req;
 		var res = ctx.res;
-		const accessToken = options && options.accessToken;
+		// const accessToken = options && options.accessToken;
 		console.log('IN MyUser.authenticate, req.url: >>> ', req.url);
 		console.log('IN MyUser.authenticate, req.query: >>> ', req.query);
 		console.log("IN MyUser.authenticate, req.headers.referer: >> ", req.headers.referer);

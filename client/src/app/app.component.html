@@ -20,7 +20,7 @@
 	    <div class="collapse navbar-collapse" id="navigation-index">
 	    	<ul class="nav navbar-nav navbar-right">
 						<li class="nav-item" *ngIf="!currentUser || !currentUser.id">
-								<a href="#" data-toggle="modal" data-target="#loginModal">
+								<a id="loginModalLink" href="javascript:void(0);" data-toggle="modal" data-target="#loginModal">
 									<i class="material-icons">login</i> Login
 								</a>
 						</li>
@@ -47,7 +47,7 @@
 											<li><a target="_blank" href="https://console.bluemix.net/devops/pipelines/56d9538c-ef70-4c9a-b3cc-0254e653eda8?env_id=ibm:yp:us-south">DevOps</a></li>
 									</ul>
 						</li>
-						
+
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 							<i class="material-icons">menu</i>

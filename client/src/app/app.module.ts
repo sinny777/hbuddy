@@ -17,6 +17,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { HBuddyComponent } from './pages/h-buddy/h-buddy.component';
 import { PlacesComponent } from './pages/places/places.component';
+import { AuthComponent } from './pages/auth/auth.component';
 
 let providers = {
     "google": {
@@ -37,7 +38,8 @@ let providers = {
     HomeComponent,
     DashboardComponent,
     HBuddyComponent,
-    PlacesComponent
+    PlacesComponent,
+    AuthComponent
   ],
   imports: [
     AppRoutingModule,

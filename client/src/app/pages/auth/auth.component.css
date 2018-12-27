@@ -1,0 +1,48 @@
+
+#auth_header {
+  background-image: url("/assets/images/bg_iot3.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #000000;
+  min-height: 430px;
+  /* height: 400px; */
+}
+
+#auth_header .container{
+  padding-top: 140px
+}
+
+.profile-page .brand {
+    color: #FFF;
+    text-align: center;
+}
+
+#auth_header .brand h1 {
+    color: #FFF;
+    text-align: center;
+    font-size: 4.8em;
+    font-weight: 600;
+    display: inline-block;
+    position: relative;
+    /* padding-left: 55px */
+}
+
+#auth_header .brand h2 {
+    color: #FFF;
+    text-align: center;
+    font-size: 1.4em;
+    font-weight: 200;
+    display: inline-block;
+    position: relative;
+    /* padding-left: 65px; */
+    margin-top: 1px;
+}
+
+#auth_header .profile-tabs {
+    margin-top: 30px !important;
+}
+
+.profile .title{
+  margin-bottom: 1px;
+}

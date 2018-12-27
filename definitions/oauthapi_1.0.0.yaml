@@ -7,27 +7,11 @@ schemes:
   - https
 host: $(catalog.host)
 basePath: /confidential
-securityDefinitions:
-  clientID:
-    description: application's client_id
-    in: query
-    name: client_id
-    type: apiKey
-  clientIdHeader:
-    in: header
-    type: apiKey
-    name: X-IBM-Client-Id
-  clientSecretHeader:
-    in: header
-    type: apiKey
-    name: X-IBM-Client-Secret
-security:
-  - clientID: []
+securityDefinitions: {}
+security: []
 paths:
   /oauth2/authorize:
     get:
-      produces:
-        - text/html
       summary: endpoint for Authorization Code and Implicit grants
       description: description
       parameters:
@@ -69,8 +53,6 @@ paths:
 
             - **error** in case of errors, such as the user has denied the
             request
-      security:
-        - clientID: []
     post:
       consumes:
         - application/x-www-form-urlencoded
@@ -269,12 +251,14 @@ x-ibm-configuration:
       places: ''
     grants:
       - application
+      - accessCode
+      - password
     identity-extraction:
       type: default-form
     authentication:
       x-ibm-authentication-url:
-        url: 'https://example.com/auth/url'
-        tls-profile: ''
+        url: >-
+          https://hukamtechnologies.localtunnel.me/api/MyUsers/login?include=["user"]
     authorization:
       type: default-form
     access-token:

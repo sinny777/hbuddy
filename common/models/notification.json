@@ -2,6 +2,11 @@
   "name": "Notification",
   "base": "PersistedModel",
   "idInjection": true,
+  "scopes": {
+    "notifications": {
+      "limit": 5
+    }
+  },
   "options": {
     "validateUpsert": true
   },

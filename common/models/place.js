@@ -42,6 +42,12 @@ module.exports = function(Place, Member) {
 		 return next();
 		});
 
+		Place.observe('access', function findPlace(ctx, next) {
+		  console.log('Accessing %s matching %s', ctx.Model.modelName, JSON.stringify(ctx.query.where));
+			console.log(ctx.accessToken);
+			next();
+		});
+
 	// remote method before hook
 	  Place.beforeRemote('find', function(context, unused, next) {
 		  console.log('\n\nIN Place.js find method >>>>>> ');

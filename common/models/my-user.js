@@ -49,6 +49,21 @@ module.exports = function(MyUser) {
 
 	);
 
+	MyUser.remoteMethod(
+		    'oauthLogin',
+		    {
+		    	accepts: [
+		            { arg: 'ctx', type: 'object', http: function(ctx) {
+		              				return ctx;
+		            				}
+		          	}
+							],
+		         http: {path: '/oauth', verb: 'get'},
+						 returns: {arg: 'token', type: 'object'}
+		    }
+
+	);
+
 	MyUser.authenticate = function(ctx, options, next) {
 		var req = ctx.req;
 		var res = ctx.res;
@@ -99,6 +114,38 @@ module.exports = function(MyUser) {
 		}
 
 	}
+
+	MyUser.oauthLogin = function(ctx, next){
+		var res = ctx.res;
+		var req = ctx.req;
+
+		var auth = req.headers['authorization'];
+		// console.log("auth: >>> ", auth);
+		if(!auth) {
+          res.statusCode = 401;
+          res.setHeader('WWW-Authenticate', 'Basic realm="Secure Area"');
+          res.end('<html><body>Need some creds son</body></html>');
+    }else if(auth) {
+					var tmp = auth.split(' ');   // Split on a space, the original auth looks like  "Basic Y2hhcmxlczoxMjM0NQ==" and we need the 2nd part
+					var buf = new Buffer(tmp[1], 'base64'); // create a buffer and tell it the data coming in is base64
+					var plain_auth = buf.toString();        // read it back out as a string
+					var creds = plain_auth.split(':');      // split on a ':'
+					var username = creds[0];
+					var password = creds[1];
+
+					let credentials = {"username": username, "password": password};
+
+					MyUser.login(credentials, function(err, accessToken) {
+            if (err) {
+              return next(err, null);
+            }
+            	console.info(accessToken);
+							return next(null, accessToken);
+          });
+
+		}
+
+	};
 
 	MyUser.observe('access', function logQuery(ctx, next) {
 	  console.log('Accessing %s matching %s', ctx.Model.modelName, JSON.stringify(ctx.query.where));

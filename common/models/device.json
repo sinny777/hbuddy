@@ -110,6 +110,12 @@
       "principalId": "admin",
       "permission": "ALLOW",
       "property": "deleteById"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "googleAction"
     }
   ],
   "methods": {}

@@ -36,8 +36,10 @@ app.middleware('parse', bodyParser.urlencoded({
 }));
 */
 
+
 app.use((req, res, next) => {
 	  const token = req.accessToken;
+		console.log("TOKEN >>> ", token);
 	  if (!token) {
 	    return next();
 	  }
@@ -48,6 +50,7 @@ app.use((req, res, next) => {
 	  req.accessToken.created = now; // eslint-disable-line
 	  return req.accessToken.save(next);
 });
+
 
 var flash = require('express-flash');
 

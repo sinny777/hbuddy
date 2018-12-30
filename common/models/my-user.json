@@ -24,13 +24,10 @@
   "relations": {
     "accessTokens": {
       "type": "hasMany",
-      "model": "CustomAccessToken",
-      "polymorphic": {
-        "foreignKey": "userId",
-        "discriminator": "principalType"
-      },
+      "model": "AccessToken",
+      "foreignKey": "userId",
       "options": {
-        "disableInclude": false
+        "disableInclude": true
       }
     },
     "identities": {
@@ -74,6 +71,12 @@
       "principalId": "$everyone",
       "permission": "ALLOW",
       "property": "failedAuthentication"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "oauthLogin"
     },
     {
       "principalType": "ROLE",

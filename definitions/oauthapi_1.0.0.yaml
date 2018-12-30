@@ -258,7 +258,7 @@ x-ibm-configuration:
       type: default-form
     authentication:
       x-ibm-authentication-url:
-        url: 'https://hukamtechnologies.localtunnel.me/login'
+        url: 'https://hukamtechnologies.localtunnel.me/api/MyUsers/oauth'
     authorization:
       type: default-form
     access-token:

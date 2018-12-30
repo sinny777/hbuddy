@@ -19,12 +19,14 @@
   },
   "auth": {
     "loopback#token": {
+      "params": {
+        "currentUserLiteral": "me",
+        "headers": ["access_token", "X-Access-Token", "authorization"],
+        "params": ["access_token"]
+      },
       "paths": [
         "${restApiRoot}"
-      ],
-      "params": {
-        "currentUserLiteral": "me"
-      }
+      ]
     }
   },
   "routes": {
@@ -54,8 +56,8 @@
     "./middleware/error-logger": {},
     "strong-error-handler": {
       "params": {
-        "debug": false,
-        "log": false
+        "debug": true,
+        "log": true
       }
     }
   }

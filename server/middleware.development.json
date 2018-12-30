@@ -20,7 +20,9 @@
   "auth": {
     "loopback#token": {
       "params": {
-        "currentUserLiteral": "me"
+        "currentUserLiteral": "me",
+        "headers": ["access_token", "X-Access-Token", "authorization"],
+        "params": ["access_token"]
       },
       "paths": [
         "${restApiRoot}"

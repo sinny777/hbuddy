@@ -23,7 +23,7 @@
         "${restApiRoot}"
       ],
       "params": {
-        "model": "CustomAccessToken"
+        "currentUserLiteral": "me"
       }
     }
   },
@@ -35,12 +35,20 @@
     }
   },
   "files": {
-    "loopback#static": {
-      "paths": [
-        "/"
-      ],
-      "params": "$!../client/dist"
-    }
+    "loopback#static": [
+      {
+        "paths": [
+          "/"
+        ],
+        "params": "$!../client/dist"
+      },
+      {
+        "paths": [
+          "/auth"
+        ],
+        "params": "$!../auth"
+      }
+    ]
   },
   "final:after": {
     "./middleware/error-logger": {},

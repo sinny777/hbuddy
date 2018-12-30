@@ -3546,76 +3546,6 @@ paths:
           schema:
             $ref: '#/definitions/Group'
       deprecated: false
-  /Places/places:
-    get:
-      tags:
-        - Place
-      summary: Queries places of Place.
-      operationId: Place.__get__places
-      parameters:
-        - name: filter
-          in: query
-          required: false
-          type: string
-          format: JSON
-      responses:
-        '200':
-          description: Request was successful
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Place'
-      deprecated: false
-    post:
-      tags:
-        - Place
-      summary: Creates a new instance in places of this model.
-      operationId: Place.__create__places
-      parameters:
-        - name: data
-          in: body
-          required: false
-          schema:
-            $ref: '#/definitions/Place'
-      responses:
-        '200':
-          description: Request was successful
-          schema:
-            $ref: '#/definitions/Place'
-      deprecated: false
-    delete:
-      tags:
-        - Place
-      summary: Deletes all places of this model.
-      operationId: Place.__delete__places
-      parameters: []
-      responses:
-        '204':
-          description: Request was successful
-      deprecated: false
-  /Places/places/count:
-    get:
-      tags:
-        - Place
-      summary: Counts places of Place.
-      operationId: Place.__count__places
-      parameters:
-        - name: where
-          in: query
-          description: Criteria to match model instances
-          required: false
-          type: string
-          format: JSON
-      responses:
-        '200':
-          description: Request was successful
-          schema:
-            type: object
-            properties:
-              count:
-                type: number
-                format: double
-      deprecated: false
   '/Places/{id}/groups':
     get:
       tags:
@@ -7980,10 +7910,11 @@ securityDefinitions:
   Oauth Definition:
     type: oauth2
     description: ''
-    flow: application
+    flow: accessCode
     scopes:
       places: ''
     tokenUrl: 'https://api.us.apiconnect.ibmcloud.com/sinny777gmailcom-dev/sb/confidential/oauth2/token'
+    authorizationUrl: 'https://api.us.apiconnect.ibmcloud.com/sinny777gmailcom-dev/sb/confidential/oauth2/authorize'
   clientSecretHeader:
     type: apiKey
     description: ''
@@ -7998,6 +7929,7 @@ security:
     clientIdHeader: []
   - Oauth Definition:
       - places
+    clientIdHeader: []
 x-ibm-configuration:
   testable: true
   enforced: true

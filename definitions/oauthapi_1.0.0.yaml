@@ -53,6 +53,7 @@ paths:
 
             - **error** in case of errors, such as the user has denied the
             request
+      consumes: []
     post:
       consumes:
         - application/x-www-form-urlencoded
@@ -250,26 +251,25 @@ x-ibm-configuration:
     scopes:
       places: ''
     grants:
-      - application
       - accessCode
       - password
+      - application
     identity-extraction:
       type: default-form
     authentication:
       x-ibm-authentication-url:
-        url: >-
-          https://hukamtechnologies.localtunnel.me/api/MyUsers/login?include=["user"]
+        url: 'https://hukamtechnologies.localtunnel.me/login'
     authorization:
       type: default-form
     access-token:
-      ttl: 3600
-    refresh-token:
-      count: 2048
-      ttl: 2682000
+      ttl: 21600
     metadata:
       metadata-url:
         url: ''
         tls-profile: ''
+    refresh-token:
+      count: 2048
+      ttl: 2682000
 definitions:
   access_token_response:
     type: object
@@ -290,7 +290,7 @@ definitions:
         type: string
       refresh_token:
         type: string
-consumes:
-  - application/json
 produces:
+  - application/json
+consumes:
   - application/json

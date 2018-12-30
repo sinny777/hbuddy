@@ -1,20 +1,107 @@
 <div id="auth_header" class="header header-filter" >
-  <!-- <div class="container">
-    <div class="row">
+  <div class="container">
+    <!-- <div class="row">
       <div class="col-md-8 col-md-offset-2">
         <div class="brand">
           <h1>Our IoT Solutions...</h1>
           <h4>We offer a holistic IIoT solution combining smart sensors, AI-based analytics and the visualization of key insights to reduce operational costs and increase machine uptime.</h4>
         </div>
       </div>
-    </div>
-  </div> -->
+    </div>  -->
+  </div>
 </div>
 
 <div class="main main-raised">
 
         <div class="section section-landing">
             <div class="container">
+              <a id="authModalLink" href="javascript:void(0);" data-toggle="modal" data-target="#authModal">
+
+              </a>
+
+              <form method="POST" enctype="application/x-www-form-urlencoded" action="https://hukamtechnologies.localtunnel.me/login">
+                  <h1>Please sign in</h1>
+                  <p>Username </p>
+                  <p style="text-indent: 0em;"><input type="text" name="username" required="required" /> </p>
+                  <p>Password </p>
+                  <p style="text-indent: 0em;"><input type="password" name="password" required="required" /> </p>
+                  <!-- <EI-INJECT-HIDDEN-INPUT-FIELDS/> -->
+                  <p style="text-indent: 2em;"> <button id="login_button" type="submit" name="login" value="true">Log in</button> </p>
+<!--
+                  <EI-LOGINFIRSTTIME>
+                    <p>If you have forgotten your user name or password, contact your system administrator.</p>
+                  </EI-LOGINFIRSTTIME>
+
+                  <EI-LOGINFAILED>
+                    <p style="color: red">At least entry does not match our records. If you have forgotten your
+                    user name or password, contact your system administrator.</p>
+                  </EI-LOGINFAILED>
+
+                  <EI-INTERNAL-CUSTOM-FORM-ERROR/> -->
+
+              </form>
+
+
             </div>
         </div>
+</div>
+
+<div class="modal fade" id="authModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-login">
+    <div class="modal-content">
+      <div class="card card-signup card-plain">
+        <div class="modal-header">
+          <button #closeBtn1 type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
+
+          <div class="header header-primary text-center">
+            <h4 class="card-title">Log in</h4>
+            <div class="social-line">
+              <a href="{{CONFIG.API_BASE_URL}}/MyUsers/authenticate?provider=google&redirectTo='/'" class="btn btn-just-icon btn-simple">
+                <i class="fa fa-google-plus"></i>
+              </a>
+              <a href="{{CONFIG.API_BASE_URL}}/MyUsers/authenticate?provider=facebook&redirectTo='/'" class="btn btn-just-icon btn-simple">
+                <i class="fa fa-facebook-square"></i>
+              </a>
+              <a href="{{CONFIG.API_BASE_URL}}/MyUsers/authenticate?provider=linkedin&redirectTo='/'" class="btn btn-just-icon btn-simple">
+                <i class="fa fa-linkedin"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="modal-body">
+
+                <form class="form" (ngSubmit)="onSubmit($event)" [formGroup]="authForm" method="POST" enctype="application/x-www-form-urlencoded" action="https://hukamtechnologies.localtunnel.me/login" >
+                  <p class="description text-center">Or Be Classical</p>
+                  <div class="card-content">
+
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <i class="material-icons">email</i>
+                      </span>
+                      <div class="form-group is-empty"><input type="text" class="form-control" placeholder="Username/Email" formControlName="username"><span class="material-input"></span></div>
+                    </div>
+
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <i class="material-icons">lock_outline</i>
+                      </span>
+                      <div class="form-group is-empty"><input type="password" placeholder="Password" formControlName="password" class="form-control"><span class="material-input"></span></div>
+                    </div>
+
+                  </div>
+
+                  <div class="text-center login-btn">
+                      <input type="submit" class="btn btn-primary btn-simple btn-wd btn-lg" value="Login" [disabled]="!authForm.valid" >
+                  </div>
+
+                </form>
+
+        </div>
+        <div class="modal-footer text-center register-text">
+          Don't have an account ? <a href="javascript:void(0);" (click)="gotoRegister();" class="">Click here to Register</a>
+          <!-- <input type="submit" class="btn btn-primary btn-simple btn-wd btn-lg" value="Login" [disabled]="!loginForm.valid"> -->
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

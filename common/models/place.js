@@ -49,7 +49,8 @@ module.exports = function(Place, Member) {
 			var userId = accessToken && accessToken.userId;
 	    var ownerId = context.query && context.query.where && context.query.where.ownerId;
 
-		// console.log('accessToken: >> ', accessToken);
+		 	console.log('accessToken: >> ', accessToken);
+			// console.log('userId: >> ', userId);
 		/*
 	    if(loopback){
 	    	var loopbackContext = LoopBackContext.getCurrentContext();

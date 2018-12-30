@@ -20,7 +20,7 @@
   "auth": {
     "loopback#token": {
       "params": {
-        "model": "CustomAccessToken"
+        "currentUserLiteral": "me"
       },
       "paths": [
         "${restApiRoot}"
@@ -39,6 +39,10 @@
       {
         "paths": ["/"],
         "params": "$!../client/dist"
+      },
+      {
+        "paths": ["/auth"],
+        "params": "$!../auth"
       }
     ]
   },

@@ -10,8 +10,7 @@ module.exports = function(Device) {
 														}
 										}],
 		         http: {path: '/action', verb: 'post'},
-		         returns: {arg: 'data', type: 'object'},
-						 "accessScopes": ["/api"]
+		         returns: {type: 'object', root: true}
 		    }
 	);
 
@@ -74,7 +73,7 @@ module.exports = function(Device) {
       }
       switch (intent) {
         case 'action.devices.SYNC':
-          console.log('post /smarthome SYNC');
+          console.log('post /Devices/action SYNC');
           sync({
             uid: "169b7e62acfa358058afe1406232d465",
             auth: authToken,
@@ -82,7 +81,7 @@ module.exports = function(Device) {
           }, res);
           break;
         case 'action.devices.QUERY':
-          console.log('post /smarthome QUERY');
+          console.log('post /Devices/action QUERY');
           console.log(reqdata.inputs[0].payload.devices);
           query({
             uid: "169b7e62acfa358058afe1406232d465",
@@ -91,7 +90,7 @@ module.exports = function(Device) {
           }, res);
           break;
         case 'action.devices.EXECUTE':
-          console.log('post /smarthome EXECUTE');
+          console.log('post /Devices/action EXECUTE');
           console.log(reqdata.inputs[0].payload.commands);
           executeCommand({
             uid: "169b7e62acfa358058afe1406232d465",

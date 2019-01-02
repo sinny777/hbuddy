@@ -1237,9 +1237,6 @@ paths:
           schema:
             type: object
       deprecated: false
-      security:
-        - {}
-      consumes: []
   /ApplicationCredentials:
     post:
       tags:
@@ -7415,15 +7412,17 @@ paths:
       tags:
         - Device
       operationId: Device.action
-      parameters: []
+      parameters:
+        - name: ''
+          required: false
+          in: body
+          schema:
+            type: object
       responses:
         '200':
           description: Request was successful
           schema:
             type: object
-            properties:
-              data:
-                type: object
       deprecated: false
   /Conversations:
     get:
@@ -8301,9 +8300,11 @@ security:
     clientIdHeader: []
   - clientIdHeader: []
     OAuth Definition - Access Code:
+      - DEFAULT
       - /api
   - clientIdHeader: []
     OAuth Definition (Application):
+      - DEFAULT
       - /api
 x-ibm-configuration:
   testable: true
@@ -8314,10 +8315,11 @@ x-ibm-configuration:
     apic-dev:
       properties:
         runtime-url: $(TARGET_URL)
+        server-url: 'https://hbuddy-dev.mybluemix.net'
     sb:
       properties:
         runtime-url: 'https://localhost:4001'
-        target-url: 'https://hukamtechnologies.localtunnel.me'
+        server-url: 'https://hbuddy-dev.mybluemix.net'
   assembly:
     execute:
       - activity-log:
@@ -8334,14 +8336,15 @@ x-ibm-configuration:
             if(path == '/api/Devices/action'){
                 var msgBody = apim.getvariable('message.body');
                 
-                var existingToken = apim.getvariable('request.headers.API-OAUTH-METADATA-FOR-ACCESSTOKEN');
-                var existingPayload = apim.getvariable('request.headers.API-OAUTH-METADATA-FOR-PAYLOAD');
+                // msgBody.ctx = apim.getContext();
+                
+                var existingToken = apim.getvariable('request.headers.x-existing-metadata-for-access-token');
+                // var existingPayload = apim.getvariable('request.headers.API-OAUTH-METADATA-FOR-PAYLOAD');
                 
                 msgBody.existingToken = existingToken;
-                msgBody.existingPayload = existingPayload;
+                // msgBody.existingPayload = existingPayload;
                 
                 msgBody.accessToken = apim.getvariable('oauth.access-token');
-                msgBody.authorization = apim.getvariable('request.authorization');
                 
                 apim.setvariable('message.body', msgBody); 
             }
@@ -8355,14 +8358,15 @@ x-ibm-configuration:
           cache-ttl: 900
           stop-on-error: []
           version: 1.0.0
-          target-url: $(target-url)$(request.path)$(request.search)
-          secure-gateway: true
+          target-url: $(server-url)$(request.path)$(request.search)
+          secure-gateway: false
+          tls-profile: 'client:Loopback-client'
     catch: []
   gateway: datapower-gateway
   phase: realized
   properties:
-    target-url:
-      value: ''
+    server-url:
+      value: 'https://null'
       description: ''
       encoded: false
 host: $(catalog.host)

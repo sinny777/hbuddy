@@ -48,6 +48,7 @@ app.use((req, res, next) => {
 			console.log("req.body.existingPayload: >>> ", req.body.existingPayload);
 			console.log("req.body.accessToken: >>> ", req.body.accessToken);
 			console.log("req.body.authorization: >>> ", req.body.authorization);
+			console.log("req.body.ctx: >>> ", req.body.ctx);
 			console.log(req.cookies);
 		}
 

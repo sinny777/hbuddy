@@ -269,9 +269,6 @@ paths:
       summary: Introspect a given access_token supported
       description: |
         This endpoint introspects a given access_token
-      security:
-        - clientIdHeader: []
-          clientSecretHeader: []
       parameters:
         - name: token
           in: formData
@@ -290,6 +287,8 @@ paths:
             $ref: '#/definitions/introspect_response'
         '401':
           description: failure
+      security:
+        - {}
 x-ibm-configuration:
   testable: true
   enforced: true

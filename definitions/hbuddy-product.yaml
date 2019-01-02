@@ -6,8 +6,8 @@ info:
 apis:
   hbuddy:
     $ref: hbuddy.yaml
-  oauthapi:
-    $ref: oauthapi_1.0.0.yaml
+  oauth:
+    $ref: oauth_1.0.0.yaml
 visibility:
   view:
     type: public

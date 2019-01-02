@@ -3,14 +3,15 @@
 module.exports = function(Device) {
 
 	Device.remoteMethod(
-		    'googleAction',
+		    'action',
 		    {
 		    	accepts: [{ arg: 'ctx', type: 'object', http: function(ctx) {
 															return ctx;
 														}
 										}],
-		         http: {path: '/googleaction', verb: 'post'},
-		         returns: {arg: 'data', type: 'object'}
+		         http: {path: '/action', verb: 'post'},
+		         returns: {arg: 'data', type: 'object'},
+						 "accessScopes": ["/api"]
 		    }
 	);
 
@@ -43,14 +44,14 @@ module.exports = function(Device) {
 	});
 
 
-	Device.googleAction = function(ctx, next){
-		console.log("\n\n<<<<<<< IN Device.googleAction : >>>>>>>>>> ");
+	Device.action = function(ctx, next){
+		console.log("\n\n<<<<<<< IN Device.action, Google Action : >>>>>>>>>> ");
 		// console.log(ctx);
 		var res = ctx.res;
 		var req = ctx.req;
-		console.log('Device.googleAction, HEADERS: ', req.headers);
+		console.log('Device.action, HEADERS: ', req.headers);
     let reqdata = req.body;
-    console.log('Device.googleAction, PAYLOAD: ', reqdata);
+    console.log('Device.action, PAYLOAD: ', reqdata);
 
     let authHeader = req.headers["authorization"];
     var authToken = authHeader.split(' ')[1];

@@ -1,17 +1,34 @@
 swagger: '2.0'
 info:
-  x-ibm-name: oauthapi
-  title: OauthAPI
+  x-ibm-name: oauth
+  title: Oauth
   version: 1.0.0
 schemes:
   - https
 host: $(catalog.host)
 basePath: /confidential
-securityDefinitions: {}
-security: []
+securityDefinitions:
+  clientID:
+    description: application's client_id
+    in: query
+    name: client_id
+    type: apiKey
+  clientIdHeader:
+    in: header
+    type: apiKey
+    name: X-IBM-Client-Id
+  clientSecretHeader:
+    in: header
+    type: apiKey
+    name: X-IBM-Client-Secret
+security:
+  - clientID: []
+  - clientIdHeader: []
 paths:
   /oauth2/authorize:
     get:
+      produces:
+        - text/html
       summary: endpoint for Authorization Code and Implicit grants
       description: description
       parameters:
@@ -53,7 +70,8 @@ paths:
 
             - **error** in case of errors, such as the user has denied the
             request
-      consumes: []
+      security:
+        - clientID: []
     post:
       consumes:
         - application/x-www-form-urlencoded
@@ -242,6 +260,36 @@ paths:
             $ref: '#/definitions/access_token_response'
         '400':
           description: json document that may contain additional details about the failure
+  /oauth2/introspect:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      summary: Introspect a given access_token supported
+      description: |
+        This endpoint introspects a given access_token
+      security:
+        - clientIdHeader: []
+          clientSecretHeader: []
+      parameters:
+        - name: token
+          in: formData
+          description: String value of the access_token to be introspected
+          required: true
+          type: string
+        - name: token_type_hint
+          in: formData
+          description: This must contain 'access_token' to indicate the token type
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 'json document containing access_token information, etc.'
+          schema:
+            $ref: '#/definitions/introspect_response'
+        '401':
+          description: failure
 x-ibm-configuration:
   testable: true
   enforced: true
@@ -249,27 +297,30 @@ x-ibm-configuration:
   oauth2:
     client-type: confidential
     scopes:
-      places: ''
+      /api: Access to hBuddy
     grants:
-      - accessCode
-      - password
       - application
+      - password
+      - accessCode
     identity-extraction:
       type: default-form
     authentication:
       x-ibm-authentication-url:
-        url: 'https://hukamtechnologies.localtunnel.me/api/MyUsers/oauth'
+        url: >-
+          https://api.us.apiconnect.ibmcloud.com/sinny777gmailcom-dev/sb/api/MyUsers/basic
+        tls-profile: ''
     authorization:
       type: default-form
     access-token:
-      ttl: 21600
+      ttl: 3600
+    refresh-token:
+      count: 2048
+      ttl: 2682000
     metadata:
       metadata-url:
         url: ''
         tls-profile: ''
-    refresh-token:
-      count: 2048
-      ttl: 2682000
+  gateway: datapower-gateway
 definitions:
   access_token_response:
     type: object
@@ -290,7 +341,54 @@ definitions:
         type: string
       refresh_token:
         type: string
-produces:
-  - application/json
+  introspect_response:
+    type: object
+    additionalProperties: false
+    required:
+      - active
+      - client_id
+      - client_name
+      - username
+      - sub
+      - exp
+      - expstr
+      - iat
+      - nbf
+      - nbfstr
+      - scope
+    properties:
+      active:
+        type: boolean
+      client_id:
+        type: string
+      client_name:
+        type: string
+      username:
+        type: string
+      sub:
+        type: string
+      exp:
+        type: string
+      expstr:
+        type: string
+      iat:
+        type: string
+      nbf:
+        type: string
+      nbfstr:
+        type: string
+      scope:
+        type: string
+      miscinfo:
+        type: string
+      consented_on:
+        type: string
+      consented_on_str:
+        type: string
+      grant_type:
+        type: string
 consumes:
+  - application/json
+  - application/x-www-form-urlencoded
+produces:
   - application/json

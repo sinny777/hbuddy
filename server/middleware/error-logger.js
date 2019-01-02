@@ -3,6 +3,7 @@ module.exports = function(options) {
              if(err.statusCode == 401){
                console.log("<<<<<< AUTHORIZATION ERROR >>>>>>>>>>", req.url)
                console.log(req.headers);
+               // console.log(req);               
              }else{
                // console.log('IN Log Error, UNHANDLED ERROR: >>> ', req.url, err);
              }

@@ -50,7 +50,7 @@ module.exports = function(MyUser) {
 	);
 
 	MyUser.remoteMethod(
-		    'oauthLogin',
+		    'basic',
 		    {
 		    	accepts: [
 		            { arg: 'ctx', type: 'object', http: function(ctx) {
@@ -58,8 +58,8 @@ module.exports = function(MyUser) {
 		            				}
 		          	}
 							],
-		         http: {path: '/oauth', verb: 'get'},
-						 returns: {arg: 'token', type: 'object'}
+		         http: {path: '/basic', verb: 'get'},
+						 returns: {type: 'object', root: true}
 		    }
 
 	);
@@ -115,12 +115,13 @@ module.exports = function(MyUser) {
 
 	}
 
-	MyUser.oauthLogin = function(ctx, next){
+	MyUser.basic = function(ctx, next){
+		console.log("<<<<<<<<<<< IN basic LOGIN >>>>>>>>>>>>>");
 		var res = ctx.res;
 		var req = ctx.req;
 
 		var auth = req.headers['authorization'];
-		// console.log("auth: >>> ", auth);
+		console.log("auth: >>> ", auth);
 		if(!auth) {
           res.statusCode = 401;
           res.setHeader('WWW-Authenticate', 'Basic realm="Secure Area"');
@@ -140,7 +141,24 @@ module.exports = function(MyUser) {
               return next(err, null);
             }
             	console.info(accessToken);
-							return next(null, accessToken);
+							res.setHeader("API-OAUTH-METADATA-FOR-PAYLOAD", accessToken);
+							res.setHeader("API-OAUTH-METADATA-FOR-ACCESSTOKEN", accessToken);
+
+							req.app.models.MyUser.findById(accessToken.userId, function (err, user) {
+								// console.log("MyUser Obj: >>> ", user);
+									if (err) {
+											console.log(err);
+											return next(err, null);
+									}
+									if (!user) {
+											//user not found for accessToken, which is odd.
+											next();
+									}
+									req.session.user = user;
+									setCookies(req, res, accessToken);
+									return next(null, accessToken);
+							});
+
           });
 
 		}

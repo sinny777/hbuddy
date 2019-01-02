@@ -8,7 +8,7 @@
   },
   "private": true,
   "scripts": {
-    "start": "node server/server.js",
+    "start": "DEBUG=loopback:security:* node server/server.js",
     "pretest": "jshint .",
     "monitor": "nodemon server/server.js",
     "deploy": "gcloud app deploy app.yaml"

@@ -115,7 +115,7 @@
       "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "ALLOW",
-      "property": "googleAction"
+      "property": "action"
     }
   ],
   "methods": {}

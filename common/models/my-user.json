@@ -76,12 +76,6 @@
       "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "ALLOW",
-      "property": "oauthLogin"
-    },
-    {
-      "principalType": "ROLE",
-      "principalId": "$everyone",
-      "permission": "ALLOW",
       "property": "create"
     },
     {
@@ -107,6 +101,12 @@
       "principalId": "$everyone",
       "permission": "ALLOW",
       "property": "logout"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "basic"
     },
     {
       "principalType": "ROLE",
@@ -138,6 +138,13 @@
       "principalId": "$everyone",
       "permission": "ALLOW",
       "property": "resetPassword"
+    },
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "__get__accessTokens"
     }
   ],
   "methods": {}

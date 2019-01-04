@@ -37,7 +37,7 @@ export class AuthComponent implements OnInit {
     console.log("IN gotoRegister method.....");
   }
 
-  onSubmit() {
+  onSubmit(event) {
     if (this.authForm.valid) {
       console.log("Form Submitted!", this.authForm.value);
       this.http.post(this.CONFIG.socket.baseUrl+'/login', this.authForm.value)

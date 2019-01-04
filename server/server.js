@@ -51,6 +51,9 @@ app.use((req, res, next) => {
 			console.log("req.body.resourceOwner: >>> ", req.body.resourceOwner);
 			console.log("req.body.ctx: >>> ", req.body.ctx);
 			console.log(req.cookies);
+			var auth = req.headers['authorization'];
+			// get the decoded payload and header
+			console.log("auth: >>> ", auth);
 		}
 
 		if(token == null){
@@ -65,7 +68,6 @@ app.use((req, res, next) => {
 	  req.accessToken.created = now; // eslint-disable-line
 	  return req.accessToken.save(next);
 });
-
 
 var flash = require('express-flash');
 

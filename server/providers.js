@@ -10,7 +10,8 @@ module.exports = {
     "failureFlash": true,
     "setAccessToken" : true,
     "session" : true,
-    "forceDefaultCallback" : true
+    "forceDefaultCallback" : true,
+    "scope": ["/api"]
   },
   "facebook-login": {
     "provider": "facebook",

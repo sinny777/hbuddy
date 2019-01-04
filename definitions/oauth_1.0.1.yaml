@@ -2,7 +2,7 @@ swagger: '2.0'
 info:
   x-ibm-name: oauth
   title: Oauth
-  version: 1.0.0
+  version: 1.0.1
 schemes:
   - https
 host: $(catalog.host)
@@ -326,6 +326,23 @@ x-ibm-configuration:
           content: activity
           error-content: payload
           version: 1.0.0
+      - gatewayscript:
+          title: gatewayscript
+          version: 1.0.0
+          source: |-
+
+            var path = apim.getvariable('request.path');
+
+            if(path == '/confidential/oauth2/token'){
+                var token = apim.getvariable('message.body');
+
+                if(token){
+                    token["resource_owner"] = apim.getvariable("oauth.resource-owner");
+                    // token["miscinfo"] = JSON.stringify(apim.getvariable("oauth.miscinfo"));
+                    
+                    apim.setvariable("message.body", token);
+                }
+            }
 definitions:
   access_token_response:
     type: object

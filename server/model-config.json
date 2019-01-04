@@ -17,7 +17,19 @@
   },
   "MyUser": {
     "dataSource": "accounts",
-    "public": true
+    "public": true,
+    "options": {
+      "remoting": {
+        "sharedMethods": {
+          "__create__credentials": false,
+          "__get__credentials": false,
+          "__delete__credentials": false,
+          "__destroyById__credentials": false,
+          "__updateById__credentials": false,
+          "__findById__credentials": false      
+        }
+      }
+    }
   },
   "AccessToken": {
     "dataSource": "db",
@@ -32,11 +44,11 @@
   },
   "ApplicationCredential": {
     "dataSource": "db",
-    "public": true
+    "public": false
   },
   "UserCredential": {
     "dataSource": "db",
-    "public": true
+    "public": false
   },
   "MyUserIdentity": {
     "dataSource": "identities",
@@ -44,6 +56,7 @@
     "options": {
       "remoting": {
         "sharedMethods": {
+          "*": false,
           "login": true
         }
       }
@@ -111,6 +124,6 @@
   },
   "Mapping": {
     "dataSource": "mappings",
-    "public": true
+    "public": false
   }
 }

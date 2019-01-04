@@ -33,6 +33,10 @@ export class AuthComponent implements OnInit {
     }, 200);
   }
 
+  gotoRegister(){
+    console.log("IN gotoRegister method.....");
+  }
+
   onSubmit() {
     if (this.authForm.valid) {
       console.log("Form Submitted!", this.authForm.value);

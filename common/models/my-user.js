@@ -141,8 +141,9 @@ module.exports = function(MyUser) {
               return next(err, null);
             }
             	console.info(accessToken);
-							// res.setHeader("API-OAUTH-METADATA-FOR-PAYLOAD", accessToken);
-							res.setHeader("API-OAUTH-METADATA-FOR-ACCESSTOKEN", accessToken);
+							res.setHeader("API-OAUTH-METADATA-FOR-PAYLOAD", accessToken);
+							res.setHeader("API-OAUTH-METADATA-FOR-ACCESSTOKEN", accessToken.id);
+							// res.setHeader("API-Authenticated-Credential", accessToken.userId);
 
 							req.app.models.MyUser.findById(accessToken.userId, function (err, user) {
 								// console.log("MyUser Obj: >>> ", user);

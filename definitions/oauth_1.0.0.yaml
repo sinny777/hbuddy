@@ -298,7 +298,6 @@ x-ibm-configuration:
     scopes:
       /api: Access to hBuddy
     grants:
-      - application
       - password
       - accessCode
     identity-extraction:
@@ -320,10 +319,17 @@ x-ibm-configuration:
         url: ''
         tls-profile: ''
   gateway: datapower-gateway
+  assembly:
+    execute:
+      - activity-log:
+          title: activity-log
+          content: activity
+          error-content: payload
+          version: 1.0.0
 definitions:
   access_token_response:
     type: object
-    additionalProperties: false
+    additionalProperties: true
     required:
       - token_type
       - access_token

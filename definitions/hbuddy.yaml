@@ -1092,6 +1092,7 @@ paths:
               user. (`include=user`)
 
 
+
             type: object
       deprecated: false
   /MyUsers/logout:
@@ -1237,6 +1238,8 @@ paths:
           schema:
             type: object
       deprecated: false
+      security:
+        - {}
   /ApplicationCredentials:
     post:
       tags:
@@ -2424,50 +2427,6 @@ paths:
               count:
                 type: number
                 format: double
-      deprecated: false
-  /UserIdentities/login:
-    post:
-      tags:
-        - MyUserIdentity
-      operationId: MyUserIdentity.login
-      parameters:
-        - name: provider
-          in: formData
-          required: true
-          type: string
-        - name: authScheme
-          in: formData
-          required: true
-          type: string
-        - name: profile
-          in: body
-          required: true
-          schema:
-            type: object
-        - name: credentials
-          in: body
-          required: true
-          schema:
-            type: object
-        - name: options
-          in: body
-          required: false
-          schema:
-            type: object
-      responses:
-        '200':
-          description: Request was successful
-          schema:
-            type: object
-            properties:
-              user:
-                type: object
-              info:
-                type: object
-              identity:
-                type: object
-              accessToken:
-                type: object
       deprecated: false
   '/RoleMappings/{id}/role':
     get:
@@ -8300,11 +8259,9 @@ security:
     clientIdHeader: []
   - clientIdHeader: []
     OAuth Definition - Access Code:
-      - DEFAULT
       - /api
   - clientIdHeader: []
     OAuth Definition (Application):
-      - DEFAULT
       - /api
 x-ibm-configuration:
   testable: true
@@ -8315,11 +8272,11 @@ x-ibm-configuration:
     apic-dev:
       properties:
         runtime-url: $(TARGET_URL)
-        server-url: 'https://hbuddy-dev.mybluemix.net'
+        server-url: 'https://hukamtechnologies.localtunnel.me'
     sb:
       properties:
         runtime-url: 'https://localhost:4001'
-        server-url: 'https://hbuddy-dev.mybluemix.net'
+        server-url: 'https://hukamtechnologies.localtunnel.me'
   assembly:
     execute:
       - activity-log:
@@ -8339,12 +8296,13 @@ x-ibm-configuration:
                 // msgBody.ctx = apim.getContext();
                 
                 var existingToken = apim.getvariable('request.headers.x-existing-metadata-for-access-token');
-                // var existingPayload = apim.getvariable('request.headers.API-OAUTH-METADATA-FOR-PAYLOAD');
+                var existingPayload = apim.getvariable('request.headers.x-existing-metadata-for-payload');
                 
                 msgBody.existingToken = existingToken;
-                // msgBody.existingPayload = existingPayload;
+                msgBody.existingPayload = existingPayload;
                 
                 msgBody.accessToken = apim.getvariable('oauth.access-token');
+                msgBody.resourceOwner = apim.getvariable('oauth.resource-owner');
                 
                 apim.setvariable('message.body', msgBody); 
             }
@@ -8359,8 +8317,7 @@ x-ibm-configuration:
           stop-on-error: []
           version: 1.0.0
           target-url: $(server-url)$(request.path)$(request.search)
-          secure-gateway: false
-          tls-profile: 'client:Loopback-client'
+          secure-gateway: true
     catch: []
   gateway: datapower-gateway
   phase: realized

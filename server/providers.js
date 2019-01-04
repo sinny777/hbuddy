@@ -4,7 +4,7 @@ module.exports = {
     "module": "passport-local",
     "usernameField": "username",
     "passwordField": "password",
-    "authPath": "/login",
+    "authPath": "/api/MyUsers/basic",
     "successRedirect": "/api/MyUsers/authenticated",
     "failureRedirect": "/api/authentication/failed",
     "failureFlash": true,

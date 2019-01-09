@@ -39,28 +39,29 @@ app.middleware('parse', bodyParser.urlencoded({
 
 app.use((req, res, next) => {
 	  var token = req.accessToken;
-		console.log("req.URL: >>> ", req.url);
-		console.log("token : >>> ", token);
+		console.log("\n\nreq.URL: >>> ", req.url);
+		console.log("ACCESS TOKEN : >>> ", token);
+		/*
 		if(token == null && req.url == '/api/Devices/action'){
-			var miscinfo = req.body.miscinfo;
-			console.log("miscinfo 2: >>> ", miscinfo);
 			console.log("req.body.existingToken: >>> ", req.body.existingToken);
-			console.log("req.body.existingPayload: >>> ", req.body.existingPayload);
+			// console.log("req.body.existingPayload: >>> ", req.body.existingPayload);
+			// console.log("req.body.introspectResp: >>> ", req.body.introspectResp);
 			console.log("req.body.accessToken: >>> ", req.body.accessToken);
-			console.log("req.body.authorization: >>> ", req.body.authorization);
+			console.log("req.body.miscinfo: >>> ", req.body.miscinfo);
 			console.log("req.body.resourceOwner: >>> ", req.body.resourceOwner);
-			console.log("req.body.ctx: >>> ", req.body.ctx);
-			console.log(req.cookies);
-			var auth = req.headers['authorization'];
+			console.log("req.body.reqHeaders: >>> ", req.body.reqHeaders);
+			// console.log("req.body.msgHeaders: >>> ", req.body.msgHeaders);
+			// console.log(req.headers);
+			// var auth = req.headers['authorization'];
 			// get the decoded payload and header
-			console.log("auth: >>> ", auth);
+			// console.log("auth: >>> ", auth);
 		}
+		*/
 
 		if(token == null){
 			return next();
 		}
 
-		console.log("TOKEN >>> ", req.accessToken);
 	  const now = new Date();
 	  if (now.getTime() - token.created.getTime() < 1000) {
 	    return next();

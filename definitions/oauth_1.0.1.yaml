@@ -8,6 +8,11 @@ schemes:
 host: $(catalog.host)
 basePath: /confidential
 securityDefinitions:
+  clientSecret:
+    type: apiKey
+    description: ''
+    in: query
+    name: client_secret
   clientID:
     description: application's client_id
     in: query
@@ -23,7 +28,9 @@ securityDefinitions:
     name: X-IBM-Client-Secret
 security:
   - clientID: []
+    clientSecret: []
   - clientIdHeader: []
+    clientSecretHeader: []
 paths:
   /oauth2/authorize:
     get:
@@ -260,35 +267,6 @@ paths:
             $ref: '#/definitions/access_token_response'
         '400':
           description: json document that may contain additional details about the failure
-  /oauth2/introspect:
-    post:
-      consumes:
-        - application/x-www-form-urlencoded
-      produces:
-        - application/json
-      summary: Introspect a given access_token supported
-      description: |
-        This endpoint introspects a given access_token
-      parameters:
-        - name: token
-          in: formData
-          description: String value of the access_token to be introspected
-          required: true
-          type: string
-        - name: token_type_hint
-          in: formData
-          description: This must contain 'access_token' to indicate the token type
-          required: true
-          type: string
-      responses:
-        '200':
-          description: 'json document containing access_token information, etc.'
-          schema:
-            $ref: '#/definitions/introspect_response'
-        '401':
-          description: failure
-      security:
-        - {}
 x-ibm-configuration:
   testable: true
   enforced: true
@@ -298,7 +276,6 @@ x-ibm-configuration:
     scopes:
       /api: Access to hBuddy
     grants:
-      - password
       - accessCode
     identity-extraction:
       type: default-form
@@ -319,30 +296,6 @@ x-ibm-configuration:
         url: ''
         tls-profile: ''
   gateway: datapower-gateway
-  assembly:
-    execute:
-      - activity-log:
-          title: activity-log
-          content: activity
-          error-content: payload
-          version: 1.0.0
-      - gatewayscript:
-          title: gatewayscript
-          version: 1.0.0
-          source: |-
-
-            var path = apim.getvariable('request.path');
-
-            if(path == '/confidential/oauth2/token'){
-                var token = apim.getvariable('message.body');
-
-                if(token){
-                    token["resource_owner"] = apim.getvariable("oauth.resource-owner");
-                    // token["miscinfo"] = JSON.stringify(apim.getvariable("oauth.miscinfo"));
-                    
-                    apim.setvariable("message.body", token);
-                }
-            }
 definitions:
   access_token_response:
     type: object
@@ -362,52 +315,6 @@ definitions:
       scope:
         type: string
       refresh_token:
-        type: string
-  introspect_response:
-    type: object
-    additionalProperties: false
-    required:
-      - active
-      - client_id
-      - client_name
-      - username
-      - sub
-      - exp
-      - expstr
-      - iat
-      - nbf
-      - nbfstr
-      - scope
-    properties:
-      active:
-        type: boolean
-      client_id:
-        type: string
-      client_name:
-        type: string
-      username:
-        type: string
-      sub:
-        type: string
-      exp:
-        type: string
-      expstr:
-        type: string
-      iat:
-        type: string
-      nbf:
-        type: string
-      nbfstr:
-        type: string
-      scope:
-        type: string
-      miscinfo:
-        type: string
-      consented_on:
-        type: string
-      consented_on_str:
-        type: string
-      grant_type:
         type: string
 consumes:
   - application/json

@@ -1239,6 +1239,8 @@ paths:
             type: object
       deprecated: false
       consumes: []
+      security:
+        - {}
   '/UserIdentities/{id}/user':
     get:
       tags:
@@ -6704,6 +6706,8 @@ securityDefinitions:
 security:
   - OAuth Definition - Access Code:
       - /api
+  - clientIdHeader: []
+    clientSecretHeader: []
 x-ibm-configuration:
   testable: true
   enforced: true
@@ -6732,16 +6736,12 @@ x-ibm-configuration:
             //
             https://www.ibm.com/support/knowledgecenter/SSFS6T/com.ibm.apic.toolkit.doc/rapim_context_var.html
 
-                var msgBody = apim.getvariable('message.body');
                 var miscinfo = apim.getvariable('oauth.miscinfo');
                 if(miscinfo){
                     var token = miscinfo.split(":");
-                    msgBody.miscinfo = miscinfo;
                     apim.setvariable('message.headers.authorization', token[1]);
                 }
                 
-                apim.setvariable('message.body', msgBody); 
-
 
              
       - invoke:

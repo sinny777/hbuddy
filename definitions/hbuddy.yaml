@@ -1092,7 +1092,6 @@ paths:
               user. (`include=user`)
 
 
-
             type: object
       deprecated: false
   /MyUsers/logout:
@@ -1238,9 +1237,9 @@ paths:
           schema:
             type: object
       deprecated: false
-      consumes: []
       security:
         - {}
+      consumes: []
   '/UserIdentities/{id}/user':
     get:
       tags:
@@ -6717,11 +6716,11 @@ x-ibm-configuration:
     apic-dev:
       properties:
         runtime-url: $(TARGET_URL)
-        server-url: 'https://api.hukamtechnologies.com'
+        server-url: 'http://api.hukamtechnologies.com'
     sb:
       properties:
         runtime-url: 'https://localhost:4001'
-        server-url: 'https://api.hukamtechnologies.com'
+        server-url: 'http://api.hukamtechnologies.com'
   assembly:
     execute:
       - activity-log:

@@ -281,8 +281,7 @@ x-ibm-configuration:
       type: default-form
     authentication:
       x-ibm-authentication-url:
-        url: >-
-          https://api.us.apiconnect.ibmcloud.com/sinny777gmailcom-dev/sb/api/MyUsers/basic
+        url: 'https://hukam.serveo.net/api/MyUsers/basic'
         tls-profile: ''
     authorization:
       type: default-form

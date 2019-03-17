@@ -1,3 +1,9 @@
+/**
+ * [exports description]
+ * @type {[type]}
+ * Reference: https://developers.google.com/actions/reference/smarthome/rest/v1/devices/sync#DeviceInfo
+ */
+
 'use strict';
 
 module.exports = function(Device) {
@@ -22,8 +28,7 @@ module.exports = function(Device) {
 				  device.audit = {};
 			  }
 			  if(!device.id){
-				  device.audit.created = new Date();
-				  device.status = "OFF";
+				  device.audit.created = new Date();				  
 			  }
 			  device.audit.modified = new Date();
 		  } else {

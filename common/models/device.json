@@ -7,63 +7,51 @@
     "validateUpsert": true
   },
   "properties": {
-    "audit": {
-      "type": "object"
-    },
-    "analog": {
-      "type": "boolean",
-      "required": false
-    },
-    "config": {
-      "type": "object",
-      "required": false
-    },
-    "description": {
-      "type": "string",
-      "required": false
-    },
     "deviceId": {
       "type": "string",
       "id": false,
       "required": false,
       "index": true
     },
-    "deviceIndex": {
-      "type": "number",
-      "required": true,
-      "index": true,
-      "description": ""
-    },
-    "deviceValue": {
-      "type": "number",
-      "required": false
-    },
-    "deviceValueUnits": {
-      "type": "string",
-      "required": false
-    },
-    "parentId": {
-      "type": "string",
-      "required": false,
-      "index": true,
-      "deleted": false
-    },
-    "parentType": {
-      "type": "string",
-      "index": true
-    },
-    "status": {
-      "type": "number",
-      "required": false
-    },
-    "title": {
-      "type": "string",
-      "required": false
-    },
     "type": {
       "type": "string",
       "required": false,
       "index": false
+    },
+    "traits": {
+      "type": "object"
+    },
+    "name": {
+      "type": "object",
+      "required": false
+    },
+    "willReportState": {
+      "type": "boolean"
+    },
+    "roomHint": {
+      "type": "string",
+      "required": false,
+      "index": false
+    },
+    "structureHint": {
+      "type": "string",
+      "required": false,
+      "index": false
+    },
+    "attributes": {
+      "type": "object",
+      "required": false
+    },
+    "customData": {
+      "type": "object",
+      "required": false
+    },
+    "deviceInfo": {
+      "type": "object",
+      "required": false
+    },
+    "audit": {
+      "type": "object"
     }
   },
   "validations": [],

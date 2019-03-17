@@ -1,0 +1,199 @@
+utterances,intent
+Tell me something about yourself,about_me
+Tell me something about you ?,about_me
+Tell me about yourself ?,about_me
+Who are you ?,about_me
+What's your name ?,about_me
+Are you real ?,about_me
+Are you a robot ?,about_me
+When were you born ?,about_my_age
+Can you tell me your age ?,about_my_age
+What's your age ?,about_my_age
+What is your age ?,about_my_age
+How old are you ?,about_my_age
+turn on,appliance_action
+turn on the *,appliance_action
+turn it on,appliance_action
+Switch it on,appliance_action
+Switch on the light,appliance_action
+can you please switch on the fan,appliance_action
+please turn on the TV,appliance_action
+It is so dark in the room,appliance_action
+Nothing is visible in the kitchen,appliance_action
+Nothing is visible in the hall,appliance_action
+There's no light in the bedroom,appliance_action
+tell me the date and time now,date_time
+What's the day today ?,date_time
+Is it Moday today ?,date_time
+Is it Tuesday or Wednesday today ?,date_time
+Is it already 5pm ?,date_time
+is it 2 pm ?,date_time
+what's the day tomorrow ?,date_time
+what's the date tomorrow ?,date_time
+What is the time now ?,date_time
+What's the time ?,date_time
+Can you tell me the time please ?,date_time
+What is the date today ?,date_time
+What's the date today ?,date_time
+Please tell me the date and time ?,date_time
+Good. bye.,General_Ending
+Time to go,General_Ending
+That's everything,General_Ending
+That is all,General_Ending
+Thank you for your time,General_Ending
+"Thanks very much, bye!",General_Ending
+"Thanks, bye!",General_Ending
+Stop talking to me,General_Ending
+Stop doing this,General_Ending
+Shut up,General_Ending
+See you later,General_Ending
+Ok goodbye,General_Ending
+I want to quit,General_Ending
+It was nice chatting with you,General_Ending
+I'm leaving now,General_Ending
+Im good thank you,General_Ending
+Im done,General_Ending
+I'm done,General_Ending
+I have got to go,General_Ending
+I d like to stop doing this,General_Ending
+I am out of here,General_Ending
+I am leaving,General_Ending
+Hey bot go away,General_Ending
+Have a nice day?,General_Ending
+Go off,General_Ending
+Goodbye,General_Ending
+Going now,General_Ending
+Go away,General_Ending
+Get lost,General_Ending
+"Finished now, good bye",General_Ending
+End trial,General_Ending
+Ending this session,General_Ending
+Cya later,General_Ending
+Catch you later,General_Ending
+Bye now,General_Ending
+Bye bye,General_Ending
+How are things going?,General_Greetings
+Good day,General_Greetings
+Good evening,General_Greetings
+Good morning,General_Greetings
+Good to see you,General_Greetings
+Greetings,General_Greetings
+Have you been well?,General_Greetings
+Hello Agent,General_Greetings
+Hello,General_Greetings
+Hello I am looking for some help here,General_Greetings
+Hey how are you doing,General_Greetings
+Hey there all,General_Greetings
+Hey there,General_Greetings
+Hey twin,General_Greetings
+Hey you,General_Greetings
+Hi advisor,General_Greetings
+Hi there,General_Greetings
+How are you today?,General_Greetings
+How have you been?,General_Greetings
+How is it going?,General_Greetings
+How r u?,General_Greetings
+Looking good eve,General_Greetings
+Ok take me back,General_Greetings
+What's new?,General_Greetings
+What's up?,General_Greetings
+Who is this?,General_Greetings
+You there,General_Greetings
+Are you real?,General_Human_or_Bot
+Are you a human or a bot?,General_Human_or_Bot
+Am I talking to Watson?,General_Human_or_Bot
+Am I talking to a person or am I talking to an AI?,General_Human_or_Bot
+Am I chatting with a human?,General_Human_or_Bot
+Am I talking to a Bot?,General_Human_or_Bot
+Are you even real?,General_Human_or_Bot
+Are you human?,General_Human_or_Bot
+"Tell me, are you a human or no?",General_Human_or_Bot
+Is this a computer?,General_Human_or_Bot
+How can you prove you are a human?,General_Human_or_Bot
+Are you a robot?,General_Human_or_Bot
+Will my conversation remain secured?,General_Security_Assurance
+Why would I trust this chat?,General_Security_Assurance
+What safety measures are used to ensure that chat is secure?,General_Security_Assurance
+What makes this chat trustworthy?,General_Security_Assurance
+What guards do you have in place to protect your customer's data?,General_Security_Assurance
+Secure conversation?,General_Security_Assurance
+Protection hacks?,General_Security_Assurance
+Precautions hackers?,General_Security_Assurance
+Is this conversation secure?,General_Security_Assurance
+Is this a trusted chat site?,General_Security_Assurance
+Is this an official chat?,General_Security_Assurance
+Is there a reason to distrust this chat?,General_Security_Assurance
+Is my payment information secure?,General_Security_Assurance
+Is my card info secure?,General_Security_Assurance
+In what way can I tell if my plastic is safe?,General_Security_Assurance
+I'd like proof of a secure chat,General_Security_Assurance
+How safe is my data?,General_Security_Assurance
+How is my credit card info secured?,General_Security_Assurance
+How do I know this chat is not a scam?,General_Security_Assurance
+How do I know if my card info is kept safe?,General_Security_Assurance
+Do you have protection against hacks?,General_Security_Assurance
+Customer info secured?,General_Security_Assurance
+Conversation secure?,General_Security_Assurance
+Can I be sure that my stored card details are held securely?,General_Security_Assurance
+Are you safe on hackers?,General_Security_Assurance
+Are you safe?,General_Security_Assurance
+Tell me a joke,joke
+Please tell me a joke,joke
+how can you make me smile ?,joke
+how can you make me laugh,joke
+I need a smile on my face,joke
+tell me a Chuk Norris joke,joke
+tell me santa banta joke,joke
+I want to hear a joke,joke
+say me a joke,joke
+Make me laugh,joke
+make me happy,joke
+Entertain me,joke
+what's the latest news,latest_news
+what's going on in the news ?,latest_news
+search for the latest news,latest_news
+tell me the news headlines,latest_news
+What is in the news headlines ?,latest_news
+please tell me the current news headlines,latest_news
+Can you tell me the news headlines ?,latest_news
+Please tell me the latest news,latest_news
+tell me the latest news,latest_news
+Search for game rules,search
+what does LOL sounds for ?,search
+Search on Google for prepositions,search
+what's the meaing of IoT ?,search
+Search on Google for serendipity meaning,search
+tell me the meaning of FIFO,search
+what do you mean by ecstacy ?,search
+what do you mean by ILETS,search
+what does TOEFL sounds for ?,search
+what is the full form of ROFL ?,search
+what is the full form of SNOW ?,search
+what's the meaning of God ?,search
+What's the meaning of life ?,search
+Can you help me understand science,search
+How does plants grow,search
+search for Newton's first law,search
+What are the weather conditions in Chandigarh ?,weather
+How is the weather in London ?,weather
+How is the weather in New Delhi ?,weather
+Please tell me the weather outside.,weather
+How hot it is outside ?,weather
+Is it cold outside ?,weather
+How cold is it outside ?,weather
+Is it raining outside ?,weather
+Is it hot outside ?,weather
+How's the weather outside ?,weather
+Can you tell me the status of weather outside ?,weather
+how is the weather in New Delhi,weather
+Tell me the weather conditions for today,weather
+how is the weather condition for tomorrow,weather
+how is the weather status for next monday,weather
+is it going to be hot on Sunday,weather
+is it going to be very cold tonight,weather
+turn on the living room tube light,appliance_action
+switch off the tv in hall,appliance_action
+switch on the fan of my bedroom,appliance_action
+switch off the cooler of my room,appliance_action
+turn on the tv in my room,appliance_action
+turn off the ac of my room,appliance_action

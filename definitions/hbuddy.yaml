@@ -1169,11 +1169,11 @@ paths:
       operationId: MyUser.changePassword
       parameters:
         - name: oldPassword
-          in: formData
+          in: form
           required: true
           type: string
         - name: newPassword
-          in: formData
+          in: form
           required: true
           type: string
       responses:
@@ -1188,7 +1188,7 @@ paths:
       operationId: MyUser.setPassword
       parameters:
         - name: newPassword
-          in: formData
+          in: form
           required: true
           type: string
       responses:
@@ -1237,9 +1237,6 @@ paths:
           schema:
             type: object
       deprecated: false
-      security:
-        - {}
-      consumes: []
   '/UserIdentities/{id}/user':
     get:
       tags:
@@ -6313,7 +6310,7 @@ definitions:
           type: string
       created:
         type: string
-        format: date-time
+        format: date
       userId:
         type: string
     required:
@@ -6333,10 +6330,10 @@ definitions:
         type: object
       created:
         type: string
-        format: date-time
+        format: date
       modified:
         type: string
-        format: date-time
+        format: date
       id:
         type: number
         format: double
@@ -6357,10 +6354,10 @@ definitions:
         type: object
       created:
         type: string
-        format: date-time
+        format: date
       modified:
         type: string
-        format: date-time
+        format: date
       id:
         type: string
       userId:
@@ -6376,10 +6373,10 @@ definitions:
         type: string
       created:
         type: string
-        format: date-time
+        format: date
       modified:
         type: string
-        format: date-time
+        format: date
     required:
       - name
     additionalProperties: false
@@ -6505,7 +6502,7 @@ definitions:
         type: string
       mfgDate:
         type: string
-        format: date-time
+        format: date
       owner:
         type: object
       placeId:
@@ -6546,7 +6543,7 @@ definitions:
         type: string
       lastExecutedTime:
         type: string
-        format: date-time
+        format: date
       placeId:
         type: string
       settings:
@@ -6612,39 +6609,30 @@ definitions:
     additionalProperties: false
   Device:
     properties:
-      audit:
-        type: object
-      analog:
-        type: boolean
-      config:
-        type: object
-      description:
-        type: string
       deviceId:
-        type: string
-      deviceIndex:
-        type: number
-        format: double
-      deviceValue:
-        type: number
-        format: double
-      deviceValueUnits:
-        type: string
-      parentId:
-        type: string
-      parentType:
-        type: string
-      status:
-        type: number
-        format: double
-      title:
         type: string
       type:
         type: string
+      traits:
+        type: object
+      name:
+        type: object
+      willReportState:
+        type: boolean
+      roomHint:
+        type: string
+      structureHint:
+        type: string
+      attributes:
+        type: object
+      customData:
+        type: object
+      deviceInfo:
+        type: object
+      audit:
+        type: object
       id:
         type: string
-    required:
-      - deviceIndex
     additionalProperties: false
   Conversation:
     properties:
@@ -6656,7 +6644,7 @@ definitions:
         type: object
       timestamp:
         type: string
-        format: date-time
+        format: date
       intents:
         type: object
       entities:
@@ -6687,10 +6675,8 @@ securityDefinitions:
     flow: accessCode
     scopes:
       /api: ''
-    tokenUrl: >-
-      https://api.us.apiconnect.ibmcloud.com/sinny777gmailcom-dev/sb/confidential/oauth2/token
-    authorizationUrl: >-
-      https://api.us.apiconnect.ibmcloud.com/sinny777gmailcom-dev/sb/confidential/oauth2/authorize
+    tokenUrl: 'https://hukam.serveo.net/confidential/oauth2/token'
+    authorizationUrl: 'https://hukam.serveo.net/confidential/oauth2/authorize'
     x-tokenIntrospect:
       url: ''
   clientSecretHeader:
@@ -6716,11 +6702,11 @@ x-ibm-configuration:
     apic-dev:
       properties:
         runtime-url: $(TARGET_URL)
-        server-url: 'http://api.hukamtechnologies.com'
+        server-url: 'https://hukam.serveo.net'
     sb:
       properties:
         runtime-url: 'https://localhost:4001'
-        server-url: 'http://api.hukamtechnologies.com'
+        server-url: 'https://hukam.serveo.net'
   assembly:
     execute:
       - activity-log:

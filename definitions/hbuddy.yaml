@@ -1145,56 +1145,6 @@ paths:
         '204':
           description: Request was successful
       deprecated: false
-  /MyUsers/reset:
-    post:
-      tags:
-        - MyUser
-      summary: Reset password for a user with email.
-      operationId: MyUser.resetPassword
-      parameters:
-        - name: options
-          in: body
-          required: true
-          schema:
-            type: object
-      responses:
-        '204':
-          description: Request was successful
-      deprecated: false
-  /MyUsers/change-password:
-    post:
-      tags:
-        - MyUser
-      summary: Change a user's password.
-      operationId: MyUser.changePassword
-      parameters:
-        - name: oldPassword
-          in: form
-          required: true
-          type: string
-        - name: newPassword
-          in: form
-          required: true
-          type: string
-      responses:
-        '204':
-          description: Request was successful
-      deprecated: false
-  /MyUsers/reset-password:
-    post:
-      tags:
-        - MyUser
-      summary: Reset user's password via a password-reset token.
-      operationId: MyUser.setPassword
-      parameters:
-        - name: newPassword
-          in: form
-          required: true
-          type: string
-      responses:
-        '204':
-          description: Request was successful
-      deprecated: false
   /MyUsers/authenticate:
     get:
       tags:
@@ -1259,50 +1209,6 @@ paths:
           description: Request was successful
           schema:
             $ref: '#/definitions/MyUser'
-      deprecated: false
-  /UserIdentities/login:
-    post:
-      tags:
-        - MyUserIdentity
-      operationId: MyUserIdentity.login
-      parameters:
-        - name: provider
-          in: formData
-          required: true
-          type: string
-        - name: authScheme
-          in: formData
-          required: true
-          type: string
-        - name: profile
-          in: body
-          required: true
-          schema:
-            type: object
-        - name: credentials
-          in: body
-          required: true
-          schema:
-            type: object
-        - name: options
-          in: body
-          required: false
-          schema:
-            type: object
-      responses:
-        '200':
-          description: Request was successful
-          schema:
-            type: object
-            properties:
-              user:
-                type: object
-              info:
-                type: object
-              identity:
-                type: object
-              accessToken:
-                type: object
       deprecated: false
   '/RoleMappings/{id}/role':
     get:
@@ -6675,8 +6581,10 @@ securityDefinitions:
     flow: accessCode
     scopes:
       /api: ''
-    tokenUrl: 'https://hukam.serveo.net/confidential/oauth2/token'
-    authorizationUrl: 'https://hukam.serveo.net/confidential/oauth2/authorize'
+    tokenUrl: >-
+      https://api.us.apiconnect.ibmcloud.com/sinny777gmailcom-dev/sb/confidential/oauth2/token
+    authorizationUrl: >-
+      https://api.us.apiconnect.ibmcloud.com/sinny777gmailcom-dev/sb/confidential/oauth2/authorize
     x-tokenIntrospect:
       url: ''
   clientSecretHeader:

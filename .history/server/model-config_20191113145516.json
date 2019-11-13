@@ -74,6 +74,10 @@
     "dataSource": "roles",
     "public": true
   },
+  "Container": {
+    "dataSource": "containers",
+    "public": true
+  },
   "Place": {
     "dataSource": "places",
     "public": true,

@@ -31,6 +31,20 @@ module.exports = {
     "name": "rolemappings",
     "connector": "cloudant"
   },
+  "containers": {
+    "username": JSON.parse(process.env.VCAP_SERVICES)["Object-Storage"][0].credentials.username,
+    "password": JSON.parse(process.env.VCAP_SERVICES)["Object-Storage"][0].credentials.password,
+    "name": "containers",
+    "connector": "loopback-component-storage",
+    "provider": "openstack",
+    "authUrl": "https://identity.open.softlayer.com",
+    "useServiceCatalog": true,
+    "useInternal": false,
+    "keystoneAuthVersion": "v3",
+    "tenantId": JSON.parse(process.env.VCAP_SERVICES)["Object-Storage"][0].credentials.projectId,
+    "domainId": JSON.parse(process.env.VCAP_SERVICES)["Object-Storage"][0].credentials.domainId,
+    "region": "dallas"
+  },
   "groups": {
     "url": JSON.parse(process.env.VCAP_SERVICES).cloudantNoSQLDB[0].credentials.url,
     "database": "groups",

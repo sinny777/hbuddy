@@ -281,7 +281,7 @@ x-ibm-configuration:
       type: default-form
     authentication:
       x-ibm-authentication-url:
-        url: 'https://hukam.serveo.net/api/MyUsers/basic'
+        url: 'https://hukam.localtunnel.me/api/MyUsers/basic'
         tls-profile: ''
     authorization:
       type: default-form

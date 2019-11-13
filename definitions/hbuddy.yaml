@@ -6610,11 +6610,11 @@ x-ibm-configuration:
     apic-dev:
       properties:
         runtime-url: $(TARGET_URL)
-        server-url: 'https://hukam.serveo.net'
+        server-url: 'https://hukam.localtunnel.me'
     sb:
       properties:
         runtime-url: 'https://localhost:4001'
-        server-url: 'https://hukam.serveo.net'
+        server-url: 'https://hukam.localtunnel.me'
   assembly:
     execute:
       - activity-log:

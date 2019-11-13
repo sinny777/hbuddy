@@ -116,7 +116,7 @@ var methods = {};
            if(device.customData.status == 0){
              deviceResp[device.id] = {
                "on": true,
-               "online": false
+               "online": true
              }
            }
            devicesResp.push(deviceResp);
@@ -154,7 +154,7 @@ var methods = {};
             "status": "SUCCESS",
             "states": {
               "on": true,
-              "online": false
+              "online": true
             }
           };
           var offResp = {
@@ -162,7 +162,7 @@ var methods = {};
             "status": "SUCCESS",
             "states": {
               "on": false,
-              "online": false
+              "online": true
             }
           };
           for(var k in command.devices){

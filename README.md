@@ -12,4 +12,5 @@ Reload Command: sudo nginx -s reload
 Stop Command: sudo nginx -s stop
 
 ## How to run it locally using localtunnel:
-lt --port 3000
+lt --port=3000 --subdomain=hukam
+

@@ -16,7 +16,7 @@
   "dependencies": {
     "@cloudant/cloudant": "^2.3.0",
     "basic-auth": "^2.0.0",
-    "bcrypt": "^3.0.0",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.18.3",
     "chrono-node": "^1.2.4",
     "cls-hooked": "^4.2.2",
